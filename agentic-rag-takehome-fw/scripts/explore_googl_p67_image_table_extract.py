@@ -30,7 +30,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 REPO = Path(__file__).resolve().parents[1]
-CHUNKING = REPO / "0525_redo" / "chunking"
+CHUNKING = REPO / "main" / "chunking"
 sys.path.insert(0, str(CHUNKING))
 
 PDF_PATH = REPO / "data" / "pdfs" / "GOOGL_FY2024_10-K.pdf"

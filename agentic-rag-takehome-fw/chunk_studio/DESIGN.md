@@ -10,9 +10,9 @@ Implementation lives primarily in:
 
 - `chunk_studio/server.py` — FastAPI backend, visual table detector, crop rendering
 - `chunk_studio/static/index.html` — single-page UI
-- `0525_redo/chunking/` — original sectioning, asset extraction, chunk building pipeline reused by Chunk Studio
+- `main/chunking/` — original sectioning, asset extraction, chunk building pipeline reused by Chunk Studio
 
-For the broader RAG chunking and inference design, see `0525_redo/CHUNKING_AND_INFERENCE_DESIGN.md`.
+For the broader RAG chunking and inference design, see `main/CHUNKING_AND_INFERENCE_DESIGN.md`.
 
 ---
 
@@ -35,14 +35,14 @@ UI
   -> optional Q&A
 ```
 
-Chunk Studio is a thin product layer around the existing `0525_redo` pipeline:
+Chunk Studio is a thin product layer around the existing `main` pipeline:
 
 1. **Sectioning** — menu-guided TOC + body heading detection (`toc_guided_section_probe.py`)
 2. **Asset extraction** — PyMuPDF `find_tables()` + image extraction (`section_asset_extractor.py`)
 3. **Chunk building** — text-only RAG chunks with table/image refs (`rag_chunk_builder.py`)
 4. **Visual table serving** — column-alignment detector at API time (`chunk_studio/server.py`)
-5. **Offline VLM table parse** — table crop → markdown + summary (`0525_redo/chunking/vlm_table_parse.py`)
-6. **Q&A inference** — dual-path text + table-summary retrieval (`0525_redo/inference/text_vector_rag_inference.py`)
+5. **Offline VLM table parse** — table crop → markdown + summary (`main/chunking/vlm_table_parse.py`)
+6. **Q&A inference** — dual-path text + table-summary retrieval (`main/inference/text_vector_rag_inference.py`)
 
 Important split:
 
@@ -437,7 +437,7 @@ Table preview behavior:
 - image URLs include cache-bust query param after reload
 - no custom scroll slider bar; native/trackpad scrolling only
 
-Q&A uses the dual-path inference pipeline documented in `0525_redo/CHUNKING_AND_INFERENCE_DESIGN.md`:
+Q&A uses the dual-path inference pipeline documented in `main/CHUNKING_AND_INFERENCE_DESIGN.md`:
 
 ```text
 text path:   top10 -> text rerank top3 -> expand preamble/neighbors/refs
@@ -487,8 +487,8 @@ These fields power:
 
 Scripts:
 
-- `0525_redo/chunking/vlm_table_parse.py`
-- `0525_redo/chunking/build_table_vector_db.py`
+- `main/chunking/vlm_table_parse.py`
+- `main/chunking/build_table_vector_db.py`
 
 Recommended use of multimodal models by stage:
 
@@ -742,8 +742,8 @@ Table QA regression on 10 parsed-table questions:
 
 Eval artifacts:
 
-- `0525_redo/inference/msft_fy2025_table_test_eval_v2.json`
-- `0525_redo/inference/msft_fy2025_table_test_eval_v2.jsonl`
+- `main/inference/msft_fy2025_table_test_eval_v2.json`
+- `main/inference/msft_fy2025_table_test_eval_v2.jsonl`
 
 This is served live by `/api/files/{file_id}/assets` without re-processing for visual tables. VLM parse results live in `assets.json`.
 
@@ -753,7 +753,7 @@ This is served live by `/api/files/{file_id}/assets` without re-processing for v
 
 Standalone page: **http://127.0.0.1:8010/agent** (also linked from Chunk Studio header and file cards).
 
-LangChain agent (`0525_redo/agent/langchain_agent.py`) with tools:
+LangChain agent (`main/agent/langchain_agent.py`) with tools:
 
 | Tool | Role |
 |------|------|
@@ -764,7 +764,7 @@ LangChain agent (`0525_redo/agent/langchain_agent.py`) with tools:
 ### API
 
 - Stream: `POST /api/files/{file_id}/agent/trace/stream` (NDJSON) via `agent_bridge.py`.
-- Agent/memory pipeline: `0525_redo/agent/README.md`, `MEMORY_DESIGN.zh.md`.
+- Agent/memory pipeline: `main/agent/README.md`, `MEMORY_DESIGN.zh.md`.
 
 ### Prerequisites
 
@@ -782,11 +782,11 @@ SMTP_PASSWORD=gmail_app_password
 SMTP_USE_TLS=true
 ```
 
-See `0525_redo/agent/README.md` for routing, empty SQL/RAG behavior, and Gmail App password notes.
+See `main/agent/README.md` for routing, empty SQL/RAG behavior, and Gmail App password notes.
 
 ### Routing note
 
-Each agent step is chosen by the LLM from tool descriptions + prior observations (see `0525_redo/agent/README.md`).
+Each agent step is chosen by the LLM from tool descriptions + prior observations (see `main/agent/README.md`).
 
 ---
 
@@ -820,7 +820,7 @@ Environment:
 
 If continuing this product, the most valuable follow-ups are:
 
-1. Move column-alignment detector out of `server.py` into `0525_redo/chunking/visual_table_detector.py`
+1. Move column-alignment detector out of `server.py` into `main/chunking/visual_table_detector.py`
 2. Persist `visual_regions.json` during process instead of computing at API time
 3. Attach visual regions to chunks by overlap/page/section instead of parsed fragment refs
 4. Add a debug overlay mode in UI showing detected row anchors and region bboxes

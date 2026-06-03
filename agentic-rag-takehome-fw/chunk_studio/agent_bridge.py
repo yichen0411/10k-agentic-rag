@@ -12,11 +12,11 @@ from pathlib import Path
 from typing import Any, Iterator, Optional
 
 ROOT = Path(__file__).resolve().parent.parent
-AGENT_DIR = ROOT / "0525_redo" / "agent"
+AGENT_DIR = ROOT / "main" / "agent"
 
-REDO_SQL = ROOT / "0525_redo" / "sql"
-REDO_INFERENCE = ROOT / "0525_redo" / "inference"
-_REDO_PREFIX = "chunk_studio_agent_"
+MAIN_SQL = ROOT / "main" / "sql"
+MAIN_INFERENCE = ROOT / "main" / "inference"
+_MAIN_PREFIX = "chunk_studio_agent_"
 
 GLOBAL_TEXT_DB = ROOT / "data" / "index" / "text_chunks" / "vectors.db"
 GLOBAL_TABLE_DB = ROOT / "data" / "index" / "table_summaries" / "vectors.db"
@@ -25,13 +25,13 @@ GLOBAL_SCOPE_ID = "all_filings"
 
 
 def _ensure_paths() -> None:
-    for path in [str(REDO_INFERENCE), str(REDO_SQL), str(AGENT_DIR), str(ROOT)]:
+    for path in [str(MAIN_INFERENCE), str(MAIN_SQL), str(AGENT_DIR), str(ROOT)]:
         if path not in sys.path:
             sys.path.insert(0, path)
 
 
 def _load_module(name: str, path: Path) -> Any:
-    full_name = _REDO_PREFIX + name
+    full_name = _MAIN_PREFIX + name
     spec = importlib.util.spec_from_file_location(full_name, path)
     if spec is None or spec.loader is None:
         raise ImportError(f"Cannot load {path}")
@@ -137,8 +137,8 @@ def _require_rag_ready(db_path: Path, *, scope_label: str) -> None:
         return
     raise RuntimeError(
         f"{scope_label} vector index is missing, empty, or stale. "
-        "Run 0525_redo/chunking/rebuild_workspace_indexes.py and "
-        "0525_redo/chunking/merge_filing_assets.py."
+        "Run main/chunking/rebuild_workspace_indexes.py and "
+        "main/chunking/merge_filing_assets.py."
     )
 
 

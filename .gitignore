@@ -17,6 +17,12 @@ __pycache__/
 # Generated scratch outputs
 agentic-rag-takehome-fw/scripts/output/
 
+# Local-only MCP entrypoint (not part of repo deliverable)
+agentic-rag-takehome-fw/financial_research_mcp.py
+
+# Legacy deploy mirror; use repo root layout instead
+agentic-rag-takehome-fw/_streamlit_deploy_repo/
+
 # Nested benchmark virtualenvs are large and reproducible
 agentic-rag-takehome-fw/benchmarks/**/.venv*/
 agentic-rag-takehome-fw/benchmarks/**/.deps/
