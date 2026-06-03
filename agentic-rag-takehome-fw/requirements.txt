@@ -1,0 +1,13 @@
+streamlit==1.58.0
+openai==2.40.0
+pydantic>=2,<3
+langchain==0.3.30
+langchain-anthropic==0.3.22
+langchain-core==0.3.86
+anthropic==0.105.2
+langsmith==0.8.8
+zstandard==0.25.0
+python-dotenv==1.2.2
+pymupdf==1.27.2.3
+pillow==12.2.0
+requests==2.34.2

@@ -1,0 +1,3743 @@
+{
+  "summary": {
+    "n": 10,
+    "table_context_hit_rate": 0.6,
+    "table_vector_hit_rate": 1.0,
+    "rerank_hit_rate": 0.1,
+    "numeric_match_rate": 0.0,
+    "failure_counts": {
+      "rerank_miss": 9,
+      "answer_wrong": 1
+    },
+    "latency_sec": {
+      "mean_total": 23.514,
+      "max_total": 35.77,
+      "min_total": 11.888
+    }
+  },
+  "paths": {
+    "questions_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/0525_redo/common/msft_fy2025_parsed_table_test_questions.json",
+    "workspace": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d",
+    "text_db_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/index/vectors.db",
+    "table_db_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/index/table_vectors.db",
+    "assets_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/assets.json",
+    "output_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/0525_redo/inference/msft_fy2025_table_test_eval.json",
+    "log_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/0525_redo/inference/msft_fy2025_table_test_eval.jsonl"
+  },
+  "chat_provider": "fireworks",
+  "chat_model": "accounts/fireworks/models/deepseek-v4-pro",
+  "questions_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/0525_redo/common/msft_fy2025_parsed_table_test_questions.json",
+  "workspace": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d",
+  "output_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/0525_redo/inference/msft_fy2025_table_test_eval.json",
+  "log_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/0525_redo/inference/msft_fy2025_table_test_eval.jsonl",
+  "results": [
+    {
+      "id": "msft_tbl_q01",
+      "question": "What cash dividend per share did Microsoft declare in the dividend table shown in its fiscal year 2025 10-K MD&A?",
+      "gold_answer": "$0.83 per share",
+      "expected_table_ids": [
+        "table_005"
+      ],
+      "answer": "We are asked: \"What cash dividend per share did Microsoft declare in the dividend table shown in its fiscal year 2025 10-K MD&A?\" The question specifies \"in the dividend table shown in its fiscal year 2025 10-K MD&A\". The context includes several sections. We need to find the dividend table in the MD&A section. The MD&A is Part II, Item 7. In the context, we have a chunk with header \"Part II > Item 7 > Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations > Dividends\" (chunk_id: source.pdf::text_00100). That chunk says: \"During fiscal years 2025 and 2024, our Board of Directors declared dividends totaling $24.7 billion and $22.3 billion, respectively.\" It also references table_024, table_025, table_026. Those tables are provided:\n\ntable_024: \"September 30, 2025 | $ 25,191 |\"\ntable_025: \"March 31, 2026 | 13,742 |\"\ntable_026: \"Thereafter | 2,710 |\"\n\nThese tables seem to be about something else? They have dates in the future (September 30, 2025, March 31, 2026) and amounts. But the question asks for \"cash dividend per share\" declared in the dividend table in the MD&A. The MD&A dividend section text says \"dividends totaling $24.7 billion\" but doesn't give per share amounts. The tables provided (table_024, 025, 026) appear to be from page 43, but they show amounts like $25,191, $13,742, $2,710. Those might be from a different table, perhaps related to contractual obligations? Actually, looking at the table headers: \"Management’s Discussion and Analysis of Financial Condition and Results of Operations > Dividends\" and the tables have dates like September 30, 2025, March 31, 2026, Thereafter. That looks like a table of future payments, maybe for debt or leases? But the header says \"Dividends\". Wait, the chunk text says \"During fiscal years 2025 and 2024, our Board of Directors declared dividends totaling $24.7 billion and $22.3 billion, respectively.\" Then it references tables. The tables might be from a different part? The table_024 shows \"September 30, 2025 | $ 25,191 |\". That doesn't look like a dividend per share table. Possibly the tables are mislabeled? The context says \"table_refs: ['table_024', 'table_025', 'table_026']\" in the chunk for Dividends. But the tables themselves have dates in the future and large numbers. Could they be from a table of future minimum payments under operating leases? The numbers $25,191, $13,742, $2,710 might be in millions. But the question specifically asks for the dividend table in the MD&A. The MD&A dividend section might include a table of dividends declared per share? The text chunk says \"Our Board of Directors declared the following dividends:\" but then the table is not included in the text chunk; it's referenced as tables. However, the provided tables (table_024, 025, 026) don't seem to be dividend per share tables. They might be from a different table entirely, perhaps the \"Contractual Obligations\" table? The header says \"Management’s Discussion and Analysis of Financial Condition and Results of Operations > Dividends\" but the table content doesn't match. Let's check the other dividend-related context. There is also a chunk from Part II, Item 8, Financial Statements and Supplementary Data > Dividends (chunk_id: source.pdf::text_00170). That chunk says: \"Our Board of Directors declared the following dividends: Declaration Date Record Date Payment Date Dividend Per Share Amount Fiscal Year 2025 (In millions)\" and then the table is missing; it's referenced as table_??? Actually, that chunk says \"table_refs: ['table_258', 'table_259']\" in the adjacent_next chunk? Wait, the chunk text_00170 is \"Part II > Item 8 > Item 8. Financial",
+      "failure_stage": "rerank_miss",
+      "failure_reason": "Expected table(s) ['table_005'] retrieved but not selected in rerank_top3",
+      "expected_table_in_table_vector_top5": true,
+      "expected_table_in_rerank_top3": false,
+      "expected_table_in_table_context": false,
+      "numeric_match": false,
+      "pipeline_path": {
+        "text_vector_top10": [
+          {
+            "rank": 1,
+            "candidate_id": "source.pdf::text_00170",
+            "score": 0.7411074153901058,
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "Dividends"
+            ]
+          },
+          {
+            "rank": 2,
+            "candidate_id": "source.pdf::text_00100",
+            "score": 0.7116708285303753,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Dividends"
+            ]
+          },
+          {
+            "rank": 3,
+            "candidate_id": "source.pdf::text_00068",
+            "score": 0.6628148407001513,
+            "header_path": [
+              "Part II",
+              "Item 5",
+              "Item 5. Market for Registrant’s Common Equity, Related Stockholder Matters, and Issuer Purchases of Equity Securities"
+            ]
+          },
+          {
+            "rank": 4,
+            "candidate_id": "source.pdf::text_00069",
+            "score": 0.6622015835369571,
+            "header_path": [
+              "Part II",
+              "Item 5",
+              "Item 5. Market for Registrant’s Common Equity, Related Stockholder Matters, and Issuer Purchases of Equity Securities",
+              "June 10, 2025"
+            ]
+          },
+          {
+            "rank": 5,
+            "candidate_id": "source.pdf::text_00070",
+            "score": 0.6619203590148407,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations"
+            ]
+          },
+          {
+            "rank": 6,
+            "candidate_id": "source.pdf::text_00089",
+            "score": 0.6466117900305681,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 7,
+            "candidate_id": "source.pdf::text_00075",
+            "score": 0.6350272791219849,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Metrics"
+            ]
+          },
+          {
+            "rank": 8,
+            "candidate_id": "source.pdf::text_00099",
+            "score": 0.6298305095484511,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Share Repurchases"
+            ]
+          },
+          {
+            "rank": 9,
+            "candidate_id": "source.pdf::text_00181",
+            "score": 0.6279731369644931,
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "REPORT OF INDEPENDENT REGISTERED PUBLIC ACCOUNTING FIRM"
+            ]
+          },
+          {
+            "rank": 10,
+            "candidate_id": "source.pdf::text_00080",
+            "score": 0.6257980284115007,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "Productivity and Business Processes"
+            ]
+          }
+        ],
+        "table_vector_top5": [
+          {
+            "rank": 11,
+            "table_id": "table_005",
+            "score": 0.8119632934080878,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations"
+            ]
+          },
+          {
+            "rank": 12,
+            "table_id": "table_017",
+            "score": 0.65422386677615,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Research and Development"
+            ]
+          },
+          {
+            "rank": 13,
+            "table_id": "table_015_merged",
+            "score": 0.6478900907645408,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 14,
+            "table_id": "table_011_merged",
+            "score": 0.6452186955070525,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 15,
+            "table_id": "table_013_merged",
+            "score": 0.6185944713870712,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          }
+        ],
+        "rerank_top3": [
+          {
+            "candidate_type": "text",
+            "candidate_id": "source.pdf::text_00170",
+            "vector_rank": 1,
+            "rerank_reason": ""
+          },
+          {
+            "candidate_type": "text",
+            "candidate_id": "source.pdf::text_00100",
+            "vector_rank": 2,
+            "rerank_reason": ""
+          },
+          {
+            "candidate_type": "text",
+            "candidate_id": "source.pdf::text_00068",
+            "vector_rank": 3,
+            "rerank_reason": ""
+          }
+        ],
+        "expanded_text_chunks": [
+          {
+            "chunk_id": "source.pdf::text_00115",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00169",
+            "table_refs": [
+              "table_243_merged"
+            ],
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "Share Repurchases"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00170",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "Dividends"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00171",
+            "table_refs": [
+              "table_258",
+              "table_259"
+            ],
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "Translation adjustments and other, net of tax of $8, $0, and $0"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00070",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00099",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Share Repurchases"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00100",
+            "table_refs": [
+              "table_024",
+              "table_025",
+              "table_026"
+            ],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Dividends"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00101",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Other Planned Uses of Capital"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00068",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 5",
+              "Item 5. Market for Registrant’s Common Equity, Related Stockholder Matters, and Issuer Purchases of Equity Securities"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00069",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 5",
+              "Item 5. Market for Registrant’s Common Equity, Related Stockholder Matters, and Issuer Purchases of Equity Securities",
+              "June 10, 2025"
+            ]
+          }
+        ],
+        "table_contexts": [
+          {
+            "table_id": "table_243_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 75,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_258",
+            "source_kind": "text_chunk_ref",
+            "page_start": 76,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_259",
+            "source_kind": "text_chunk_ref",
+            "page_start": 76,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_024",
+            "source_kind": "text_chunk_ref",
+            "page_start": 43,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_025",
+            "source_kind": "text_chunk_ref",
+            "page_start": 43,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_026",
+            "source_kind": "text_chunk_ref",
+            "page_start": 43,
+            "has_markdown": true
+          }
+        ]
+      },
+      "latency": {
+        "load_sec": 0.034,
+        "vector_search_sec": 0.982,
+        "rerank_sec": 9.538,
+        "context_expansion_sec": 0.002,
+        "answer_sec": 11.25,
+        "total_sec": 21.807
+      },
+      "settings": {
+        "vector_top_k": 10,
+        "table_vector_top_k": 5,
+        "rerank_top_n": 3,
+        "max_context_chunks": 14,
+        "include_section_neighbors": true,
+        "chat_provider": "fireworks",
+        "chat_model": "accounts/fireworks/models/deepseek-v4-pro",
+        "embed_model": "nomic-ai/nomic-embed-text-v1.5",
+        "db_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/index/vectors.db",
+        "assets_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/assets.json",
+        "table_db_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/index/table_vectors.db"
+      }
+    },
+    {
+      "id": "msft_tbl_q02",
+      "question": "What was the total dividend amount (in millions) associated with that Microsoft dividend declaration?",
+      "gold_answer": "$6,170 million",
+      "expected_table_ids": [
+        "table_005"
+      ],
+      "answer": "We are asked: \"What was the total dividend amount (in millions) associated with that Microsoft dividend declaration?\" The question is ambiguous: \"that Microsoft dividend declaration\" – which declaration? The context includes a section on Dividends in both MD&A and Financial Statements. In the MD&A section (chunk_id: source.pdf::text_00100), it says: \"During fiscal years 2025 and 2024, our Board of Directors declared dividends totaling $24.7 billion and $22.3 billion, respectively.\" That gives total dividends declared for fiscal years 2025 and 2024. But the question says \"that Microsoft dividend declaration\" – maybe referring to a specific declaration? The context also includes a chunk (text_00170) that says: \"Our Board of Directors declared the following dividends: Declaration Date Record Date Payment Date Dividend Per Share Amount Fiscal Year 2025 (In millions)\" but the table is not provided. The chunk is cut off. So we don't have the table with the individual declarations. The only total dividend amount we have is from the MD&A: $24.7 billion for fiscal year 2025 and $22.3 billion for fiscal year 2024. The question might be asking for the total dividend amount associated with a specific declaration, but we don't have that. The question says \"that Microsoft dividend declaration\" – perhaps it's referencing a specific declaration mentioned earlier? But the user didn't provide any earlier context. The instruction says: \"Use only the context below.\" So we must rely on the provided context. The context includes the MD&A Dividends section that states the total declared dividends for fiscal years 2025 and 2024. It says \"During fiscal years 2025 and 2024, our Board of Directors declared dividends totaling $24.7 billion and $22.3 billion, respectively.\" That is a total amount for the year. The question might be asking for the total dividend amount associated with that declaration, but it's unclear which declaration. Perhaps the question is from a larger set where a specific declaration was mentioned, but here we only have this. The context also includes a chunk (text_00170) that says \"Our Board of Directors declared the following dividends:\" but the table is missing. So we cannot get a specific declaration amount. The only total we have is the annual total. The question says \"total dividend amount (in millions) associated with that Microsoft dividend declaration\" – maybe it's referring to the declaration mentioned in the Dividends section of the Financial Statements, but the table is missing. So we might need to say the context is insufficient because the table with the declaration details is not provided. However, the MD&A gives a total for the year. Could that be the answer? The question says \"that Microsoft dividend declaration\" – singular. The MD&A says \"declared dividends totaling $24.7 billion\" for fiscal 2025, which is the sum of multiple declarations. So it's not a single declaration. The Financial Statements section (text_00170) says \"Our Board of Directors declared the following dividends:\" and then the table is missing. So we don't have the individual declaration amounts. Therefore, the context is insufficient to answer the question about a specific declaration. But maybe the question is from a test where the \"that\" refers to the dividend declaration mentioned in the MD&A? The MD&A says \"During fiscal years 2025 and 2024, our Board of Directors declared dividends totaling $24.7 billion and $22.3 billion, respectively.\" That is a total for the year, not a single declaration. The question might be poorly phrased, but we need to answer based on the context. The instruction says: \"If the context is insufficient, say what is missing.\" So I'll state that the context does not provide the amount for a specific dividend declaration; it only provides the total dividends declared for fiscal years 2025 ($24.7 billion) and 2024 ($22.3 billion). If the question is asking for the total dividends declared in a fiscal year, then we can answer $24.7 billion for fiscal 2025 or $22.3 billion for fiscal 2024, but it's ambiguous which one. The question says \"that Microsoft dividend declaration\" – maybe it's referring to the declaration mentioned in the Dividends section of the Financial Statements, but the",
+      "failure_stage": "rerank_miss",
+      "failure_reason": "Expected table(s) ['table_005'] retrieved but not selected in rerank_top3",
+      "expected_table_in_table_vector_top5": true,
+      "expected_table_in_rerank_top3": false,
+      "expected_table_in_table_context": false,
+      "numeric_match": false,
+      "pipeline_path": {
+        "text_vector_top10": [
+          {
+            "rank": 1,
+            "candidate_id": "source.pdf::text_00170",
+            "score": 0.7104584889363567,
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "Dividends"
+            ]
+          },
+          {
+            "rank": 2,
+            "candidate_id": "source.pdf::text_00100",
+            "score": 0.6775815459759943,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Dividends"
+            ]
+          },
+          {
+            "rank": 3,
+            "candidate_id": "source.pdf::text_00156",
+            "score": 0.6506870564365543,
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "Fair Values of Derivative Instruments"
+            ]
+          },
+          {
+            "rank": 4,
+            "candidate_id": "source.pdf::text_00117",
+            "score": 0.6463666853301616,
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "Principles of Consolidation"
+            ]
+          },
+          {
+            "rank": 5,
+            "candidate_id": "source.pdf::text_00180",
+            "score": 0.6391697034116964,
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "More Personal Computing"
+            ]
+          },
+          {
+            "rank": 6,
+            "candidate_id": "source.pdf::text_00078",
+            "score": 0.6284545290756302,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "More Personal Computing"
+            ]
+          },
+          {
+            "rank": 7,
+            "candidate_id": "source.pdf::text_00070",
+            "score": 0.6262141186323722,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations"
+            ]
+          },
+          {
+            "rank": 8,
+            "candidate_id": "source.pdf::text_00171",
+            "score": 0.6174625931614203,
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "Translation adjustments and other, net of tax of $8, $0, and $0"
+            ]
+          },
+          {
+            "rank": 9,
+            "candidate_id": "source.pdf::text_00167",
+            "score": 0.6168354415871086,
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "Irish Data Protection Commission Matter"
+            ]
+          },
+          {
+            "rank": 10,
+            "candidate_id": "source.pdf::text_00088",
+            "score": 0.6099970011716167,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          }
+        ],
+        "table_vector_top5": [
+          {
+            "rank": 11,
+            "table_id": "table_005",
+            "score": 0.7601913854056404,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations"
+            ]
+          },
+          {
+            "rank": 12,
+            "table_id": "table_015_merged",
+            "score": 0.603962459357413,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 13,
+            "table_id": "table_011_merged",
+            "score": 0.5758990685783298,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 14,
+            "table_id": "table_020_merged",
+            "score": 0.5693443142603468,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 15,
+            "table_id": "table_013_merged",
+            "score": 0.5607581932501131,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          }
+        ],
+        "rerank_top3": [
+          {
+            "candidate_type": "text",
+            "candidate_id": "source.pdf::text_00170",
+            "vector_rank": 1,
+            "rerank_reason": ""
+          },
+          {
+            "candidate_type": "text",
+            "candidate_id": "source.pdf::text_00100",
+            "vector_rank": 2,
+            "rerank_reason": ""
+          },
+          {
+            "candidate_type": "text",
+            "candidate_id": "source.pdf::text_00156",
+            "vector_rank": 3,
+            "rerank_reason": ""
+          }
+        ],
+        "expanded_text_chunks": [
+          {
+            "chunk_id": "source.pdf::text_00115",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00169",
+            "table_refs": [
+              "table_243_merged"
+            ],
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "Share Repurchases"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00170",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "Dividends"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00171",
+            "table_refs": [
+              "table_258",
+              "table_259"
+            ],
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "Translation adjustments and other, net of tax of $8, $0, and $0"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00070",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00099",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Share Repurchases"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00100",
+            "table_refs": [
+              "table_024",
+              "table_025",
+              "table_026"
+            ],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Dividends"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00101",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Other Planned Uses of Capital"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00155",
+            "table_refs": [
+              "table_142_merged",
+              "table_group_044",
+              "table_151",
+              "table_152",
+              "table_153",
+              "table_154",
+              "table_155_merged",
+              "table_159",
+              "table_160",
+              "table_161",
+              "table_162",
+              "table_163",
+              "table_164_merged",
+              "table_166_merged"
+            ],
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "Fair Values of Derivative Instruments"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00156",
+            "table_refs": [
+              "table_142_merged",
+              "table_group_044",
+              "table_151",
+              "table_152",
+              "table_153",
+              "table_154",
+              "table_155_merged",
+              "table_159",
+              "table_160",
+              "table_161",
+              "table_162",
+              "table_163",
+              "table_164_merged",
+              "table_166_merged"
+            ],
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "Fair Values of Derivative Instruments"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00157",
+            "table_refs": [
+              "table_142_merged",
+              "table_group_044",
+              "table_151",
+              "table_152",
+              "table_153",
+              "table_154",
+              "table_155_merged",
+              "table_159",
+              "table_160",
+              "table_161",
+              "table_162",
+              "table_163",
+              "table_164_merged",
+              "table_166_merged"
+            ],
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "Fair Values of Derivative Instruments"
+            ]
+          }
+        ],
+        "table_contexts": [
+          {
+            "table_id": "table_243_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 75,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_258",
+            "source_kind": "text_chunk_ref",
+            "page_start": 76,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_259",
+            "source_kind": "text_chunk_ref",
+            "page_start": 76,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_024",
+            "source_kind": "text_chunk_ref",
+            "page_start": 43,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_025",
+            "source_kind": "text_chunk_ref",
+            "page_start": 43,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_026",
+            "source_kind": "text_chunk_ref",
+            "page_start": 43,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_142_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 64,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_group_044",
+            "source_kind": "text_chunk_ref",
+            "page_start": 64,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_151",
+            "source_kind": "text_chunk_ref",
+            "page_start": 65,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_152",
+            "source_kind": "text_chunk_ref",
+            "page_start": 65,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_153",
+            "source_kind": "text_chunk_ref",
+            "page_start": 65,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_154",
+            "source_kind": "text_chunk_ref",
+            "page_start": 65,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_155_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 65,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_159",
+            "source_kind": "text_chunk_ref",
+            "page_start": 66,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_160",
+            "source_kind": "text_chunk_ref",
+            "page_start": 66,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_161",
+            "source_kind": "text_chunk_ref",
+            "page_start": 66,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_162",
+            "source_kind": "text_chunk_ref",
+            "page_start": 66,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_163",
+            "source_kind": "text_chunk_ref",
+            "page_start": 66,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_164_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 66,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_166_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 66,
+            "has_markdown": true
+          }
+        ]
+      },
+      "latency": {
+        "load_sec": 0.033,
+        "vector_search_sec": 0.882,
+        "rerank_sec": 21.777,
+        "context_expansion_sec": 0.001,
+        "answer_sec": 13.077,
+        "total_sec": 35.77
+      },
+      "settings": {
+        "vector_top_k": 10,
+        "table_vector_top_k": 5,
+        "rerank_top_n": 3,
+        "max_context_chunks": 14,
+        "include_section_neighbors": true,
+        "chat_provider": "fireworks",
+        "chat_model": "accounts/fireworks/models/deepseek-v4-pro",
+        "embed_model": "nomic-ai/nomic-embed-text-v1.5",
+        "db_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/index/vectors.db",
+        "assets_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/assets.json",
+        "table_db_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/index/table_vectors.db"
+      }
+    },
+    {
+      "id": "msft_tbl_q03",
+      "question": "What was Microsoft's total revenue in fiscal year 2025 according to the MD&A summary results table?",
+      "gold_answer": "$281.7 billion ($281,724 million)",
+      "expected_table_ids": [
+        "table_006_merged",
+        "table_013_merged",
+        "table_015_merged"
+      ],
+      "answer": "Microsoft's total revenue in fiscal year 2025, as shown in the MD&A summary results table, was $281,724 million (table_006_merged).",
+      "failure_stage": "rerank_miss",
+      "failure_reason": "Expected table(s) ['table_006_merged', 'table_013_merged', 'table_015_merged'] retrieved but not selected in rerank_top3",
+      "expected_table_in_table_vector_top5": true,
+      "expected_table_in_rerank_top3": false,
+      "expected_table_in_table_context": true,
+      "numeric_match": false,
+      "pipeline_path": {
+        "text_vector_top10": [
+          {
+            "rank": 1,
+            "candidate_id": "source.pdf::text_00070",
+            "score": 0.7227611043190452,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations"
+            ]
+          },
+          {
+            "rank": 2,
+            "candidate_id": "source.pdf::text_00080",
+            "score": 0.7193782440369075,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "Productivity and Business Processes"
+            ]
+          },
+          {
+            "rank": 3,
+            "candidate_id": "source.pdf::text_00082",
+            "score": 0.7131657574279673,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "More Personal Computing"
+            ]
+          },
+          {
+            "rank": 4,
+            "candidate_id": "source.pdf::text_00075",
+            "score": 0.6897686400713158,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Metrics"
+            ]
+          },
+          {
+            "rank": 5,
+            "candidate_id": "source.pdf::text_00078",
+            "score": 0.6890031763215505,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "More Personal Computing"
+            ]
+          },
+          {
+            "rank": 6,
+            "candidate_id": "source.pdf::text_00079",
+            "score": 0.6888865363520875,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 7,
+            "candidate_id": "source.pdf::text_00086",
+            "score": 0.6757822301159021,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 8,
+            "candidate_id": "source.pdf::text_00090",
+            "score": 0.6728429357561337,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Effective Tax Rate"
+            ]
+          },
+          {
+            "rank": 9,
+            "candidate_id": "source.pdf::text_00084",
+            "score": 0.6726631320133429,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 10,
+            "candidate_id": "source.pdf::text_00180",
+            "score": 0.6689140909335117,
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "More Personal Computing"
+            ]
+          }
+        ],
+        "table_vector_top5": [
+          {
+            "rank": 11,
+            "table_id": "table_015_merged",
+            "score": 0.786255835953449,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 12,
+            "table_id": "table_011_merged",
+            "score": 0.7764194957084716,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 13,
+            "table_id": "table_013_merged",
+            "score": 0.7653213192986822,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 14,
+            "table_id": "table_006_merged",
+            "score": 0.7527945646990738,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 15,
+            "table_id": "table_009_merged",
+            "score": 0.7501794296945418,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          }
+        ],
+        "rerank_top3": [
+          {
+            "candidate_type": "text",
+            "candidate_id": "source.pdf::text_00070",
+            "vector_rank": 1,
+            "rerank_reason": ""
+          },
+          {
+            "candidate_type": "text",
+            "candidate_id": "source.pdf::text_00080",
+            "vector_rank": 2,
+            "rerank_reason": ""
+          },
+          {
+            "candidate_type": "text",
+            "candidate_id": "source.pdf::text_00082",
+            "vector_rank": 3,
+            "rerank_reason": ""
+          }
+        ],
+        "expanded_text_chunks": [
+          {
+            "chunk_id": "source.pdf::text_00070",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00071",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Industry Trends and Opportunities"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00079",
+            "table_refs": [
+              "table_006_merged",
+              "table_009_merged",
+              "table_011_merged",
+              "table_013_merged",
+              "table_015_merged"
+            ],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00080",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "Productivity and Business Processes"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00081",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "Intelligent Cloud"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00082",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "More Personal Computing"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00083",
+            "table_refs": [
+              "table_017"
+            ],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Research and Development"
+            ]
+          }
+        ],
+        "table_contexts": [
+          {
+            "table_id": "table_006_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 37,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_009_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 37,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_011_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 37,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_013_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 37,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_015_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 37,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_017",
+            "source_kind": "text_chunk_ref",
+            "page_start": 39,
+            "has_markdown": true
+          }
+        ]
+      },
+      "latency": {
+        "load_sec": 0.026,
+        "vector_search_sec": 0.841,
+        "rerank_sec": 11.835,
+        "context_expansion_sec": 0.002,
+        "answer_sec": 11.033,
+        "total_sec": 23.737
+      },
+      "settings": {
+        "vector_top_k": 10,
+        "table_vector_top_k": 5,
+        "rerank_top_n": 3,
+        "max_context_chunks": 14,
+        "include_section_neighbors": true,
+        "chat_provider": "fireworks",
+        "chat_model": "accounts/fireworks/models/deepseek-v4-pro",
+        "embed_model": "nomic-ai/nomic-embed-text-v1.5",
+        "db_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/index/vectors.db",
+        "assets_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/assets.json",
+        "table_db_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/index/table_vectors.db"
+      }
+    },
+    {
+      "id": "msft_tbl_q04",
+      "question": "What was Microsoft's diluted earnings per share in fiscal year 2025?",
+      "gold_answer": "$13.64",
+      "expected_table_ids": [
+        "table_006_merged"
+      ],
+      "answer": "Microsoft's diluted earnings per share in fiscal year 2025 was $13.64 (table_006_merged, source.pdf::text_00078).",
+      "failure_stage": "rerank_miss",
+      "failure_reason": "Expected table(s) ['table_006_merged'] retrieved but not selected in rerank_top3",
+      "expected_table_in_table_vector_top5": true,
+      "expected_table_in_rerank_top3": false,
+      "expected_table_in_table_context": true,
+      "numeric_match": false,
+      "pipeline_path": {
+        "text_vector_top10": [
+          {
+            "rank": 1,
+            "candidate_id": "source.pdf::text_00080",
+            "score": 0.6900718515422006,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "Productivity and Business Processes"
+            ]
+          },
+          {
+            "rank": 2,
+            "candidate_id": "source.pdf::text_00078",
+            "score": 0.6868178580744593,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "More Personal Computing"
+            ]
+          },
+          {
+            "rank": 3,
+            "candidate_id": "source.pdf::text_00082",
+            "score": 0.6855689807586995,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "More Personal Computing"
+            ]
+          },
+          {
+            "rank": 4,
+            "candidate_id": "source.pdf::text_00070",
+            "score": 0.6838410576611894,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations"
+            ]
+          },
+          {
+            "rank": 5,
+            "candidate_id": "source.pdf::text_00090",
+            "score": 0.682627096196019,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Effective Tax Rate"
+            ]
+          },
+          {
+            "rank": 6,
+            "candidate_id": "source.pdf::text_00084",
+            "score": 0.6772756155922821,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 7,
+            "candidate_id": "source.pdf::text_00089",
+            "score": 0.6710094228630107,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 8,
+            "candidate_id": "source.pdf::text_00165",
+            "score": 0.6688602545717693,
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "Uncertain Tax Positions"
+            ]
+          },
+          {
+            "rank": 9,
+            "candidate_id": "source.pdf::text_00079",
+            "score": 0.6676562899433607,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 10,
+            "candidate_id": "source.pdf::text_00118",
+            "score": 0.6670454495753286,
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "Recast of Certain Prior Period Information"
+            ]
+          }
+        ],
+        "table_vector_top5": [
+          {
+            "rank": 11,
+            "table_id": "table_015_merged",
+            "score": 0.7364852683431824,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 12,
+            "table_id": "table_013_merged",
+            "score": 0.723965331737493,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 13,
+            "table_id": "table_011_merged",
+            "score": 0.7167158440976548,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 14,
+            "table_id": "table_009_merged",
+            "score": 0.7095325883586476,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 15,
+            "table_id": "table_006_merged",
+            "score": 0.7032164030173153,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          }
+        ],
+        "rerank_top3": [
+          {
+            "candidate_type": "text",
+            "candidate_id": "source.pdf::text_00080",
+            "vector_rank": 1,
+            "rerank_reason": ""
+          },
+          {
+            "candidate_type": "text",
+            "candidate_id": "source.pdf::text_00078",
+            "vector_rank": 2,
+            "rerank_reason": ""
+          },
+          {
+            "candidate_type": "text",
+            "candidate_id": "source.pdf::text_00082",
+            "vector_rank": 3,
+            "rerank_reason": ""
+          }
+        ],
+        "expanded_text_chunks": [
+          {
+            "chunk_id": "source.pdf::text_00070",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00079",
+            "table_refs": [
+              "table_006_merged",
+              "table_009_merged",
+              "table_011_merged",
+              "table_013_merged",
+              "table_015_merged"
+            ],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00080",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "Productivity and Business Processes"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00081",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "Intelligent Cloud"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00077",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Productivity and Business Processes and Intelligent Cloud"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00078",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "More Personal Computing"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00082",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "More Personal Computing"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00083",
+            "table_refs": [
+              "table_017"
+            ],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Research and Development"
+            ]
+          }
+        ],
+        "table_contexts": [
+          {
+            "table_id": "table_006_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 37,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_009_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 37,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_011_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 37,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_013_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 37,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_015_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 37,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_017",
+            "source_kind": "text_chunk_ref",
+            "page_start": 39,
+            "has_markdown": true
+          }
+        ]
+      },
+      "latency": {
+        "load_sec": 0.024,
+        "vector_search_sec": 0.809,
+        "rerank_sec": 16.978,
+        "context_expansion_sec": 0.001,
+        "answer_sec": 12.363,
+        "total_sec": 30.174
+      },
+      "settings": {
+        "vector_top_k": 10,
+        "table_vector_top_k": 5,
+        "rerank_top_n": 3,
+        "max_context_chunks": 14,
+        "include_section_neighbors": true,
+        "chat_provider": "fireworks",
+        "chat_model": "accounts/fireworks/models/deepseek-v4-pro",
+        "embed_model": "nomic-ai/nomic-embed-text-v1.5",
+        "db_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/index/vectors.db",
+        "assets_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/assets.json",
+        "table_db_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/index/table_vectors.db"
+      }
+    },
+    {
+      "id": "msft_tbl_q05",
+      "question": "What was Intelligent Cloud revenue in fiscal year 2025?",
+      "gold_answer": "$106.3 billion ($106,265 million)",
+      "expected_table_ids": [
+        "table_009_merged",
+        "table_011_merged",
+        "table_013_merged"
+      ],
+      "answer": "Intelligent Cloud revenue in fiscal year 2025 was $106,265 million (table_009_merged).",
+      "failure_stage": "rerank_miss",
+      "failure_reason": "Expected table(s) ['table_009_merged', 'table_011_merged', 'table_013_merged'] retrieved but not selected in rerank_top3",
+      "expected_table_in_table_vector_top5": true,
+      "expected_table_in_rerank_top3": false,
+      "expected_table_in_table_context": true,
+      "numeric_match": false,
+      "pipeline_path": {
+        "text_vector_top10": [
+          {
+            "rank": 1,
+            "candidate_id": "source.pdf::text_00081",
+            "score": 0.7213523776093904,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "Intelligent Cloud"
+            ]
+          },
+          {
+            "rank": 2,
+            "candidate_id": "source.pdf::text_00178",
+            "score": 0.6836193714793753,
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "Intelligent Cloud"
+            ]
+          },
+          {
+            "rank": 3,
+            "candidate_id": "source.pdf::text_00079",
+            "score": 0.683567787256847,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 4,
+            "candidate_id": "source.pdf::text_00090",
+            "score": 0.6655428100883793,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Effective Tax Rate"
+            ]
+          },
+          {
+            "rank": 5,
+            "candidate_id": "source.pdf::text_00084",
+            "score": 0.6638818306451038,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 6,
+            "candidate_id": "source.pdf::text_00080",
+            "score": 0.6607931991423375,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "Productivity and Business Processes"
+            ]
+          },
+          {
+            "rank": 7,
+            "candidate_id": "source.pdf::text_00011",
+            "score": 0.6587533524054404,
+            "header_path": [
+              "Part I",
+              "Item 1",
+              "Item 1. Business",
+              "Intelligent Cloud"
+            ]
+          },
+          {
+            "rank": 8,
+            "candidate_id": "source.pdf::text_00096",
+            "score": 0.6505034550994808,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Unearned Revenue"
+            ]
+          },
+          {
+            "rank": 9,
+            "candidate_id": "source.pdf::text_00077",
+            "score": 0.6421094020944518,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Productivity and Business Processes and Intelligent Cloud"
+            ]
+          },
+          {
+            "rank": 10,
+            "candidate_id": "source.pdf::text_00082",
+            "score": 0.6289233261516374,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "More Personal Computing"
+            ]
+          }
+        ],
+        "table_vector_top5": [
+          {
+            "rank": 11,
+            "table_id": "table_013_merged",
+            "score": 0.8447783573006448,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 12,
+            "table_id": "table_009_merged",
+            "score": 0.8304911517382607,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 13,
+            "table_id": "table_011_merged",
+            "score": 0.8056144553657411,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 14,
+            "table_id": "table_015_merged",
+            "score": 0.7204943286919235,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 15,
+            "table_id": "table_006_merged",
+            "score": 0.708345655470362,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          }
+        ],
+        "rerank_top3": [
+          {
+            "candidate_type": "text",
+            "candidate_id": "source.pdf::text_00081",
+            "vector_rank": 1,
+            "rerank_reason": ""
+          },
+          {
+            "candidate_type": "text",
+            "candidate_id": "source.pdf::text_00178",
+            "vector_rank": 2,
+            "rerank_reason": ""
+          },
+          {
+            "candidate_type": "text",
+            "candidate_id": "source.pdf::text_00079",
+            "vector_rank": 3,
+            "rerank_reason": ""
+          }
+        ],
+        "expanded_text_chunks": [
+          {
+            "chunk_id": "source.pdf::text_00070",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00080",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "Productivity and Business Processes"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00081",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "Intelligent Cloud"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00082",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "More Personal Computing"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00115",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00177",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "Productivity and Business Processes"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00178",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "Intelligent Cloud"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00179",
+            "table_refs": [
+              "table_265_merged",
+              "table_267_merged",
+              "table_269_merged",
+              "table_group_095",
+              "table_275_merged",
+              "table_280"
+            ],
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "More Personal Computing"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00078",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "More Personal Computing"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00079",
+            "table_refs": [
+              "table_006_merged",
+              "table_009_merged",
+              "table_011_merged",
+              "table_013_merged",
+              "table_015_merged"
+            ],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          }
+        ],
+        "table_contexts": [
+          {
+            "table_id": "table_265_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 79,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_267_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 79,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_269_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 79,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_group_095",
+            "source_kind": "text_chunk_ref",
+            "page_start": 79,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_275_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 80,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_280",
+            "source_kind": "text_chunk_ref",
+            "page_start": 80,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_006_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 37,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_009_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 37,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_011_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 37,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_013_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 37,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_015_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 37,
+            "has_markdown": true
+          }
+        ]
+      },
+      "latency": {
+        "load_sec": 0.03,
+        "vector_search_sec": 0.829,
+        "rerank_sec": 11.463,
+        "context_expansion_sec": 0.001,
+        "answer_sec": 4.644,
+        "total_sec": 16.968
+      },
+      "settings": {
+        "vector_top_k": 10,
+        "table_vector_top_k": 5,
+        "rerank_top_n": 3,
+        "max_context_chunks": 14,
+        "include_section_neighbors": true,
+        "chat_provider": "fireworks",
+        "chat_model": "accounts/fireworks/models/deepseek-v4-pro",
+        "embed_model": "nomic-ai/nomic-embed-text-v1.5",
+        "db_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/index/vectors.db",
+        "assets_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/assets.json",
+        "table_db_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/index/table_vectors.db"
+      }
+    },
+    {
+      "id": "msft_tbl_q06",
+      "question": "Which Microsoft reporting segment had the highest revenue percentage growth from fiscal year 2024 to fiscal year 2025, and what was that growth rate?",
+      "gold_answer": "Intelligent Cloud, 21%",
+      "expected_table_ids": [
+        "table_009_merged",
+        "table_011_merged"
+      ],
+      "answer": "Intelligent Cloud had the highest revenue percentage growth from fiscal year 2024 to fiscal year 2025, at 21% (table_011_merged).",
+      "failure_stage": "rerank_miss",
+      "failure_reason": "Expected table(s) ['table_009_merged', 'table_011_merged'] retrieved but not selected in rerank_top3",
+      "expected_table_in_table_vector_top5": true,
+      "expected_table_in_rerank_top3": false,
+      "expected_table_in_table_context": true,
+      "numeric_match": false,
+      "pipeline_path": {
+        "text_vector_top10": [
+          {
+            "rank": 1,
+            "candidate_id": "source.pdf::text_00080",
+            "score": 0.7284239648370764,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "Productivity and Business Processes"
+            ]
+          },
+          {
+            "rank": 2,
+            "candidate_id": "source.pdf::text_00075",
+            "score": 0.7189921953744938,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Metrics"
+            ]
+          },
+          {
+            "rank": 3,
+            "candidate_id": "source.pdf::text_00082",
+            "score": 0.711550228872596,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "More Personal Computing"
+            ]
+          },
+          {
+            "rank": 4,
+            "candidate_id": "source.pdf::text_00079",
+            "score": 0.699532010965129,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 5,
+            "candidate_id": "source.pdf::text_00078",
+            "score": 0.6974432055199988,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "More Personal Computing"
+            ]
+          },
+          {
+            "rank": 6,
+            "candidate_id": "source.pdf::text_00074",
+            "score": 0.6917883678235469,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Reportable Segments"
+            ]
+          },
+          {
+            "rank": 7,
+            "candidate_id": "source.pdf::text_00118",
+            "score": 0.6792500688051246,
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "Recast of Certain Prior Period Information"
+            ]
+          },
+          {
+            "rank": 8,
+            "candidate_id": "source.pdf::text_00070",
+            "score": 0.672774107735489,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations"
+            ]
+          },
+          {
+            "rank": 9,
+            "candidate_id": "source.pdf::text_00180",
+            "score": 0.669424596033444,
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "More Personal Computing"
+            ]
+          },
+          {
+            "rank": 10,
+            "candidate_id": "source.pdf::text_00077",
+            "score": 0.6658455290830647,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Productivity and Business Processes and Intelligent Cloud"
+            ]
+          }
+        ],
+        "table_vector_top5": [
+          {
+            "rank": 11,
+            "table_id": "table_011_merged",
+            "score": 0.7748846555909787,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 12,
+            "table_id": "table_013_merged",
+            "score": 0.7690355411866197,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 13,
+            "table_id": "table_009_merged",
+            "score": 0.7615169794477294,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 14,
+            "table_id": "table_015_merged",
+            "score": 0.7524430260261796,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 15,
+            "table_id": "table_006_merged",
+            "score": 0.7316323936982851,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          }
+        ],
+        "rerank_top3": [
+          {
+            "candidate_type": "text",
+            "candidate_id": "source.pdf::text_00080",
+            "vector_rank": 1,
+            "rerank_reason": ""
+          },
+          {
+            "candidate_type": "text",
+            "candidate_id": "source.pdf::text_00075",
+            "vector_rank": 2,
+            "rerank_reason": ""
+          },
+          {
+            "candidate_type": "text",
+            "candidate_id": "source.pdf::text_00082",
+            "vector_rank": 3,
+            "rerank_reason": ""
+          }
+        ],
+        "expanded_text_chunks": [
+          {
+            "chunk_id": "source.pdf::text_00070",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00079",
+            "table_refs": [
+              "table_006_merged",
+              "table_009_merged",
+              "table_011_merged",
+              "table_013_merged",
+              "table_015_merged"
+            ],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00080",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "Productivity and Business Processes"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00081",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "Intelligent Cloud"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00074",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Reportable Segments"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00075",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Metrics"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00076",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Commercial"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00082",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "More Personal Computing"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00083",
+            "table_refs": [
+              "table_017"
+            ],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Research and Development"
+            ]
+          }
+        ],
+        "table_contexts": [
+          {
+            "table_id": "table_006_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 37,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_009_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 37,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_011_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 37,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_013_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 37,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_015_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 37,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_017",
+            "source_kind": "text_chunk_ref",
+            "page_start": 39,
+            "has_markdown": true
+          }
+        ]
+      },
+      "latency": {
+        "load_sec": 0.079,
+        "vector_search_sec": 0.951,
+        "rerank_sec": 8.453,
+        "context_expansion_sec": 0.002,
+        "answer_sec": 11.38,
+        "total_sec": 20.865
+      },
+      "settings": {
+        "vector_top_k": 10,
+        "table_vector_top_k": 5,
+        "rerank_top_n": 3,
+        "max_context_chunks": 14,
+        "include_section_neighbors": true,
+        "chat_provider": "fireworks",
+        "chat_model": "accounts/fireworks/models/deepseek-v4-pro",
+        "embed_model": "nomic-ai/nomic-embed-text-v1.5",
+        "db_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/index/vectors.db",
+        "assets_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/assets.json",
+        "table_db_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/index/table_vectors.db"
+      }
+    },
+    {
+      "id": "msft_tbl_q07",
+      "question": "What was More Personal Computing operating income in fiscal year 2025?",
+      "gold_answer": "$14,166 million",
+      "expected_table_ids": [
+        "table_013_merged",
+        "table_015_merged"
+      ],
+      "answer": "More Personal Computing operating income in fiscal year 2025 was $14,166 million (source.pdf::text_00179).",
+      "failure_stage": "rerank_miss",
+      "failure_reason": "Expected table(s) ['table_013_merged', 'table_015_merged'] retrieved but not selected in rerank_top3",
+      "expected_table_in_table_vector_top5": true,
+      "expected_table_in_rerank_top3": false,
+      "expected_table_in_table_context": false,
+      "numeric_match": false,
+      "pipeline_path": {
+        "text_vector_top10": [
+          {
+            "rank": 1,
+            "candidate_id": "source.pdf::text_00180",
+            "score": 0.7043548797102137,
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "More Personal Computing"
+            ]
+          },
+          {
+            "rank": 2,
+            "candidate_id": "source.pdf::text_00179",
+            "score": 0.6903021956327514,
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "More Personal Computing"
+            ]
+          },
+          {
+            "rank": 3,
+            "candidate_id": "source.pdf::text_00082",
+            "score": 0.6853449893067828,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "More Personal Computing"
+            ]
+          },
+          {
+            "rank": 4,
+            "candidate_id": "source.pdf::text_00084",
+            "score": 0.6796782910383269,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 5,
+            "candidate_id": "source.pdf::text_00078",
+            "score": 0.6754933946344324,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "More Personal Computing"
+            ]
+          },
+          {
+            "rank": 6,
+            "candidate_id": "source.pdf::text_00079",
+            "score": 0.6753745098848236,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 7,
+            "candidate_id": "source.pdf::text_00090",
+            "score": 0.674703835780034,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Effective Tax Rate"
+            ]
+          },
+          {
+            "rank": 8,
+            "candidate_id": "source.pdf::text_00080",
+            "score": 0.6682075644052871,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "Productivity and Business Processes"
+            ]
+          },
+          {
+            "rank": 9,
+            "candidate_id": "source.pdf::text_00081",
+            "score": 0.6561821790765124,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "Intelligent Cloud"
+            ]
+          },
+          {
+            "rank": 10,
+            "candidate_id": "source.pdf::text_00089",
+            "score": 0.6414160641186694,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          }
+        ],
+        "table_vector_top5": [
+          {
+            "rank": 11,
+            "table_id": "table_015_merged",
+            "score": 0.8558223265064284,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 12,
+            "table_id": "table_011_merged",
+            "score": 0.7835236102123324,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 13,
+            "table_id": "table_013_merged",
+            "score": 0.7787403702740955,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 14,
+            "table_id": "table_009_merged",
+            "score": 0.7677327055011526,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 15,
+            "table_id": "table_006_merged",
+            "score": 0.7521933178117373,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          }
+        ],
+        "rerank_top3": [
+          {
+            "candidate_type": "text",
+            "candidate_id": "source.pdf::text_00180",
+            "vector_rank": 1,
+            "rerank_reason": ""
+          },
+          {
+            "candidate_type": "text",
+            "candidate_id": "source.pdf::text_00179",
+            "vector_rank": 2,
+            "rerank_reason": ""
+          },
+          {
+            "candidate_type": "text",
+            "candidate_id": "source.pdf::text_00082",
+            "vector_rank": 3,
+            "rerank_reason": ""
+          }
+        ],
+        "expanded_text_chunks": [
+          {
+            "chunk_id": "source.pdf::text_00115",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00179",
+            "table_refs": [
+              "table_265_merged",
+              "table_267_merged",
+              "table_269_merged",
+              "table_group_095",
+              "table_275_merged",
+              "table_280"
+            ],
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "More Personal Computing"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00180",
+            "table_refs": [
+              "table_265_merged",
+              "table_267_merged",
+              "table_269_merged",
+              "table_group_095",
+              "table_275_merged",
+              "table_280"
+            ],
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "More Personal Computing"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00181",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "REPORT OF INDEPENDENT REGISTERED PUBLIC ACCOUNTING FIRM"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00178",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "Intelligent Cloud"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00070",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00081",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "Intelligent Cloud"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00082",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "More Personal Computing"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00083",
+            "table_refs": [
+              "table_017"
+            ],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Research and Development"
+            ]
+          }
+        ],
+        "table_contexts": [
+          {
+            "table_id": "table_265_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 79,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_267_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 79,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_269_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 79,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_group_095",
+            "source_kind": "text_chunk_ref",
+            "page_start": 79,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_275_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 80,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_280",
+            "source_kind": "text_chunk_ref",
+            "page_start": 80,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_017",
+            "source_kind": "text_chunk_ref",
+            "page_start": 39,
+            "has_markdown": true
+          }
+        ]
+      },
+      "latency": {
+        "load_sec": 0.066,
+        "vector_search_sec": 0.964,
+        "rerank_sec": 9.667,
+        "context_expansion_sec": 0.002,
+        "answer_sec": 4.476,
+        "total_sec": 15.176
+      },
+      "settings": {
+        "vector_top_k": 10,
+        "table_vector_top_k": 5,
+        "rerank_top_n": 3,
+        "max_context_chunks": 14,
+        "include_section_neighbors": true,
+        "chat_provider": "fireworks",
+        "chat_model": "accounts/fireworks/models/deepseek-v4-pro",
+        "embed_model": "nomic-ai/nomic-embed-text-v1.5",
+        "db_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/index/vectors.db",
+        "assets_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/assets.json",
+        "table_db_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/index/table_vectors.db"
+      }
+    },
+    {
+      "id": "msft_tbl_q08",
+      "question": "How much did Microsoft spend on research and development in fiscal year 2025, and what percentage of revenue did R&D represent?",
+      "gold_answer": "$32,488 million; 12% of revenue",
+      "expected_table_ids": [
+        "table_017"
+      ],
+      "answer": "Microsoft spent $32,488 million on research and development in fiscal year 2025, which represented 12% of revenue (table_017).",
+      "failure_stage": "rerank_miss",
+      "failure_reason": "Expected table(s) ['table_017'] retrieved but not selected in rerank_top3",
+      "expected_table_in_table_vector_top5": true,
+      "expected_table_in_rerank_top3": false,
+      "expected_table_in_table_context": true,
+      "numeric_match": false,
+      "pipeline_path": {
+        "text_vector_top10": [
+          {
+            "rank": 1,
+            "candidate_id": "source.pdf::text_00084",
+            "score": 0.6951529070552099,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 2,
+            "candidate_id": "source.pdf::text_00083",
+            "score": 0.6772292500669487,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Research and Development"
+            ]
+          },
+          {
+            "rank": 3,
+            "candidate_id": "source.pdf::text_00082",
+            "score": 0.6707879943969056,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "More Personal Computing"
+            ]
+          },
+          {
+            "rank": 4,
+            "candidate_id": "source.pdf::text_00080",
+            "score": 0.6637114859845161,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "Productivity and Business Processes"
+            ]
+          },
+          {
+            "rank": 5,
+            "candidate_id": "source.pdf::text_00079",
+            "score": 0.6560526248815248,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 6,
+            "candidate_id": "source.pdf::text_00180",
+            "score": 0.6497689820479899,
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "More Personal Computing"
+            ]
+          },
+          {
+            "rank": 7,
+            "candidate_id": "source.pdf::text_00078",
+            "score": 0.6391539876124219,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "More Personal Computing"
+            ]
+          },
+          {
+            "rank": 8,
+            "candidate_id": "source.pdf::text_00070",
+            "score": 0.6389342657935053,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations"
+            ]
+          },
+          {
+            "rank": 9,
+            "candidate_id": "source.pdf::text_00086",
+            "score": 0.637860067877053,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 10,
+            "candidate_id": "source.pdf::text_00075",
+            "score": 0.6321440827170663,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Metrics"
+            ]
+          }
+        ],
+        "table_vector_top5": [
+          {
+            "rank": 11,
+            "table_id": "table_017",
+            "score": 0.7714135444438471,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Research and Development"
+            ]
+          },
+          {
+            "rank": 12,
+            "table_id": "table_015_merged",
+            "score": 0.7216092808004992,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 13,
+            "table_id": "table_013_merged",
+            "score": 0.7155255321225068,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 14,
+            "table_id": "table_009_merged",
+            "score": 0.7114948022470159,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 15,
+            "table_id": "table_018",
+            "score": 0.7112141935750551,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Sales and Marketing"
+            ]
+          }
+        ],
+        "rerank_top3": [
+          {
+            "candidate_type": "text",
+            "candidate_id": "source.pdf::text_00084",
+            "vector_rank": 1,
+            "rerank_reason": ""
+          },
+          {
+            "candidate_type": "text",
+            "candidate_id": "source.pdf::text_00083",
+            "vector_rank": 2,
+            "rerank_reason": ""
+          },
+          {
+            "candidate_type": "text",
+            "candidate_id": "source.pdf::text_00082",
+            "vector_rank": 3,
+            "rerank_reason": ""
+          }
+        ],
+        "expanded_text_chunks": [
+          {
+            "chunk_id": "source.pdf::text_00070",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00083",
+            "table_refs": [
+              "table_017"
+            ],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Research and Development"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00084",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00085",
+            "table_refs": [
+              "table_018"
+            ],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Sales and Marketing"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00082",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "More Personal Computing"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00081",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "Intelligent Cloud"
+            ]
+          }
+        ],
+        "table_contexts": [
+          {
+            "table_id": "table_017",
+            "source_kind": "text_chunk_ref",
+            "page_start": 39,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_018",
+            "source_kind": "text_chunk_ref",
+            "page_start": 39,
+            "has_markdown": true
+          }
+        ]
+      },
+      "latency": {
+        "load_sec": 0.018,
+        "vector_search_sec": 1.232,
+        "rerank_sec": 19.715,
+        "context_expansion_sec": 0.001,
+        "answer_sec": 13.289,
+        "total_sec": 34.255
+      },
+      "settings": {
+        "vector_top_k": 10,
+        "table_vector_top_k": 5,
+        "rerank_top_n": 3,
+        "max_context_chunks": 14,
+        "include_section_neighbors": true,
+        "chat_provider": "fireworks",
+        "chat_model": "accounts/fireworks/models/deepseek-v4-pro",
+        "embed_model": "nomic-ai/nomic-embed-text-v1.5",
+        "db_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/index/vectors.db",
+        "assets_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/assets.json",
+        "table_db_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/index/table_vectors.db"
+      }
+    },
+    {
+      "id": "msft_tbl_q09",
+      "question": "What were Microsoft's sales and marketing expenses in fiscal year 2025, and what percent of revenue did they represent?",
+      "gold_answer": "$25,654 million; 9% of revenue",
+      "expected_table_ids": [
+        "table_018"
+      ],
+      "answer": "Microsoft's sales and marketing expenses in fiscal year 2025 were $25,654 million, representing 9% of revenue (table_018).",
+      "failure_stage": "answer_wrong",
+      "failure_reason": "Answer numeric value did not match gold within tolerance",
+      "expected_table_in_table_vector_top5": true,
+      "expected_table_in_rerank_top3": true,
+      "expected_table_in_table_context": true,
+      "numeric_match": false,
+      "pipeline_path": {
+        "text_vector_top10": [
+          {
+            "rank": 1,
+            "candidate_id": "source.pdf::text_00082",
+            "score": 0.7401331535866922,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "More Personal Computing"
+            ]
+          },
+          {
+            "rank": 2,
+            "candidate_id": "source.pdf::text_00086",
+            "score": 0.7314841007692621,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 3,
+            "candidate_id": "source.pdf::text_00085",
+            "score": 0.7310966987235835,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Sales and Marketing"
+            ]
+          },
+          {
+            "rank": 4,
+            "candidate_id": "source.pdf::text_00080",
+            "score": 0.7296833717015174,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "Productivity and Business Processes"
+            ]
+          },
+          {
+            "rank": 5,
+            "candidate_id": "source.pdf::text_00130",
+            "score": 0.7258470871606347,
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "Sales and Marketing"
+            ]
+          },
+          {
+            "rank": 6,
+            "candidate_id": "source.pdf::text_00070",
+            "score": 0.7162552167191216,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations"
+            ]
+          },
+          {
+            "rank": 7,
+            "candidate_id": "source.pdf::text_00084",
+            "score": 0.7154834630012022,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 8,
+            "candidate_id": "source.pdf::text_00078",
+            "score": 0.7148410968494604,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "More Personal Computing"
+            ]
+          },
+          {
+            "rank": 9,
+            "candidate_id": "source.pdf::text_00079",
+            "score": 0.7100698633910121,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 10,
+            "candidate_id": "source.pdf::text_00180",
+            "score": 0.7056422241662856,
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "More Personal Computing"
+            ]
+          }
+        ],
+        "table_vector_top5": [
+          {
+            "rank": 11,
+            "table_id": "table_018",
+            "score": 0.8388396244749596,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Sales and Marketing"
+            ]
+          },
+          {
+            "rank": 12,
+            "table_id": "table_019",
+            "score": 0.763876295087608,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "General and Administrative"
+            ]
+          },
+          {
+            "rank": 13,
+            "table_id": "table_013_merged",
+            "score": 0.7293189603783795,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 14,
+            "table_id": "table_009_merged",
+            "score": 0.7274997841831752,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 15,
+            "table_id": "table_015_merged",
+            "score": 0.7259759809769476,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          }
+        ],
+        "rerank_top3": [
+          {
+            "candidate_type": "table",
+            "candidate_id": "table_018",
+            "vector_rank": 11,
+            "rerank_reason": "Directly provides sales and marketing expenses of $25,654 million and percent of revenue at 9% for fiscal year 2025."
+          },
+          {
+            "candidate_type": "text",
+            "candidate_id": "source.pdf::text_00085",
+            "vector_rank": 3,
+            "rerank_reason": "Shows sales and marketing as a percent of revenue (9% in 2025) and includes the definition, complementing the dollar amount."
+          },
+          {
+            "candidate_type": "text",
+            "candidate_id": "source.pdf::text_00086",
+            "vector_rank": 2,
+            "rerank_reason": "Provides the year-over-year increase of $1.2 billion or 5%, which helps contextualize the total expense figure."
+          }
+        ],
+        "expanded_text_chunks": [
+          {
+            "chunk_id": "source.pdf::text_00070",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00084",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00085",
+            "table_refs": [
+              "table_018"
+            ],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Sales and Marketing"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00086",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00087",
+            "table_refs": [
+              "table_019"
+            ],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "General and Administrative"
+            ]
+          }
+        ],
+        "table_contexts": [
+          {
+            "table_id": "table_018",
+            "source_kind": "table_vector",
+            "page_start": 39,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_019",
+            "source_kind": "text_chunk_ref",
+            "page_start": 40,
+            "has_markdown": true
+          }
+        ]
+      },
+      "latency": {
+        "load_sec": 0.045,
+        "vector_search_sec": 0.959,
+        "rerank_sec": 6.274,
+        "context_expansion_sec": 0.001,
+        "answer_sec": 4.606,
+        "total_sec": 11.888
+      },
+      "settings": {
+        "vector_top_k": 10,
+        "table_vector_top_k": 5,
+        "rerank_top_n": 3,
+        "max_context_chunks": 14,
+        "include_section_neighbors": true,
+        "chat_provider": "fireworks",
+        "chat_model": "accounts/fireworks/models/deepseek-v4-pro",
+        "embed_model": "nomic-ai/nomic-embed-text-v1.5",
+        "db_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/index/vectors.db",
+        "assets_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/assets.json",
+        "table_db_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/index/table_vectors.db"
+      }
+    },
+    {
+      "id": "msft_tbl_q10",
+      "question": "What was the total other income (expense), net for Microsoft in fiscal year 2025?",
+      "gold_answer": "$(4,901) million",
+      "expected_table_ids": [
+        "table_020_merged"
+      ],
+      "answer": "The total other income (expense), net for Microsoft in fiscal year 2025 was $(4,901) million (source.pdf::text_00115).",
+      "failure_stage": "rerank_miss",
+      "failure_reason": "Expected table(s) ['table_020_merged'] retrieved but not selected in rerank_top3",
+      "expected_table_in_table_vector_top5": true,
+      "expected_table_in_rerank_top3": false,
+      "expected_table_in_table_context": false,
+      "numeric_match": false,
+      "pipeline_path": {
+        "text_vector_top10": [
+          {
+            "rank": 1,
+            "candidate_id": "source.pdf::text_00084",
+            "score": 0.6995541804611861,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 2,
+            "candidate_id": "source.pdf::text_00180",
+            "score": 0.6981494363697379,
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "More Personal Computing"
+            ]
+          },
+          {
+            "rank": 3,
+            "candidate_id": "source.pdf::text_00080",
+            "score": 0.6981085943538354,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "Productivity and Business Processes"
+            ]
+          },
+          {
+            "rank": 4,
+            "candidate_id": "source.pdf::text_00082",
+            "score": 0.6972273331930599,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "More Personal Computing"
+            ]
+          },
+          {
+            "rank": 5,
+            "candidate_id": "source.pdf::text_00088",
+            "score": 0.6924116682204632,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 6,
+            "candidate_id": "source.pdf::text_00079",
+            "score": 0.6895588423008429,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 7,
+            "candidate_id": "source.pdf::text_00090",
+            "score": 0.6847164071891578,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Effective Tax Rate"
+            ]
+          },
+          {
+            "rank": 8,
+            "candidate_id": "source.pdf::text_00179",
+            "score": 0.6753896937049353,
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "More Personal Computing"
+            ]
+          },
+          {
+            "rank": 9,
+            "candidate_id": "source.pdf::text_00070",
+            "score": 0.6732281695117082,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations"
+            ]
+          },
+          {
+            "rank": 10,
+            "candidate_id": "source.pdf::text_00086",
+            "score": 0.6719799555921346,
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          }
+        ],
+        "table_vector_top5": [
+          {
+            "rank": 11,
+            "table_id": "table_020_merged",
+            "score": 0.8323128292189941,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 12,
+            "table_id": "table_015_merged",
+            "score": 0.7463756186174925,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 13,
+            "table_id": "table_013_merged",
+            "score": 0.7344899281360832,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "rank": 14,
+            "table_id": "table_019",
+            "score": 0.7330028212287528,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "General and Administrative"
+            ]
+          },
+          {
+            "rank": 15,
+            "table_id": "table_006_merged",
+            "score": 0.7328844912761985,
+            "header_path": [
+              "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          }
+        ],
+        "rerank_top3": [
+          {
+            "candidate_type": "text",
+            "candidate_id": "source.pdf::text_00084",
+            "vector_rank": 1,
+            "rerank_reason": ""
+          },
+          {
+            "candidate_type": "text",
+            "candidate_id": "source.pdf::text_00180",
+            "vector_rank": 2,
+            "rerank_reason": ""
+          },
+          {
+            "candidate_type": "text",
+            "candidate_id": "source.pdf::text_00080",
+            "vector_rank": 3,
+            "rerank_reason": ""
+          }
+        ],
+        "expanded_text_chunks": [
+          {
+            "chunk_id": "source.pdf::text_00070",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00083",
+            "table_refs": [
+              "table_017"
+            ],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Research and Development"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00084",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00085",
+            "table_refs": [
+              "table_018"
+            ],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Sales and Marketing"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00115",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00179",
+            "table_refs": [
+              "table_265_merged",
+              "table_267_merged",
+              "table_269_merged",
+              "table_group_095",
+              "table_275_merged",
+              "table_280"
+            ],
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "More Personal Computing"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00180",
+            "table_refs": [
+              "table_265_merged",
+              "table_267_merged",
+              "table_269_merged",
+              "table_group_095",
+              "table_275_merged",
+              "table_280"
+            ],
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "More Personal Computing"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00181",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 8",
+              "Item 8. Financial Statements and Supplementary Data",
+              "REPORT OF INDEPENDENT REGISTERED PUBLIC ACCOUNTING FIRM"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00079",
+            "table_refs": [
+              "table_006_merged",
+              "table_009_merged",
+              "table_011_merged",
+              "table_013_merged",
+              "table_015_merged"
+            ],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00080",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "Productivity and Business Processes"
+            ]
+          },
+          {
+            "chunk_id": "source.pdf::text_00081",
+            "table_refs": [],
+            "header_path": [
+              "Part II",
+              "Item 7",
+              "Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "Intelligent Cloud"
+            ]
+          }
+        ],
+        "table_contexts": [
+          {
+            "table_id": "table_017",
+            "source_kind": "text_chunk_ref",
+            "page_start": 39,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_018",
+            "source_kind": "text_chunk_ref",
+            "page_start": 39,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_265_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 79,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_267_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 79,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_269_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 79,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_group_095",
+            "source_kind": "text_chunk_ref",
+            "page_start": 79,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_275_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 80,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_280",
+            "source_kind": "text_chunk_ref",
+            "page_start": 80,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_006_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 37,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_009_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 37,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_011_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 37,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_013_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 37,
+            "has_markdown": true
+          },
+          {
+            "table_id": "table_015_merged",
+            "source_kind": "text_chunk_ref",
+            "page_start": 37,
+            "has_markdown": true
+          }
+        ]
+      },
+      "latency": {
+        "load_sec": 0.112,
+        "vector_search_sec": 1.296,
+        "rerank_sec": 12.69,
+        "context_expansion_sec": 0.006,
+        "answer_sec": 10.396,
+        "total_sec": 24.501
+      },
+      "settings": {
+        "vector_top_k": 10,
+        "table_vector_top_k": 5,
+        "rerank_top_n": 3,
+        "max_context_chunks": 14,
+        "include_section_neighbors": true,
+        "chat_provider": "fireworks",
+        "chat_model": "accounts/fireworks/models/deepseek-v4-pro",
+        "embed_model": "nomic-ai/nomic-embed-text-v1.5",
+        "db_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/index/vectors.db",
+        "assets_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/assets.json",
+        "table_db_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/index/table_vectors.db"
+      }
+    }
+  ]
+}

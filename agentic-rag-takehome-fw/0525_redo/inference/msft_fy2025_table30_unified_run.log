@@ -1,0 +1,121 @@
+=== retriever rank/score (30 Q) ===
+=== final context source (30 Q) ===
+[1/30] q041 table_vector llm=5.0
+[2/30] q042 neither llm=5.0
+[3/30] q043 overlap llm=5.0
+[4/30] q044 table_vector llm=5.0
+[5/30] q045 text_chunk_ref llm=5.0
+[6/30] q046 table_vector llm=5.0
+[7/30] q047 table_vector llm=5.0
+[8/30] q048 table_vector llm=5.0
+[9/30] q049 table_vector llm=5.0
+[10/30] q050 table_vector llm=5.0
+[11/30] tq001 table_vector llm=5.0
+[12/30] tq002 text_chunk_ref llm=5.0
+[13/30] tq003 table_vector llm=5.0
+[14/30] tq004 table_vector llm=5.0
+[15/30] tq005 neither llm=5.0
+[16/30] tq006 table_vector llm=5.0
+[17/30] tq007 table_vector llm=5.0
+[18/30] tq008 table_vector llm=5.0
+[19/30] tq009 table_vector llm=5.0
+[20/30] tq010 table_vector llm=5.0
+[21/30] tq011 table_vector llm=5.0
+[22/30] tq012 table_vector llm=5.0
+[23/30] tq013 table_vector llm=5.0
+[24/30] tq014 table_vector llm=5.0
+[25/30] tq015 table_vector llm=5.0
+[26/30] tq016 table_vector llm=5.0
+[27/30] tq017 table_vector llm=5.0
+[28/30] tq018 table_vector llm=5.0
+[29/30] tq019 table_vector llm=2.0
+[30/30] tq020 table_vector llm=5.0
+{
+  "retriever_summary": {
+    "n": 30,
+    "mean_rank": 2.4,
+    "recall_at_1": 0.43333333333333335,
+    "recall_at_3": 0.7666666666666667,
+    "recall_at_5": 0.9666666666666667,
+    "recall_at_10": 1.0,
+    "mean_score": 0.693,
+    "min_score": 0.615,
+    "max_score": 0.823,
+    "pass_top5_thr065": 0.8666666666666667
+  },
+  "source_summary": {
+    "by_source": {
+      "table_vector": {
+        "count": 25,
+        "ids": [
+          "q041",
+          "q044",
+          "q046",
+          "q047",
+          "q048",
+          "q049",
+          "q050",
+          "tq001",
+          "tq003",
+          "tq004",
+          "tq006",
+          "tq007",
+          "tq008",
+          "tq009",
+          "tq010",
+          "tq011",
+          "tq012",
+          "tq013",
+          "tq014",
+          "tq015",
+          "tq016",
+          "tq017",
+          "tq018",
+          "tq019",
+          "tq020"
+        ]
+      },
+      "neither": {
+        "count": 2,
+        "ids": [
+          "q042",
+          "tq005"
+        ]
+      },
+      "overlap": {
+        "count": 1,
+        "ids": [
+          "q043"
+        ]
+      },
+      "text_chunk_ref": {
+        "count": 2,
+        "ids": [
+          "q045",
+          "tq002"
+        ]
+      }
+    },
+    "by_gt_item": {
+      "Market for Registrant\u2019s Common Equity, Related Stockholder Matters, and Issuer Purchases of Equity Securities": {
+        "table_vector": 3,
+        "neither": 1
+      },
+      "Management\u2019s Discussion and Analysis of Financial Condition and Results of Operations": {
+        "overlap": 1,
+        "table_vector": 11,
+        "text_chunk_ref": 2
+      },
+      "Financial Statements and Supplementary Data": {
+        "table_vector": 10
+      },
+      "Properties": {
+        "table_vector": 1
+      },
+      "Quantitative and Qualitative Disclosures About Market Risk": {
+        "neither": 1
+      }
+    }
+  }
+}
+wrote /Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/0525_redo/inference/msft_fy2025_table30_unified_analysis.json

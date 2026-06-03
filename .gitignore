@@ -1,0 +1,26 @@
+.DS_Store
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+.venv/
+agentic-rag-takehome-fw/.venv*/
+
+# Python caches
+__pycache__/
+*.py[cod]
+
+# Local analysis / indexing caches
+.codeatlas/
+
+# Generated scratch outputs
+agentic-rag-takehome-fw/scripts/output/
+
+# Nested benchmark virtualenvs are large and reproducible
+agentic-rag-takehome-fw/benchmarks/**/.venv*/
+agentic-rag-takehome-fw/benchmarks/**/.deps/
+
+# Runtime / regenerable local state
+agentic-rag-takehome-fw/data/agent_memory.db
+agentic-rag-takehome-fw/data/chunk_studio/

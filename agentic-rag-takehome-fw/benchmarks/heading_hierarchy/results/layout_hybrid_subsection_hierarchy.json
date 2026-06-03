@@ -1,0 +1,5713 @@
+{
+  "method": "layout_hybrid (recommended)",
+  "description": "TOC Item page range + PyMuPDF-Layout section-header primary + font heuristics fallback",
+  "document": "1779921176-msft-fy2025-10-k-8d505c867d",
+  "item_count": 21,
+  "total_subsections": 302,
+  "items": [
+    {
+      "part": "Part I",
+      "item": "Item 1",
+      "item_title": "BUSINESS",
+      "item_page": 3,
+      "page_range": [
+        3,
+        15
+      ],
+      "subsection_count": 45,
+      "sources": {
+        "layout": 33,
+        "layout_only": 7,
+        "font_fallback": 5
+      },
+      "by_level": {
+        "L1": [],
+        "L2": [
+          {
+            "title": "PART IV",
+            "page": 3,
+            "path": [
+              "PART IV"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "Note About Forward-Looking Statements",
+            "page": 3,
+            "path": [
+              "Note About Forward-Looking Statements"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "PART I",
+            "page": 3,
+            "path": [
+              "PART I"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "GENERAL",
+            "page": 3,
+            "path": [
+              "GENERAL"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "What We Offer",
+            "page": 3,
+            "path": [
+              "What We Offer"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "The Ambitions That Drive Us",
+            "page": 4,
+            "path": [
+              "The Ambitions That Drive Us"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "Our Future Opportunity",
+            "page": 4,
+            "path": [
+              "Our Future Opportunity"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "Commitment to Sustainability",
+            "page": 5,
+            "path": [
+              "Commitment to Sustainability"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "OPERATING SEGMENTS",
+            "page": 5,
+            "path": [
+              "OPERATING SEGMENTS"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Productivity and Business Processes",
+            "page": 5,
+            "path": [
+              "Productivity and Business Processes"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Microsoft 365 Commercial Products and Cloud Services",
+            "page": 5,
+            "path": [
+              "Microsoft 365 Commercial Products and Cloud Services"
+            ],
+            "source": "font_fallback"
+          },
+          {
+            "title": "Microsoft 365 Consumer Products and Cloud Services",
+            "page": 6,
+            "path": [
+              "Microsoft 365 Consumer Products and Cloud Services"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "LinkedIn",
+            "page": 6,
+            "path": [
+              "LinkedIn"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Dynamics Products and Cloud Services",
+            "page": 6,
+            "path": [
+              "Dynamics Products and Cloud Services"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Intelligent Cloud",
+            "page": 7,
+            "path": [
+              "Intelligent Cloud"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Server Products and Cloud Services",
+            "page": 7,
+            "path": [
+              "Server Products and Cloud Services"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Enterprise and Partner Services",
+            "page": 7,
+            "path": [
+              "Enterprise and Partner Services"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "More Personal Computing",
+            "page": 8,
+            "path": [
+              "More Personal Computing"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Windows and Devices",
+            "page": 8,
+            "path": [
+              "Windows and Devices"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Gaming",
+            "page": 9,
+            "path": [
+              "Gaming"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Search and News Advertising",
+            "page": 9,
+            "path": [
+              "Search and News Advertising"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "HUMAN CAPITAL RESOURCES",
+            "page": 10,
+            "path": [
+              "HUMAN CAPITAL RESOURCES"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "OPERATIONS",
+            "page": 10,
+            "path": [
+              "OPERATIONS"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "RESEARCH AND DEVELOPMENT",
+            "page": 10,
+            "path": [
+              "RESEARCH AND DEVELOPMENT"
+            ],
+            "source": "font_fallback"
+          },
+          {
+            "title": "Product and Service Development",
+            "page": 11,
+            "path": [
+              "Product and Service Development"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Intellectual Property",
+            "page": 11,
+            "path": [
+              "Intellectual Property"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "DISTRIBUTION, SALES, AND MARKETING",
+            "page": 11,
+            "path": [
+              "DISTRIBUTION, SALES, AND MARKETING"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Direct",
+            "page": 11,
+            "path": [
+              "Direct"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Distributors and Resellers",
+            "page": 12,
+            "path": [
+              "Distributors and Resellers"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "OEMs",
+            "page": 12,
+            "path": [
+              "OEMs"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "LICENSING OPTIONS",
+            "page": 12,
+            "path": [
+              "LICENSING OPTIONS"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Volume Licensing Programs",
+            "page": 12,
+            "path": [
+              "Volume Licensing Programs"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Enterprise Agreement",
+            "page": 12,
+            "path": [
+              "Enterprise Agreement"
+            ],
+            "source": "font_fallback"
+          },
+          {
+            "title": "Microsoft Customer Agreement",
+            "page": 13,
+            "path": [
+              "Microsoft Customer Agreement"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Microsoft Online Subscription Agreement",
+            "page": 13,
+            "path": [
+              "Microsoft Online Subscription Agreement"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Microsoft Products and Services Agreement",
+            "page": 13,
+            "path": [
+              "Microsoft Products and Services Agreement"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Open Value",
+            "page": 13,
+            "path": [
+              "Open Value"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Select Plus",
+            "page": 13,
+            "path": [
+              "Select Plus"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Partner Programs",
+            "page": 13,
+            "path": [
+              "Partner Programs"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "GOVERNMENT REGULATION",
+            "page": 13,
+            "path": [
+              "GOVERNMENT REGULATION"
+            ],
+            "source": "font_fallback"
+          },
+          {
+            "title": "INFORMATION ABOUT OUR EXECUTIVE OFFICERS",
+            "page": 14,
+            "path": [
+              "INFORMATION ABOUT OUR EXECUTIVE OFFICERS"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "AVAILABLE INFORMATION",
+            "page": 15,
+            "path": [
+              "AVAILABLE INFORMATION"
+            ],
+            "source": "layout"
+          }
+        ],
+        "L3": [
+          {
+            "title": "Competition",
+            "page": 6,
+            "path": [
+              "Dynamics Products and Cloud Services",
+              "Competition"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Competition",
+            "page": 8,
+            "path": [
+              "Enterprise and Partner Services",
+              "Competition"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Competition",
+            "page": 9,
+            "path": [
+              "Search and News Advertising",
+              "Competition"
+            ],
+            "source": "font_fallback"
+          }
+        ],
+        "L4": []
+      },
+      "reading_order": [
+        {
+          "level": 2,
+          "page": 3,
+          "path": [
+            "PART IV"
+          ],
+          "title": "PART IV",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 3,
+          "path": [
+            "Note About Forward-Looking Statements"
+          ],
+          "title": "Note About Forward-Looking Statements",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 3,
+          "path": [
+            "PART I"
+          ],
+          "title": "PART I",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 3,
+          "path": [
+            "GENERAL"
+          ],
+          "title": "GENERAL",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 3,
+          "path": [
+            "What We Offer"
+          ],
+          "title": "What We Offer",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 4,
+          "path": [
+            "The Ambitions That Drive Us"
+          ],
+          "title": "The Ambitions That Drive Us",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 4,
+          "path": [
+            "Our Future Opportunity"
+          ],
+          "title": "Our Future Opportunity",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 5,
+          "path": [
+            "Commitment to Sustainability"
+          ],
+          "title": "Commitment to Sustainability",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 5,
+          "path": [
+            "OPERATING SEGMENTS"
+          ],
+          "title": "OPERATING SEGMENTS",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 5,
+          "path": [
+            "Productivity and Business Processes"
+          ],
+          "title": "Productivity and Business Processes",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 5,
+          "path": [
+            "Microsoft 365 Commercial Products and Cloud Services"
+          ],
+          "title": "Microsoft 365 Commercial Products and Cloud Services",
+          "source": "font_fallback"
+        },
+        {
+          "level": 2,
+          "page": 6,
+          "path": [
+            "Microsoft 365 Consumer Products and Cloud Services"
+          ],
+          "title": "Microsoft 365 Consumer Products and Cloud Services",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 6,
+          "path": [
+            "LinkedIn"
+          ],
+          "title": "LinkedIn",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 6,
+          "path": [
+            "Dynamics Products and Cloud Services"
+          ],
+          "title": "Dynamics Products and Cloud Services",
+          "source": "layout"
+        },
+        {
+          "level": 3,
+          "page": 6,
+          "path": [
+            "Dynamics Products and Cloud Services",
+            "Competition"
+          ],
+          "title": "Competition",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 7,
+          "path": [
+            "Intelligent Cloud"
+          ],
+          "title": "Intelligent Cloud",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 7,
+          "path": [
+            "Server Products and Cloud Services"
+          ],
+          "title": "Server Products and Cloud Services",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 7,
+          "path": [
+            "Enterprise and Partner Services"
+          ],
+          "title": "Enterprise and Partner Services",
+          "source": "layout"
+        },
+        {
+          "level": 3,
+          "page": 8,
+          "path": [
+            "Enterprise and Partner Services",
+            "Competition"
+          ],
+          "title": "Competition",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 8,
+          "path": [
+            "More Personal Computing"
+          ],
+          "title": "More Personal Computing",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 8,
+          "path": [
+            "Windows and Devices"
+          ],
+          "title": "Windows and Devices",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 9,
+          "path": [
+            "Gaming"
+          ],
+          "title": "Gaming",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 9,
+          "path": [
+            "Search and News Advertising"
+          ],
+          "title": "Search and News Advertising",
+          "source": "layout"
+        },
+        {
+          "level": 3,
+          "page": 9,
+          "path": [
+            "Search and News Advertising",
+            "Competition"
+          ],
+          "title": "Competition",
+          "source": "font_fallback"
+        },
+        {
+          "level": 2,
+          "page": 10,
+          "path": [
+            "HUMAN CAPITAL RESOURCES"
+          ],
+          "title": "HUMAN CAPITAL RESOURCES",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 10,
+          "path": [
+            "OPERATIONS"
+          ],
+          "title": "OPERATIONS",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 10,
+          "path": [
+            "RESEARCH AND DEVELOPMENT"
+          ],
+          "title": "RESEARCH AND DEVELOPMENT",
+          "source": "font_fallback"
+        },
+        {
+          "level": 2,
+          "page": 11,
+          "path": [
+            "Product and Service Development"
+          ],
+          "title": "Product and Service Development",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 11,
+          "path": [
+            "Intellectual Property"
+          ],
+          "title": "Intellectual Property",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 11,
+          "path": [
+            "DISTRIBUTION, SALES, AND MARKETING"
+          ],
+          "title": "DISTRIBUTION, SALES, AND MARKETING",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 11,
+          "path": [
+            "Direct"
+          ],
+          "title": "Direct",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 12,
+          "path": [
+            "Distributors and Resellers"
+          ],
+          "title": "Distributors and Resellers",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 12,
+          "path": [
+            "OEMs"
+          ],
+          "title": "OEMs",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 12,
+          "path": [
+            "LICENSING OPTIONS"
+          ],
+          "title": "LICENSING OPTIONS",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 12,
+          "path": [
+            "Volume Licensing Programs"
+          ],
+          "title": "Volume Licensing Programs",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 12,
+          "path": [
+            "Enterprise Agreement"
+          ],
+          "title": "Enterprise Agreement",
+          "source": "font_fallback"
+        },
+        {
+          "level": 2,
+          "page": 13,
+          "path": [
+            "Microsoft Customer Agreement"
+          ],
+          "title": "Microsoft Customer Agreement",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 13,
+          "path": [
+            "Microsoft Online Subscription Agreement"
+          ],
+          "title": "Microsoft Online Subscription Agreement",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 13,
+          "path": [
+            "Microsoft Products and Services Agreement"
+          ],
+          "title": "Microsoft Products and Services Agreement",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 13,
+          "path": [
+            "Open Value"
+          ],
+          "title": "Open Value",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 13,
+          "path": [
+            "Select Plus"
+          ],
+          "title": "Select Plus",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 13,
+          "path": [
+            "Partner Programs"
+          ],
+          "title": "Partner Programs",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 13,
+          "path": [
+            "GOVERNMENT REGULATION"
+          ],
+          "title": "GOVERNMENT REGULATION",
+          "source": "font_fallback"
+        },
+        {
+          "level": 2,
+          "page": 14,
+          "path": [
+            "INFORMATION ABOUT OUR EXECUTIVE OFFICERS"
+          ],
+          "title": "INFORMATION ABOUT OUR EXECUTIVE OFFICERS",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 15,
+          "path": [
+            "AVAILABLE INFORMATION"
+          ],
+          "title": "AVAILABLE INFORMATION",
+          "source": "layout"
+        }
+      ]
+    },
+    {
+      "part": "Part I",
+      "item": "Item 1A",
+      "item_title": "RISK FACTORS",
+      "item_page": 16,
+      "page_range": [
+        16,
+        28
+      ],
+      "subsection_count": 19,
+      "sources": {
+        "layout": 15,
+        "layout_only": 2,
+        "font_fallback": 2
+      },
+      "by_level": {
+        "L1": [],
+        "L2": [
+          {
+            "title": "STRATEGIC AND COMPETITIVE RISKS",
+            "page": 16,
+            "path": [
+              "STRATEGIC AND COMPETITIVE RISKS"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Competition in the technology sector",
+            "page": 16,
+            "path": [
+              "Competition in the technology sector"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Competition among platform-based ecosystems",
+            "page": 16,
+            "path": [
+              "Competition among platform-based ecosystems"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Business model competition",
+            "page": 17,
+            "path": [
+              "Business model competition"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "RISKS RELATING TO THE EVOLUTION OF OUR BUSINESS",
+            "page": 18,
+            "path": [
+              "RISKS RELATING TO THE EVOLUTION OF OUR BUSINESS"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "CYBERSECURITY, DATA PRIVACY, AND PLATFORM ABUSE RISKS",
+            "page": 19,
+            "path": [
+              "CYBERSECURITY, DATA PRIVACY, AND PLATFORM ABUSE RISKS"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Security of our information technology",
+            "page": 19,
+            "path": [
+              "Security of our information technology"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Security of our products, services, devices, and customers’ data",
+            "page": 20,
+            "path": [
+              "Security of our products, services, devices, and customers’ data"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Development and deployment of defensive measures",
+            "page": 21,
+            "path": [
+              "Development and deployment of defensive measures"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Abuse of our platforms may harm our reputation or user engagement.",
+            "page": 22,
+            "path": [
+              "Abuse of our platforms may harm our reputation or user engagement."
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "Advertising, professional, marketplace, and gaming platform abuses",
+            "page": 22,
+            "path": [
+              "Advertising, professional, marketplace, and gaming platform abuses"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Other digital safety abuses",
+            "page": 22,
+            "path": [
+              "Other digital safety abuses"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "OPERATIONAL RISKS",
+            "page": 23,
+            "path": [
+              "OPERATIONAL RISKS"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "PART I",
+            "page": 24,
+            "path": [
+              "PART I"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "LEGAL, REGULATORY, AND LITIGATION RISKS",
+            "page": 24,
+            "path": [
+              "LEGAL, REGULATORY, AND LITIGATION RISKS"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Competition laws and new market regulation: Government agencies closely scrutinize us under U.S. and",
+            "page": 24,
+            "path": [
+              "Competition laws and new market regulation: Government agencies closely scrutinize us under U.S. and"
+            ],
+            "source": "font_fallback"
+          },
+          {
+            "title": "Trade: Increasing trade laws, policies, sanctions, and other regulatory requirements also affect our",
+            "page": 25,
+            "path": [
+              "Trade: Increasing trade laws, policies, sanctions, and other regulatory requirements also affect our"
+            ],
+            "source": "font_fallback"
+          },
+          {
+            "title": "INTELLECTUAL PROPERTY RISKS",
+            "page": 26,
+            "path": [
+              "INTELLECTUAL PROPERTY RISKS"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "GENERAL RISKS",
+            "page": 27,
+            "path": [
+              "GENERAL RISKS"
+            ],
+            "source": "layout"
+          }
+        ],
+        "L3": [],
+        "L4": []
+      },
+      "reading_order": [
+        {
+          "level": 2,
+          "page": 16,
+          "path": [
+            "STRATEGIC AND COMPETITIVE RISKS"
+          ],
+          "title": "STRATEGIC AND COMPETITIVE RISKS",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 16,
+          "path": [
+            "Competition in the technology sector"
+          ],
+          "title": "Competition in the technology sector",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 16,
+          "path": [
+            "Competition among platform-based ecosystems"
+          ],
+          "title": "Competition among platform-based ecosystems",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 17,
+          "path": [
+            "Business model competition"
+          ],
+          "title": "Business model competition",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 18,
+          "path": [
+            "RISKS RELATING TO THE EVOLUTION OF OUR BUSINESS"
+          ],
+          "title": "RISKS RELATING TO THE EVOLUTION OF OUR BUSINESS",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 19,
+          "path": [
+            "CYBERSECURITY, DATA PRIVACY, AND PLATFORM ABUSE RISKS"
+          ],
+          "title": "CYBERSECURITY, DATA PRIVACY, AND PLATFORM ABUSE RISKS",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 19,
+          "path": [
+            "Security of our information technology"
+          ],
+          "title": "Security of our information technology",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 20,
+          "path": [
+            "Security of our products, services, devices, and customers’ data"
+          ],
+          "title": "Security of our products, services, devices, and customers’ data",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 21,
+          "path": [
+            "Development and deployment of defensive measures"
+          ],
+          "title": "Development and deployment of defensive measures",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 22,
+          "path": [
+            "Abuse of our platforms may harm our reputation or user engagement."
+          ],
+          "title": "Abuse of our platforms may harm our reputation or user engagement.",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 22,
+          "path": [
+            "Advertising, professional, marketplace, and gaming platform abuses"
+          ],
+          "title": "Advertising, professional, marketplace, and gaming platform abuses",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 22,
+          "path": [
+            "Other digital safety abuses"
+          ],
+          "title": "Other digital safety abuses",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 23,
+          "path": [
+            "OPERATIONAL RISKS"
+          ],
+          "title": "OPERATIONAL RISKS",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 24,
+          "path": [
+            "PART I"
+          ],
+          "title": "PART I",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 24,
+          "path": [
+            "LEGAL, REGULATORY, AND LITIGATION RISKS"
+          ],
+          "title": "LEGAL, REGULATORY, AND LITIGATION RISKS",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 24,
+          "path": [
+            "Competition laws and new market regulation: Government agencies closely scrutinize us under U.S. and"
+          ],
+          "title": "Competition laws and new market regulation: Government agencies closely scrutinize us under U.S. and",
+          "source": "font_fallback"
+        },
+        {
+          "level": 2,
+          "page": 25,
+          "path": [
+            "Trade: Increasing trade laws, policies, sanctions, and other regulatory requirements also affect our"
+          ],
+          "title": "Trade: Increasing trade laws, policies, sanctions, and other regulatory requirements also affect our",
+          "source": "font_fallback"
+        },
+        {
+          "level": 2,
+          "page": 26,
+          "path": [
+            "INTELLECTUAL PROPERTY RISKS"
+          ],
+          "title": "INTELLECTUAL PROPERTY RISKS",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 27,
+          "path": [
+            "GENERAL RISKS"
+          ],
+          "title": "GENERAL RISKS",
+          "source": "layout"
+        }
+      ]
+    },
+    {
+      "part": "Part I",
+      "item": "Item 1B",
+      "item_title": "UNRESOLVED STAFF COMMENTS",
+      "item_page": 29,
+      "page_range": [
+        29,
+        29
+      ],
+      "subsection_count": 1,
+      "sources": {
+        "layout": 0,
+        "layout_only": 1,
+        "font_fallback": 0
+      },
+      "by_level": {
+        "L1": [],
+        "L2": [
+          {
+            "title": "RISK MANAGEMENT AND STRATEGY",
+            "page": 29,
+            "path": [
+              "RISK MANAGEMENT AND STRATEGY"
+            ],
+            "source": "layout_only"
+          }
+        ],
+        "L3": [],
+        "L4": []
+      },
+      "reading_order": [
+        {
+          "level": 2,
+          "page": 29,
+          "path": [
+            "RISK MANAGEMENT AND STRATEGY"
+          ],
+          "title": "RISK MANAGEMENT AND STRATEGY",
+          "source": "layout_only"
+        }
+      ]
+    },
+    {
+      "part": "Part I",
+      "item": "Item 1C",
+      "item_title": "CYBERSECURITY",
+      "item_page": 29,
+      "page_range": [
+        29,
+        30
+      ],
+      "subsection_count": 1,
+      "sources": {
+        "layout": 1,
+        "layout_only": 0,
+        "font_fallback": 0
+      },
+      "by_level": {
+        "L1": [],
+        "L2": [
+          {
+            "title": "RISK MANAGEMENT AND STRATEGY",
+            "page": 29,
+            "path": [
+              "RISK MANAGEMENT AND STRATEGY"
+            ],
+            "source": "layout"
+          }
+        ],
+        "L3": [],
+        "L4": []
+      },
+      "reading_order": [
+        {
+          "level": 2,
+          "page": 29,
+          "path": [
+            "RISK MANAGEMENT AND STRATEGY"
+          ],
+          "title": "RISK MANAGEMENT AND STRATEGY",
+          "source": "layout"
+        }
+      ]
+    },
+    {
+      "part": "Part I",
+      "item": "Item 2",
+      "item_title": "PROPERTIES",
+      "item_page": 31,
+      "page_range": [
+        31,
+        31
+      ],
+      "subsection_count": 1,
+      "sources": {
+        "layout": 0,
+        "layout_only": 1,
+        "font_fallback": 0
+      },
+      "by_level": {
+        "L1": [],
+        "L2": [
+          {
+            "title": "GOVERNANCE",
+            "page": 31,
+            "path": [
+              "GOVERNANCE"
+            ],
+            "source": "layout_only"
+          }
+        ],
+        "L3": [],
+        "L4": []
+      },
+      "reading_order": [
+        {
+          "level": 2,
+          "page": 31,
+          "path": [
+            "GOVERNANCE"
+          ],
+          "title": "GOVERNANCE",
+          "source": "layout_only"
+        }
+      ]
+    },
+    {
+      "part": "Part I",
+      "item": "Item 3",
+      "item_title": "LEGAL PROCEEDINGS",
+      "item_page": 32,
+      "page_range": [
+        32,
+        32
+      ],
+      "subsection_count": 3,
+      "sources": {
+        "layout": 0,
+        "layout_only": 3,
+        "font_fallback": 0
+      },
+      "by_level": {
+        "L1": [],
+        "L2": [
+          {
+            "title": "PART II",
+            "page": 32,
+            "path": [
+              "PART II"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "MARKET AND STOCKHOLDERS",
+            "page": 32,
+            "path": [
+              "MARKET AND STOCKHOLDERS"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "SHARE REPURCHASES AND DIVIDENDS",
+            "page": 32,
+            "path": [
+              "SHARE REPURCHASES AND DIVIDENDS"
+            ],
+            "source": "layout_only"
+          }
+        ],
+        "L3": [],
+        "L4": []
+      },
+      "reading_order": [
+        {
+          "level": 2,
+          "page": 32,
+          "path": [
+            "PART II"
+          ],
+          "title": "PART II",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 32,
+          "path": [
+            "MARKET AND STOCKHOLDERS"
+          ],
+          "title": "MARKET AND STOCKHOLDERS",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 32,
+          "path": [
+            "SHARE REPURCHASES AND DIVIDENDS"
+          ],
+          "title": "SHARE REPURCHASES AND DIVIDENDS",
+          "source": "layout_only"
+        }
+      ]
+    },
+    {
+      "part": "Part I",
+      "item": "Item 4",
+      "item_title": "MINE SAFETY DISCLOSURES",
+      "item_page": 32,
+      "page_range": [
+        32,
+        32
+      ],
+      "subsection_count": 3,
+      "sources": {
+        "layout": 0,
+        "layout_only": 3,
+        "font_fallback": 0
+      },
+      "by_level": {
+        "L1": [],
+        "L2": [
+          {
+            "title": "PART II",
+            "page": 32,
+            "path": [
+              "PART II"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "MARKET AND STOCKHOLDERS",
+            "page": 32,
+            "path": [
+              "MARKET AND STOCKHOLDERS"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "SHARE REPURCHASES AND DIVIDENDS",
+            "page": 32,
+            "path": [
+              "SHARE REPURCHASES AND DIVIDENDS"
+            ],
+            "source": "layout_only"
+          }
+        ],
+        "L3": [],
+        "L4": []
+      },
+      "reading_order": [
+        {
+          "level": 2,
+          "page": 32,
+          "path": [
+            "PART II"
+          ],
+          "title": "PART II",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 32,
+          "path": [
+            "MARKET AND STOCKHOLDERS"
+          ],
+          "title": "MARKET AND STOCKHOLDERS",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 32,
+          "path": [
+            "SHARE REPURCHASES AND DIVIDENDS"
+          ],
+          "title": "SHARE REPURCHASES AND DIVIDENDS",
+          "source": "layout_only"
+        }
+      ]
+    },
+    {
+      "part": "Part II",
+      "item": "Item 5",
+      "item_title": "MARKET FOR REGISTRANT’S COMMON EQUITY, RELATED STOCKHOLDER",
+      "item_page": 32,
+      "page_range": [
+        32,
+        32
+      ],
+      "subsection_count": 4,
+      "sources": {
+        "layout": 2,
+        "layout_only": 1,
+        "font_fallback": 1
+      },
+      "by_level": {
+        "L1": [],
+        "L2": [
+          {
+            "title": "PART II",
+            "page": 32,
+            "path": [
+              "PART II"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "MARKET AND STOCKHOLDERS",
+            "page": 32,
+            "path": [
+              "MARKET AND STOCKHOLDERS"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "SHARE REPURCHASES AND DIVIDENDS",
+            "page": 32,
+            "path": [
+              "SHARE REPURCHASES AND DIVIDENDS"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "RECENT SALES OF UNREGISTERED SECURITIES",
+            "page": 33,
+            "path": [
+              "RECENT SALES OF UNREGISTERED SECURITIES"
+            ],
+            "source": "font_fallback"
+          }
+        ],
+        "L3": [],
+        "L4": []
+      },
+      "reading_order": [
+        {
+          "level": 2,
+          "page": 32,
+          "path": [
+            "PART II"
+          ],
+          "title": "PART II",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 32,
+          "path": [
+            "MARKET AND STOCKHOLDERS"
+          ],
+          "title": "MARKET AND STOCKHOLDERS",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 32,
+          "path": [
+            "SHARE REPURCHASES AND DIVIDENDS"
+          ],
+          "title": "SHARE REPURCHASES AND DIVIDENDS",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 33,
+          "path": [
+            "RECENT SALES OF UNREGISTERED SECURITIES"
+          ],
+          "title": "RECENT SALES OF UNREGISTERED SECURITIES",
+          "source": "font_fallback"
+        }
+      ]
+    },
+    {
+      "part": "Part II",
+      "item": "Item 6",
+      "item_title": "[RESERVED]",
+      "item_page": 33,
+      "page_range": [
+        33,
+        33
+      ],
+      "subsection_count": 2,
+      "sources": {
+        "layout": 0,
+        "layout_only": 2,
+        "font_fallback": 0
+      },
+      "by_level": {
+        "L1": [],
+        "L2": [
+          {
+            "title": "RECENT SALES OF UNREGISTERED SECURITIES",
+            "page": 33,
+            "path": [
+              "RECENT SALES OF UNREGISTERED SECURITIES"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "OVERVIEW",
+            "page": 33,
+            "path": [
+              "OVERVIEW"
+            ],
+            "source": "layout_only"
+          }
+        ],
+        "L3": [],
+        "L4": []
+      },
+      "reading_order": [
+        {
+          "level": 2,
+          "page": 33,
+          "path": [
+            "RECENT SALES OF UNREGISTERED SECURITIES"
+          ],
+          "title": "RECENT SALES OF UNREGISTERED SECURITIES",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 33,
+          "path": [
+            "OVERVIEW"
+          ],
+          "title": "OVERVIEW",
+          "source": "layout_only"
+        }
+      ]
+    },
+    {
+      "part": "Part II",
+      "item": "Item 7",
+      "item_title": "MANAGEMENT’S DISCUSSION AND ANALYSIS OF FINANCIAL CONDITION AND",
+      "item_page": 33,
+      "page_range": [
+        33,
+        46
+      ],
+      "subsection_count": 52,
+      "sources": {
+        "layout": 47,
+        "layout_only": 2,
+        "font_fallback": 3
+      },
+      "by_level": {
+        "L1": [],
+        "L2": [
+          {
+            "title": "RECENT SALES OF UNREGISTERED SECURITIES",
+            "page": 33,
+            "path": [
+              "RECENT SALES OF UNREGISTERED SECURITIES"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "OVERVIEW",
+            "page": 33,
+            "path": [
+              "OVERVIEW"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "RESULTS OF OPERATIONS",
+            "page": 33,
+            "path": [
+              "RESULTS OF OPERATIONS"
+            ],
+            "source": "font_fallback"
+          },
+          {
+            "title": "Industry Trends and Opportunities",
+            "page": 34,
+            "path": [
+              "Industry Trends and Opportunities"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Economic Conditions, Challenges, and Risks",
+            "page": 34,
+            "path": [
+              "Economic Conditions, Challenges, and Risks"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Seasonality",
+            "page": 35,
+            "path": [
+              "Seasonality"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Reportable Segments",
+            "page": 35,
+            "path": [
+              "Reportable Segments"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Metrics",
+            "page": 35,
+            "path": [
+              "Metrics"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Commercial",
+            "page": 35,
+            "path": [
+              "Commercial"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Productivity and Business Processes and Intelligent Cloud",
+            "page": 36,
+            "path": [
+              "Productivity and Business Processes and Intelligent Cloud"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "More Personal Computing",
+            "page": 36,
+            "path": [
+              "More Personal Computing"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "SUMMARY RESULTS OF OPERATIONS",
+            "page": 36,
+            "path": [
+              "SUMMARY RESULTS OF OPERATIONS"
+            ],
+            "source": "font_fallback"
+          },
+          {
+            "title": "Fiscal Year 2025 Compared with Fiscal Year 2024",
+            "page": 37,
+            "path": [
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "SEGMENT RESULTS OF OPERATIONS",
+            "page": 37,
+            "path": [
+              "SEGMENT RESULTS OF OPERATIONS"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Reportable Segments",
+            "page": 38,
+            "path": [
+              "Reportable Segments"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Fiscal Year 2025 Compared with Fiscal Year 2024",
+            "page": 38,
+            "path": [
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "OPERATING EXPENSES",
+            "page": 39,
+            "path": [
+              "OPERATING EXPENSES"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Research and Development",
+            "page": 39,
+            "path": [
+              "Research and Development"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Fiscal Year 2025 Compared with Fiscal Year 2024",
+            "page": 39,
+            "path": [
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Sales and Marketing",
+            "page": 39,
+            "path": [
+              "Sales and Marketing"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Fiscal Year 2025 Compared with Fiscal Year 2024",
+            "page": 39,
+            "path": [
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "General and Administrative",
+            "page": 40,
+            "path": [
+              "General and Administrative"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Fiscal Year 2025 Compared with Fiscal Year 2024",
+            "page": 40,
+            "path": [
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "OTHER INCOME (EXPENSE), NET",
+            "page": 40,
+            "path": [
+              "OTHER INCOME (EXPENSE), NET"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Fiscal Year 2025 Compared with Fiscal Year 2024",
+            "page": 40,
+            "path": [
+              "Fiscal Year 2025 Compared with Fiscal Year 2024"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "INCOME TAXES",
+            "page": 40,
+            "path": [
+              "INCOME TAXES"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Effective Tax Rate",
+            "page": 40,
+            "path": [
+              "Effective Tax Rate"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Uncertain Tax Positions",
+            "page": 41,
+            "path": [
+              "Uncertain Tax Positions"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "LIQUIDITY AND CAPITAL RESOURCES",
+            "page": 41,
+            "path": [
+              "LIQUIDITY AND CAPITAL RESOURCES"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Cash, Cash Equivalents, and Investments",
+            "page": 41,
+            "path": [
+              "Cash, Cash Equivalents, and Investments"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Valuation",
+            "page": 42,
+            "path": [
+              "Valuation"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Cash Flows",
+            "page": 42,
+            "path": [
+              "Cash Flows"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Debt Proceeds",
+            "page": 42,
+            "path": [
+              "Debt Proceeds"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Unearned Revenue",
+            "page": 42,
+            "path": [
+              "Unearned Revenue"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Material Cash Requirements and Other Obligations",
+            "page": 43,
+            "path": [
+              "Material Cash Requirements and Other Obligations"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Contractual Obligations",
+            "page": 43,
+            "path": [
+              "Contractual Obligations"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Income Taxes",
+            "page": 43,
+            "path": [
+              "Income Taxes"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Share Repurchases",
+            "page": 43,
+            "path": [
+              "Share Repurchases"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Dividends",
+            "page": 43,
+            "path": [
+              "Dividends"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Other Planned Uses of Capital",
+            "page": 44,
+            "path": [
+              "Other Planned Uses of Capital"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "RECENT ACCOUNTING GUIDANCE",
+            "page": 44,
+            "path": [
+              "RECENT ACCOUNTING GUIDANCE"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "CRITICAL ACCOUNTING ESTIMATES",
+            "page": 44,
+            "path": [
+              "CRITICAL ACCOUNTING ESTIMATES"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Revenue Recognition",
+            "page": 44,
+            "path": [
+              "Revenue Recognition"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Impairment of Investment Securities",
+            "page": 45,
+            "path": [
+              "Impairment of Investment Securities"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Goodwill",
+            "page": 45,
+            "path": [
+              "Goodwill"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Research and Development Costs",
+            "page": 45,
+            "path": [
+              "Research and Development Costs"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Legal and Other Contingencies",
+            "page": 46,
+            "path": [
+              "Legal and Other Contingencies"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Income Taxes",
+            "page": 46,
+            "path": [
+              "Income Taxes"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "STATEMENT OF MANAGEMENT’S RESPONSIBILITY FOR FINANCIAL STATEMENTS",
+            "page": 46,
+            "path": [
+              "STATEMENT OF MANAGEMENT’S RESPONSIBILITY FOR FINANCIAL STATEMENTS"
+            ],
+            "source": "layout"
+          }
+        ],
+        "L3": [
+          {
+            "title": "Productivity and Business Processes",
+            "page": 38,
+            "path": [
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "Productivity and Business Processes"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "More Personal Computing",
+            "page": 38,
+            "path": [
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "More Personal Computing"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Intelligent Cloud",
+            "page": 38,
+            "path": [
+              "Fiscal Year 2025 Compared with Fiscal Year 2024",
+              "Intelligent Cloud"
+            ],
+            "source": "font_fallback"
+          }
+        ],
+        "L4": []
+      },
+      "reading_order": [
+        {
+          "level": 2,
+          "page": 33,
+          "path": [
+            "RECENT SALES OF UNREGISTERED SECURITIES"
+          ],
+          "title": "RECENT SALES OF UNREGISTERED SECURITIES",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 33,
+          "path": [
+            "OVERVIEW"
+          ],
+          "title": "OVERVIEW",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 33,
+          "path": [
+            "RESULTS OF OPERATIONS"
+          ],
+          "title": "RESULTS OF OPERATIONS",
+          "source": "font_fallback"
+        },
+        {
+          "level": 2,
+          "page": 34,
+          "path": [
+            "Industry Trends and Opportunities"
+          ],
+          "title": "Industry Trends and Opportunities",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 34,
+          "path": [
+            "Economic Conditions, Challenges, and Risks"
+          ],
+          "title": "Economic Conditions, Challenges, and Risks",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 35,
+          "path": [
+            "Seasonality"
+          ],
+          "title": "Seasonality",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 35,
+          "path": [
+            "Reportable Segments"
+          ],
+          "title": "Reportable Segments",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 35,
+          "path": [
+            "Metrics"
+          ],
+          "title": "Metrics",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 35,
+          "path": [
+            "Commercial"
+          ],
+          "title": "Commercial",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 36,
+          "path": [
+            "Productivity and Business Processes and Intelligent Cloud"
+          ],
+          "title": "Productivity and Business Processes and Intelligent Cloud",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 36,
+          "path": [
+            "More Personal Computing"
+          ],
+          "title": "More Personal Computing",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 36,
+          "path": [
+            "SUMMARY RESULTS OF OPERATIONS"
+          ],
+          "title": "SUMMARY RESULTS OF OPERATIONS",
+          "source": "font_fallback"
+        },
+        {
+          "level": 2,
+          "page": 37,
+          "path": [
+            "Fiscal Year 2025 Compared with Fiscal Year 2024"
+          ],
+          "title": "Fiscal Year 2025 Compared with Fiscal Year 2024",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 37,
+          "path": [
+            "SEGMENT RESULTS OF OPERATIONS"
+          ],
+          "title": "SEGMENT RESULTS OF OPERATIONS",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 38,
+          "path": [
+            "Reportable Segments"
+          ],
+          "title": "Reportable Segments",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 38,
+          "path": [
+            "Fiscal Year 2025 Compared with Fiscal Year 2024"
+          ],
+          "title": "Fiscal Year 2025 Compared with Fiscal Year 2024",
+          "source": "layout"
+        },
+        {
+          "level": 3,
+          "page": 38,
+          "path": [
+            "Fiscal Year 2025 Compared with Fiscal Year 2024",
+            "Productivity and Business Processes"
+          ],
+          "title": "Productivity and Business Processes",
+          "source": "layout"
+        },
+        {
+          "level": 3,
+          "page": 38,
+          "path": [
+            "Fiscal Year 2025 Compared with Fiscal Year 2024",
+            "More Personal Computing"
+          ],
+          "title": "More Personal Computing",
+          "source": "layout"
+        },
+        {
+          "level": 3,
+          "page": 38,
+          "path": [
+            "Fiscal Year 2025 Compared with Fiscal Year 2024",
+            "Intelligent Cloud"
+          ],
+          "title": "Intelligent Cloud",
+          "source": "font_fallback"
+        },
+        {
+          "level": 2,
+          "page": 39,
+          "path": [
+            "OPERATING EXPENSES"
+          ],
+          "title": "OPERATING EXPENSES",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 39,
+          "path": [
+            "Research and Development"
+          ],
+          "title": "Research and Development",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 39,
+          "path": [
+            "Fiscal Year 2025 Compared with Fiscal Year 2024"
+          ],
+          "title": "Fiscal Year 2025 Compared with Fiscal Year 2024",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 39,
+          "path": [
+            "Sales and Marketing"
+          ],
+          "title": "Sales and Marketing",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 39,
+          "path": [
+            "Fiscal Year 2025 Compared with Fiscal Year 2024"
+          ],
+          "title": "Fiscal Year 2025 Compared with Fiscal Year 2024",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 40,
+          "path": [
+            "General and Administrative"
+          ],
+          "title": "General and Administrative",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 40,
+          "path": [
+            "Fiscal Year 2025 Compared with Fiscal Year 2024"
+          ],
+          "title": "Fiscal Year 2025 Compared with Fiscal Year 2024",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 40,
+          "path": [
+            "OTHER INCOME (EXPENSE), NET"
+          ],
+          "title": "OTHER INCOME (EXPENSE), NET",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 40,
+          "path": [
+            "Fiscal Year 2025 Compared with Fiscal Year 2024"
+          ],
+          "title": "Fiscal Year 2025 Compared with Fiscal Year 2024",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 40,
+          "path": [
+            "INCOME TAXES"
+          ],
+          "title": "INCOME TAXES",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 40,
+          "path": [
+            "Effective Tax Rate"
+          ],
+          "title": "Effective Tax Rate",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 41,
+          "path": [
+            "Uncertain Tax Positions"
+          ],
+          "title": "Uncertain Tax Positions",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 41,
+          "path": [
+            "LIQUIDITY AND CAPITAL RESOURCES"
+          ],
+          "title": "LIQUIDITY AND CAPITAL RESOURCES",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 41,
+          "path": [
+            "Cash, Cash Equivalents, and Investments"
+          ],
+          "title": "Cash, Cash Equivalents, and Investments",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 42,
+          "path": [
+            "Valuation"
+          ],
+          "title": "Valuation",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 42,
+          "path": [
+            "Cash Flows"
+          ],
+          "title": "Cash Flows",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 42,
+          "path": [
+            "Debt Proceeds"
+          ],
+          "title": "Debt Proceeds",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 42,
+          "path": [
+            "Unearned Revenue"
+          ],
+          "title": "Unearned Revenue",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 43,
+          "path": [
+            "Material Cash Requirements and Other Obligations"
+          ],
+          "title": "Material Cash Requirements and Other Obligations",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 43,
+          "path": [
+            "Contractual Obligations"
+          ],
+          "title": "Contractual Obligations",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 43,
+          "path": [
+            "Income Taxes"
+          ],
+          "title": "Income Taxes",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 43,
+          "path": [
+            "Share Repurchases"
+          ],
+          "title": "Share Repurchases",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 43,
+          "path": [
+            "Dividends"
+          ],
+          "title": "Dividends",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 44,
+          "path": [
+            "Other Planned Uses of Capital"
+          ],
+          "title": "Other Planned Uses of Capital",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 44,
+          "path": [
+            "RECENT ACCOUNTING GUIDANCE"
+          ],
+          "title": "RECENT ACCOUNTING GUIDANCE",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 44,
+          "path": [
+            "CRITICAL ACCOUNTING ESTIMATES"
+          ],
+          "title": "CRITICAL ACCOUNTING ESTIMATES",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 44,
+          "path": [
+            "Revenue Recognition"
+          ],
+          "title": "Revenue Recognition",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 45,
+          "path": [
+            "Impairment of Investment Securities"
+          ],
+          "title": "Impairment of Investment Securities",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 45,
+          "path": [
+            "Goodwill"
+          ],
+          "title": "Goodwill",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 45,
+          "path": [
+            "Research and Development Costs"
+          ],
+          "title": "Research and Development Costs",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 46,
+          "path": [
+            "Legal and Other Contingencies"
+          ],
+          "title": "Legal and Other Contingencies",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 46,
+          "path": [
+            "Income Taxes"
+          ],
+          "title": "Income Taxes",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 46,
+          "path": [
+            "STATEMENT OF MANAGEMENT’S RESPONSIBILITY FOR FINANCIAL STATEMENTS"
+          ],
+          "title": "STATEMENT OF MANAGEMENT’S RESPONSIBILITY FOR FINANCIAL STATEMENTS",
+          "source": "layout"
+        }
+      ]
+    },
+    {
+      "part": "Part II",
+      "item": "Item 7A",
+      "item_title": "QUANTITATIVE AND QUALITATIVE DISCLOSURES ABOUT MARKET RISK",
+      "item_page": 47,
+      "page_range": [
+        47,
+        47
+      ],
+      "subsection_count": 9,
+      "sources": {
+        "layout": 5,
+        "layout_only": 2,
+        "font_fallback": 2
+      },
+      "by_level": {
+        "L1": [],
+        "L2": [
+          {
+            "title": "PART II",
+            "page": 47,
+            "path": [
+              "PART II"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "RISKS",
+            "page": 47,
+            "path": [
+              "RISKS"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "Foreign Currencies",
+            "page": 47,
+            "path": [
+              "Foreign Currencies"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Interest Rate",
+            "page": 47,
+            "path": [
+              "Interest Rate"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Credit",
+            "page": 47,
+            "path": [
+              "Credit"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Equity",
+            "page": 47,
+            "path": [
+              "Equity"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "SENSITIVITY ANALYSIS",
+            "page": 47,
+            "path": [
+              "SENSITIVITY ANALYSIS"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Credit",
+            "page": 47,
+            "path": [
+              "Credit"
+            ],
+            "source": "font_fallback"
+          },
+          {
+            "title": "Equity",
+            "page": 47,
+            "path": [
+              "Equity"
+            ],
+            "source": "font_fallback"
+          }
+        ],
+        "L3": [],
+        "L4": []
+      },
+      "reading_order": [
+        {
+          "level": 2,
+          "page": 47,
+          "path": [
+            "PART II"
+          ],
+          "title": "PART II",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 47,
+          "path": [
+            "RISKS"
+          ],
+          "title": "RISKS",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 47,
+          "path": [
+            "Foreign Currencies"
+          ],
+          "title": "Foreign Currencies",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 47,
+          "path": [
+            "Interest Rate"
+          ],
+          "title": "Interest Rate",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 47,
+          "path": [
+            "Credit"
+          ],
+          "title": "Credit",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 47,
+          "path": [
+            "Equity"
+          ],
+          "title": "Equity",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 47,
+          "path": [
+            "SENSITIVITY ANALYSIS"
+          ],
+          "title": "SENSITIVITY ANALYSIS",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 47,
+          "path": [
+            "Credit"
+          ],
+          "title": "Credit",
+          "source": "font_fallback"
+        },
+        {
+          "level": 2,
+          "page": 47,
+          "path": [
+            "Equity"
+          ],
+          "title": "Equity",
+          "source": "font_fallback"
+        }
+      ]
+    },
+    {
+      "part": "Part II",
+      "item": "Item 8",
+      "item_title": "FINANCIAL STATEMENTS AND SUPPLEMENTARY DATA",
+      "item_page": 47,
+      "page_range": [
+        47,
+        82
+      ],
+      "subsection_count": 125,
+      "sources": {
+        "layout": 85,
+        "layout_only": 15,
+        "font_fallback": 25
+      },
+      "by_level": {
+        "L1": [],
+        "L2": [
+          {
+            "title": "PART II",
+            "page": 47,
+            "path": [
+              "PART II"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "RISKS",
+            "page": 47,
+            "path": [
+              "RISKS"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "Foreign Currencies",
+            "page": 47,
+            "path": [
+              "Foreign Currencies"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "Interest Rate",
+            "page": 47,
+            "path": [
+              "Interest Rate"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "Credit",
+            "page": 47,
+            "path": [
+              "Credit"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "Equity",
+            "page": 47,
+            "path": [
+              "Equity"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "SENSITIVITY ANALYSIS",
+            "page": 47,
+            "path": [
+              "SENSITIVITY ANALYSIS"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "INCOME STATEMENTS",
+            "page": 48,
+            "path": [
+              "INCOME STATEMENTS"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "PART II",
+            "page": 48,
+            "path": [
+              "PART II"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "COMPREHENSIVE INCOME STATEMENTS",
+            "page": 48,
+            "path": [
+              "COMPREHENSIVE INCOME STATEMENTS"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "BALANCE SHEETS",
+            "page": 49,
+            "path": [
+              "BALANCE SHEETS"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Assets",
+            "page": 49,
+            "path": [
+              "Assets"
+            ],
+            "source": "font_fallback"
+          },
+          {
+            "title": "Accounts receivable, net of allowance for doubtful accounts of $944 and $830",
+            "page": 49,
+            "path": [
+              "Accounts receivable, net of allowance for doubtful accounts of $944 and $830"
+            ],
+            "source": "font_fallback"
+          },
+          {
+            "title": "Property and equipment, net of accumulated depreciation of $93,653 and $76,421",
+            "page": 49,
+            "path": [
+              "Property and equipment, net of accumulated depreciation of $93,653 and $76,421"
+            ],
+            "source": "font_fallback"
+          },
+          {
+            "title": "Liabilities and stockholders’ equity",
+            "page": 49,
+            "path": [
+              "Liabilities and stockholders’ equity"
+            ],
+            "source": "font_fallback"
+          },
+          {
+            "title": "Common stock and paid-in capital – shares authorized 24,000; outstanding 7,434 and",
+            "page": 49,
+            "path": [
+              "Common stock and paid-in capital – shares authorized 24,000; outstanding 7,434 and"
+            ],
+            "source": "font_fallback"
+          },
+          {
+            "title": "PART II",
+            "page": 50,
+            "path": [
+              "PART II"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "CASH FLOWS STATEMENTS",
+            "page": 50,
+            "path": [
+              "CASH FLOWS STATEMENTS"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Operations",
+            "page": 50,
+            "path": [
+              "Operations"
+            ],
+            "source": "font_fallback"
+          },
+          {
+            "title": "Financing",
+            "page": 50,
+            "path": [
+              "Financing"
+            ],
+            "source": "font_fallback"
+          },
+          {
+            "title": "Investing",
+            "page": 50,
+            "path": [
+              "Investing"
+            ],
+            "source": "font_fallback"
+          },
+          {
+            "title": "PART II",
+            "page": 51,
+            "path": [
+              "PART II"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "STOCKHOLDERS’ EQUITY STATEMENTS",
+            "page": 51,
+            "path": [
+              "STOCKHOLDERS’ EQUITY STATEMENTS"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "NOTES TO FINANCIAL STATEMENTS",
+            "page": 51,
+            "path": [
+              "NOTES TO FINANCIAL STATEMENTS"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "NOTE 1 — ACCOUNTING POLICIES",
+            "page": 51,
+            "path": [
+              "NOTE 1 — ACCOUNTING POLICIES"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Accounting Principles",
+            "page": 51,
+            "path": [
+              "Accounting Principles"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Principles of Consolidation",
+            "page": 51,
+            "path": [
+              "Principles of Consolidation"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Recast of Certain Prior Period Information",
+            "page": 51,
+            "path": [
+              "Recast of Certain Prior Period Information"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Common stock and paid-in capital",
+            "page": 51,
+            "path": [
+              "Common stock and paid-in capital"
+            ],
+            "source": "font_fallback"
+          },
+          {
+            "title": "Retained earnings",
+            "page": 51,
+            "path": [
+              "Retained earnings"
+            ],
+            "source": "font_fallback"
+          },
+          {
+            "title": "Accumulated other comprehensive loss",
+            "page": 51,
+            "path": [
+              "Accumulated other comprehensive loss"
+            ],
+            "source": "font_fallback"
+          },
+          {
+            "title": "Estimates and Assumptions",
+            "page": 52,
+            "path": [
+              "Estimates and Assumptions"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Foreign Currencies",
+            "page": 52,
+            "path": [
+              "Foreign Currencies"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Revenue",
+            "page": 52,
+            "path": [
+              "Revenue"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Product Revenue and Service and Other Revenue",
+            "page": 52,
+            "path": [
+              "Product Revenue and Service and Other Revenue"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Revenue Recognition",
+            "page": 52,
+            "path": [
+              "Revenue Recognition"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Contract Balances and Other Receivables",
+            "page": 54,
+            "path": [
+              "Contract Balances and Other Receivables"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Assets Recognized from Costs to Obtain a Contract with a Customer",
+            "page": 54,
+            "path": [
+              "Assets Recognized from Costs to Obtain a Contract with a Customer"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Cost of Revenue",
+            "page": 55,
+            "path": [
+              "Cost of Revenue"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Research and Development",
+            "page": 55,
+            "path": [
+              "Research and Development"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Sales and Marketing",
+            "page": 55,
+            "path": [
+              "Sales and Marketing"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Stock-Based Compensation",
+            "page": 55,
+            "path": [
+              "Stock-Based Compensation"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Income Taxes",
+            "page": 55,
+            "path": [
+              "Income Taxes"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Financial Instruments",
+            "page": 55,
+            "path": [
+              "Financial Instruments"
+            ],
+            "source": "font_fallback"
+          },
+          {
+            "title": "Investments",
+            "page": 56,
+            "path": [
+              "Investments"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Derivatives",
+            "page": 56,
+            "path": [
+              "Derivatives"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Fair Value Measurements",
+            "page": 56,
+            "path": [
+              "Fair Value Measurements"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Property and Equipment",
+            "page": 57,
+            "path": [
+              "Property and Equipment"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Leases",
+            "page": 57,
+            "path": [
+              "Leases"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Goodwill",
+            "page": 58,
+            "path": [
+              "Goodwill"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Intangible Assets",
+            "page": 58,
+            "path": [
+              "Intangible Assets"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Related Party Transactions",
+            "page": 58,
+            "path": [
+              "Related Party Transactions"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Recent Accounting Guidance",
+            "page": 58,
+            "path": [
+              "Recent Accounting Guidance"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Recently Adopted Accounting Guidance",
+            "page": 58,
+            "path": [
+              "Recently Adopted Accounting Guidance"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Recent Accounting Guidance Not Yet Adopted",
+            "page": 58,
+            "path": [
+              "Recent Accounting Guidance Not Yet Adopted"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "NOTE 2 — EARNINGS PER SHARE",
+            "page": 59,
+            "path": [
+              "NOTE 2 — EARNINGS PER SHARE"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "NOTE 3 — OTHER INCOME (EXPENSE), NET",
+            "page": 59,
+            "path": [
+              "NOTE 3 — OTHER INCOME (EXPENSE), NET"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Net Recognized Gains (Losses) on Investments",
+            "page": 59,
+            "path": [
+              "Net Recognized Gains (Losses) on Investments"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "NOTE 4 — INVESTMENTS",
+            "page": 60,
+            "path": [
+              "NOTE 4 — INVESTMENTS"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Investment Components",
+            "page": 60,
+            "path": [
+              "Investment Components"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Certificates of deposit Level 2",
+            "page": 60,
+            "path": [
+              "Certificates of deposit Level 2"
+            ],
+            "source": "font_fallback"
+          },
+          {
+            "title": "PART II",
+            "page": 61,
+            "path": [
+              "PART II"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "Certificates of deposit Level 2",
+            "page": 61,
+            "path": [
+              "Certificates of deposit Level 2"
+            ],
+            "source": "font_fallback"
+          },
+          {
+            "title": "Unrealized Losses on Debt Investments",
+            "page": 62,
+            "path": [
+              "Unrealized Losses on Debt Investments"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Debt Investment Maturities",
+            "page": 62,
+            "path": [
+              "Debt Investment Maturities"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "NOTE 5 — DERIVATIVES",
+            "page": 62,
+            "path": [
+              "NOTE 5 — DERIVATIVES"
+            ],
+            "source": "font_fallback"
+          },
+          {
+            "title": "Foreign Currencies",
+            "page": 63,
+            "path": [
+              "Foreign Currencies"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Interest Rate",
+            "page": 63,
+            "path": [
+              "Interest Rate"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Equity",
+            "page": 63,
+            "path": [
+              "Equity"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Credit",
+            "page": 63,
+            "path": [
+              "Credit"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Credit-Risk-Related Contingent Features",
+            "page": 63,
+            "path": [
+              "Credit-Risk-Related Contingent Features"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Fair Values of Derivative Instruments",
+            "page": 64,
+            "path": [
+              "Fair Values of Derivative Instruments"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "NOTE 6 — PROPERTY AND EQUIPMENT",
+            "page": 65,
+            "path": [
+              "NOTE 6 — PROPERTY AND EQUIPMENT"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "NOTE 7 — BUSINESS COMBINATIONS",
+            "page": 65,
+            "path": [
+              "NOTE 7 — BUSINESS COMBINATIONS"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Activision Blizzard, Inc.",
+            "page": 65,
+            "path": [
+              "Activision Blizzard, Inc."
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "NOTE 8 — GOODWILL",
+            "page": 66,
+            "path": [
+              "NOTE 8 — GOODWILL"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Goodwill Impairment",
+            "page": 67,
+            "path": [
+              "Goodwill Impairment"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "NOTE 9 — INTANGIBLE ASSETS",
+            "page": 67,
+            "path": [
+              "NOTE 9 — INTANGIBLE ASSETS"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "NOTE 10 — DEBT",
+            "page": 68,
+            "path": [
+              "NOTE 10 — DEBT"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Short-term Debt",
+            "page": 68,
+            "path": [
+              "Short-term Debt"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Long-term Debt",
+            "page": 68,
+            "path": [
+              "Long-term Debt"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "NOTE 11 — INCOME TAXES",
+            "page": 69,
+            "path": [
+              "NOTE 11 — INCOME TAXES"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Provision for Income Taxes",
+            "page": 69,
+            "path": [
+              "Provision for Income Taxes"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Effective Tax Rate",
+            "page": 70,
+            "path": [
+              "Effective Tax Rate"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Uncertain Tax Positions",
+            "page": 71,
+            "path": [
+              "Uncertain Tax Positions"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "NOTE 12 — UNEARNED REVENUE",
+            "page": 72,
+            "path": [
+              "NOTE 12 — UNEARNED REVENUE"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "NOTE 13 — LEASES",
+            "page": 73,
+            "path": [
+              "NOTE 13 — LEASES"
+            ],
+            "source": "font_fallback"
+          },
+          {
+            "title": "NOTE 14 — CONTINGENCIES",
+            "page": 74,
+            "path": [
+              "NOTE 14 — CONTINGENCIES"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Irish Data Protection Commission Matter",
+            "page": 74,
+            "path": [
+              "Irish Data Protection Commission Matter"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Other Contingencies",
+            "page": 74,
+            "path": [
+              "Other Contingencies"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "NOTE 15 — STOCKHOLDERS’ EQUITY",
+            "page": 74,
+            "path": [
+              "NOTE 15 — STOCKHOLDERS’ EQUITY"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Shares Outstanding",
+            "page": 74,
+            "path": [
+              "Shares Outstanding"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Share Repurchases",
+            "page": 75,
+            "path": [
+              "Share Repurchases"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Dividends",
+            "page": 75,
+            "path": [
+              "Dividends"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "NOTE 16 — ACCUMULATED OTHER COMPREHENSIVE INCOME (LOSS)",
+            "page": 76,
+            "path": [
+              "NOTE 16 — ACCUMULATED OTHER COMPREHENSIVE INCOME (LOSS)"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "NOTE 17 — EMPLOYEE STOCK AND SAVINGS PLANS",
+            "page": 76,
+            "path": [
+              "NOTE 17 — EMPLOYEE STOCK AND SAVINGS PLANS"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Stock Plans",
+            "page": 76,
+            "path": [
+              "Stock Plans"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Unrealized gains (losses), net of tax of $20, $(4), and $9",
+            "page": 76,
+            "path": [
+              "Unrealized gains (losses), net of tax of $20, $(4), and $9"
+            ],
+            "source": "font_fallback"
+          },
+          {
+            "title": "Net change related to derivatives, net of tax of $(1), $6, and $(4)",
+            "page": 76,
+            "path": [
+              "Net change related to derivatives, net of tax of $(1), $6, and $(4)"
+            ],
+            "source": "font_fallback"
+          },
+          {
+            "title": "Unrealized gains (losses), net of tax of $411, $247, and $(393)",
+            "page": 76,
+            "path": [
+              "Unrealized gains (losses), net of tax of $411, $247, and $(393)"
+            ],
+            "source": "font_fallback"
+          },
+          {
+            "title": "Net change related to investments, net of tax of $414, $258, and $(373)",
+            "page": 76,
+            "path": [
+              "Net change related to investments, net of tax of $414, $258, and $(373)"
+            ],
+            "source": "font_fallback"
+          },
+          {
+            "title": "Translation adjustments and other, net of tax of $8, $0, and $0",
+            "page": 76,
+            "path": [
+              "Translation adjustments and other, net of tax of $8, $0, and $0"
+            ],
+            "source": "font_fallback"
+          },
+          {
+            "title": "Executive Incentive Plan",
+            "page": 77,
+            "path": [
+              "Executive Incentive Plan"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Activity for All Stock Plans",
+            "page": 77,
+            "path": [
+              "Activity for All Stock Plans"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Employee Stock Purchase Plan",
+            "page": 77,
+            "path": [
+              "Employee Stock Purchase Plan"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Savings Plans",
+            "page": 78,
+            "path": [
+              "Savings Plans"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "NOTE 18 — SEGMENT INFORMATION AND GEOGRAPHIC DATA",
+            "page": 78,
+            "path": [
+              "NOTE 18 — SEGMENT INFORMATION AND GEOGRAPHIC DATA"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Productivity and Business Processes",
+            "page": 78,
+            "path": [
+              "Productivity and Business Processes"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Intelligent Cloud",
+            "page": 78,
+            "path": [
+              "Intelligent Cloud"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "More Personal Computing",
+            "page": 78,
+            "path": [
+              "More Personal Computing"
+            ],
+            "source": "font_fallback"
+          },
+          {
+            "title": "PART II",
+            "page": 81,
+            "path": [
+              "PART II"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "REPORT OF INDEPENDENT REGISTERED PUBLIC ACCOUNTING FIRM",
+            "page": 81,
+            "path": [
+              "REPORT OF INDEPENDENT REGISTERED PUBLIC ACCOUNTING FIRM"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Opinion on the Financial Statements",
+            "page": 81,
+            "path": [
+              "Opinion on the Financial Statements"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Basis for Opinion",
+            "page": 81,
+            "path": [
+              "Basis for Opinion"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Critical Audit Matters",
+            "page": 81,
+            "path": [
+              "Critical Audit Matters"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Revenue Recognition – Refer to Note 1 to the financial statements",
+            "page": 82,
+            "path": [
+              "Revenue Recognition – Refer to Note 1 to the financial statements"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Income Taxes – Uncertain Tax Positions – Refer to Note 11 to the financial statements",
+            "page": 83,
+            "path": [
+              "Income Taxes – Uncertain Tax Positions – Refer to Note 11 to the financial statements"
+            ],
+            "source": "font_fallback"
+          }
+        ],
+        "L3": [
+          {
+            "title": "Nature of Products and Services",
+            "page": 52,
+            "path": [
+              "Revenue Recognition",
+              "Nature of Products and Services"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Significant Judgments",
+            "page": 53,
+            "path": [
+              "Revenue Recognition",
+              "Significant Judgments"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Segment Reporting – Improvements to Reportable Segment Disclosures",
+            "page": 58,
+            "path": [
+              "Recently Adopted Accounting Guidance",
+              "Segment Reporting – Improvements to Reportable Segment Disclosures"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "Income Statement – Disaggregation of Income Statement Expenses",
+            "page": 58,
+            "path": [
+              "Recent Accounting Guidance Not Yet Adopted",
+              "Income Statement – Disaggregation of Income Statement Expenses"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Income Taxes – Improvements to Income Tax Disclosures",
+            "page": 58,
+            "path": [
+              "Recent Accounting Guidance Not Yet Adopted",
+              "Income Taxes – Improvements to Income Tax Disclosures"
+            ],
+            "source": "font_fallback"
+          },
+          {
+            "title": "Critical Audit Matter Description",
+            "page": 82,
+            "path": [
+              "Revenue Recognition – Refer to Note 1 to the financial statements",
+              "Critical Audit Matter Description"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "How the Critical Audit Matter Was Addressed in the Audit",
+            "page": 82,
+            "path": [
+              "Revenue Recognition – Refer to Note 1 to the financial statements",
+              "How the Critical Audit Matter Was Addressed in the Audit"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "Critical Audit Matter Description",
+            "page": 83,
+            "path": [
+              "Income Taxes – Uncertain Tax Positions – Refer to Note 11 to the financial statements",
+              "Critical Audit Matter Description"
+            ],
+            "source": "font_fallback"
+          }
+        ],
+        "L4": []
+      },
+      "reading_order": [
+        {
+          "level": 2,
+          "page": 47,
+          "path": [
+            "PART II"
+          ],
+          "title": "PART II",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 47,
+          "path": [
+            "RISKS"
+          ],
+          "title": "RISKS",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 47,
+          "path": [
+            "Foreign Currencies"
+          ],
+          "title": "Foreign Currencies",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 47,
+          "path": [
+            "Interest Rate"
+          ],
+          "title": "Interest Rate",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 47,
+          "path": [
+            "Credit"
+          ],
+          "title": "Credit",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 47,
+          "path": [
+            "Equity"
+          ],
+          "title": "Equity",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 47,
+          "path": [
+            "SENSITIVITY ANALYSIS"
+          ],
+          "title": "SENSITIVITY ANALYSIS",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 48,
+          "path": [
+            "INCOME STATEMENTS"
+          ],
+          "title": "INCOME STATEMENTS",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 48,
+          "path": [
+            "PART II"
+          ],
+          "title": "PART II",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 48,
+          "path": [
+            "COMPREHENSIVE INCOME STATEMENTS"
+          ],
+          "title": "COMPREHENSIVE INCOME STATEMENTS",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 49,
+          "path": [
+            "BALANCE SHEETS"
+          ],
+          "title": "BALANCE SHEETS",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 49,
+          "path": [
+            "Assets"
+          ],
+          "title": "Assets",
+          "source": "font_fallback"
+        },
+        {
+          "level": 2,
+          "page": 49,
+          "path": [
+            "Accounts receivable, net of allowance for doubtful accounts of $944 and $830"
+          ],
+          "title": "Accounts receivable, net of allowance for doubtful accounts of $944 and $830",
+          "source": "font_fallback"
+        },
+        {
+          "level": 2,
+          "page": 49,
+          "path": [
+            "Property and equipment, net of accumulated depreciation of $93,653 and $76,421"
+          ],
+          "title": "Property and equipment, net of accumulated depreciation of $93,653 and $76,421",
+          "source": "font_fallback"
+        },
+        {
+          "level": 2,
+          "page": 49,
+          "path": [
+            "Liabilities and stockholders’ equity"
+          ],
+          "title": "Liabilities and stockholders’ equity",
+          "source": "font_fallback"
+        },
+        {
+          "level": 2,
+          "page": 49,
+          "path": [
+            "Common stock and paid-in capital – shares authorized 24,000; outstanding 7,434 and"
+          ],
+          "title": "Common stock and paid-in capital – shares authorized 24,000; outstanding 7,434 and",
+          "source": "font_fallback"
+        },
+        {
+          "level": 2,
+          "page": 50,
+          "path": [
+            "PART II"
+          ],
+          "title": "PART II",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 50,
+          "path": [
+            "CASH FLOWS STATEMENTS"
+          ],
+          "title": "CASH FLOWS STATEMENTS",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 50,
+          "path": [
+            "Operations"
+          ],
+          "title": "Operations",
+          "source": "font_fallback"
+        },
+        {
+          "level": 2,
+          "page": 50,
+          "path": [
+            "Financing"
+          ],
+          "title": "Financing",
+          "source": "font_fallback"
+        },
+        {
+          "level": 2,
+          "page": 50,
+          "path": [
+            "Investing"
+          ],
+          "title": "Investing",
+          "source": "font_fallback"
+        },
+        {
+          "level": 2,
+          "page": 51,
+          "path": [
+            "PART II"
+          ],
+          "title": "PART II",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 51,
+          "path": [
+            "STOCKHOLDERS’ EQUITY STATEMENTS"
+          ],
+          "title": "STOCKHOLDERS’ EQUITY STATEMENTS",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 51,
+          "path": [
+            "NOTES TO FINANCIAL STATEMENTS"
+          ],
+          "title": "NOTES TO FINANCIAL STATEMENTS",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 51,
+          "path": [
+            "NOTE 1 — ACCOUNTING POLICIES"
+          ],
+          "title": "NOTE 1 — ACCOUNTING POLICIES",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 51,
+          "path": [
+            "Accounting Principles"
+          ],
+          "title": "Accounting Principles",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 51,
+          "path": [
+            "Principles of Consolidation"
+          ],
+          "title": "Principles of Consolidation",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 51,
+          "path": [
+            "Recast of Certain Prior Period Information"
+          ],
+          "title": "Recast of Certain Prior Period Information",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 51,
+          "path": [
+            "Common stock and paid-in capital"
+          ],
+          "title": "Common stock and paid-in capital",
+          "source": "font_fallback"
+        },
+        {
+          "level": 2,
+          "page": 51,
+          "path": [
+            "Retained earnings"
+          ],
+          "title": "Retained earnings",
+          "source": "font_fallback"
+        },
+        {
+          "level": 2,
+          "page": 51,
+          "path": [
+            "Accumulated other comprehensive loss"
+          ],
+          "title": "Accumulated other comprehensive loss",
+          "source": "font_fallback"
+        },
+        {
+          "level": 2,
+          "page": 52,
+          "path": [
+            "Estimates and Assumptions"
+          ],
+          "title": "Estimates and Assumptions",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 52,
+          "path": [
+            "Foreign Currencies"
+          ],
+          "title": "Foreign Currencies",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 52,
+          "path": [
+            "Revenue"
+          ],
+          "title": "Revenue",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 52,
+          "path": [
+            "Product Revenue and Service and Other Revenue"
+          ],
+          "title": "Product Revenue and Service and Other Revenue",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 52,
+          "path": [
+            "Revenue Recognition"
+          ],
+          "title": "Revenue Recognition",
+          "source": "layout"
+        },
+        {
+          "level": 3,
+          "page": 52,
+          "path": [
+            "Revenue Recognition",
+            "Nature of Products and Services"
+          ],
+          "title": "Nature of Products and Services",
+          "source": "layout"
+        },
+        {
+          "level": 3,
+          "page": 53,
+          "path": [
+            "Revenue Recognition",
+            "Significant Judgments"
+          ],
+          "title": "Significant Judgments",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 54,
+          "path": [
+            "Contract Balances and Other Receivables"
+          ],
+          "title": "Contract Balances and Other Receivables",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 54,
+          "path": [
+            "Assets Recognized from Costs to Obtain a Contract with a Customer"
+          ],
+          "title": "Assets Recognized from Costs to Obtain a Contract with a Customer",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 55,
+          "path": [
+            "Cost of Revenue"
+          ],
+          "title": "Cost of Revenue",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 55,
+          "path": [
+            "Research and Development"
+          ],
+          "title": "Research and Development",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 55,
+          "path": [
+            "Sales and Marketing"
+          ],
+          "title": "Sales and Marketing",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 55,
+          "path": [
+            "Stock-Based Compensation"
+          ],
+          "title": "Stock-Based Compensation",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 55,
+          "path": [
+            "Income Taxes"
+          ],
+          "title": "Income Taxes",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 55,
+          "path": [
+            "Financial Instruments"
+          ],
+          "title": "Financial Instruments",
+          "source": "font_fallback"
+        },
+        {
+          "level": 2,
+          "page": 56,
+          "path": [
+            "Investments"
+          ],
+          "title": "Investments",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 56,
+          "path": [
+            "Derivatives"
+          ],
+          "title": "Derivatives",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 56,
+          "path": [
+            "Fair Value Measurements"
+          ],
+          "title": "Fair Value Measurements",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 57,
+          "path": [
+            "Property and Equipment"
+          ],
+          "title": "Property and Equipment",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 57,
+          "path": [
+            "Leases"
+          ],
+          "title": "Leases",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 58,
+          "path": [
+            "Goodwill"
+          ],
+          "title": "Goodwill",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 58,
+          "path": [
+            "Intangible Assets"
+          ],
+          "title": "Intangible Assets",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 58,
+          "path": [
+            "Related Party Transactions"
+          ],
+          "title": "Related Party Transactions",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 58,
+          "path": [
+            "Recent Accounting Guidance"
+          ],
+          "title": "Recent Accounting Guidance",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 58,
+          "path": [
+            "Recently Adopted Accounting Guidance"
+          ],
+          "title": "Recently Adopted Accounting Guidance",
+          "source": "layout"
+        },
+        {
+          "level": 3,
+          "page": 58,
+          "path": [
+            "Recently Adopted Accounting Guidance",
+            "Segment Reporting – Improvements to Reportable Segment Disclosures"
+          ],
+          "title": "Segment Reporting – Improvements to Reportable Segment Disclosures",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 58,
+          "path": [
+            "Recent Accounting Guidance Not Yet Adopted"
+          ],
+          "title": "Recent Accounting Guidance Not Yet Adopted",
+          "source": "layout"
+        },
+        {
+          "level": 3,
+          "page": 58,
+          "path": [
+            "Recent Accounting Guidance Not Yet Adopted",
+            "Income Statement – Disaggregation of Income Statement Expenses"
+          ],
+          "title": "Income Statement – Disaggregation of Income Statement Expenses",
+          "source": "layout"
+        },
+        {
+          "level": 3,
+          "page": 58,
+          "path": [
+            "Recent Accounting Guidance Not Yet Adopted",
+            "Income Taxes – Improvements to Income Tax Disclosures"
+          ],
+          "title": "Income Taxes – Improvements to Income Tax Disclosures",
+          "source": "font_fallback"
+        },
+        {
+          "level": 2,
+          "page": 59,
+          "path": [
+            "NOTE 2 — EARNINGS PER SHARE"
+          ],
+          "title": "NOTE 2 — EARNINGS PER SHARE",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 59,
+          "path": [
+            "NOTE 3 — OTHER INCOME (EXPENSE), NET"
+          ],
+          "title": "NOTE 3 — OTHER INCOME (EXPENSE), NET",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 59,
+          "path": [
+            "Net Recognized Gains (Losses) on Investments"
+          ],
+          "title": "Net Recognized Gains (Losses) on Investments",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 60,
+          "path": [
+            "NOTE 4 — INVESTMENTS"
+          ],
+          "title": "NOTE 4 — INVESTMENTS",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 60,
+          "path": [
+            "Investment Components"
+          ],
+          "title": "Investment Components",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 60,
+          "path": [
+            "Certificates of deposit Level 2"
+          ],
+          "title": "Certificates of deposit Level 2",
+          "source": "font_fallback"
+        },
+        {
+          "level": 2,
+          "page": 61,
+          "path": [
+            "PART II"
+          ],
+          "title": "PART II",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 61,
+          "path": [
+            "Certificates of deposit Level 2"
+          ],
+          "title": "Certificates of deposit Level 2",
+          "source": "font_fallback"
+        },
+        {
+          "level": 2,
+          "page": 62,
+          "path": [
+            "Unrealized Losses on Debt Investments"
+          ],
+          "title": "Unrealized Losses on Debt Investments",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 62,
+          "path": [
+            "Debt Investment Maturities"
+          ],
+          "title": "Debt Investment Maturities",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 62,
+          "path": [
+            "NOTE 5 — DERIVATIVES"
+          ],
+          "title": "NOTE 5 — DERIVATIVES",
+          "source": "font_fallback"
+        },
+        {
+          "level": 2,
+          "page": 63,
+          "path": [
+            "Foreign Currencies"
+          ],
+          "title": "Foreign Currencies",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 63,
+          "path": [
+            "Interest Rate"
+          ],
+          "title": "Interest Rate",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 63,
+          "path": [
+            "Equity"
+          ],
+          "title": "Equity",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 63,
+          "path": [
+            "Credit"
+          ],
+          "title": "Credit",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 63,
+          "path": [
+            "Credit-Risk-Related Contingent Features"
+          ],
+          "title": "Credit-Risk-Related Contingent Features",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 64,
+          "path": [
+            "Fair Values of Derivative Instruments"
+          ],
+          "title": "Fair Values of Derivative Instruments",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 65,
+          "path": [
+            "NOTE 6 — PROPERTY AND EQUIPMENT"
+          ],
+          "title": "NOTE 6 — PROPERTY AND EQUIPMENT",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 65,
+          "path": [
+            "NOTE 7 — BUSINESS COMBINATIONS"
+          ],
+          "title": "NOTE 7 — BUSINESS COMBINATIONS",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 65,
+          "path": [
+            "Activision Blizzard, Inc."
+          ],
+          "title": "Activision Blizzard, Inc.",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 66,
+          "path": [
+            "NOTE 8 — GOODWILL"
+          ],
+          "title": "NOTE 8 — GOODWILL",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 67,
+          "path": [
+            "Goodwill Impairment"
+          ],
+          "title": "Goodwill Impairment",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 67,
+          "path": [
+            "NOTE 9 — INTANGIBLE ASSETS"
+          ],
+          "title": "NOTE 9 — INTANGIBLE ASSETS",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 68,
+          "path": [
+            "NOTE 10 — DEBT"
+          ],
+          "title": "NOTE 10 — DEBT",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 68,
+          "path": [
+            "Short-term Debt"
+          ],
+          "title": "Short-term Debt",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 68,
+          "path": [
+            "Long-term Debt"
+          ],
+          "title": "Long-term Debt",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 69,
+          "path": [
+            "NOTE 11 — INCOME TAXES"
+          ],
+          "title": "NOTE 11 — INCOME TAXES",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 69,
+          "path": [
+            "Provision for Income Taxes"
+          ],
+          "title": "Provision for Income Taxes",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 70,
+          "path": [
+            "Effective Tax Rate"
+          ],
+          "title": "Effective Tax Rate",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 71,
+          "path": [
+            "Uncertain Tax Positions"
+          ],
+          "title": "Uncertain Tax Positions",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 72,
+          "path": [
+            "NOTE 12 — UNEARNED REVENUE"
+          ],
+          "title": "NOTE 12 — UNEARNED REVENUE",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 73,
+          "path": [
+            "NOTE 13 — LEASES"
+          ],
+          "title": "NOTE 13 — LEASES",
+          "source": "font_fallback"
+        },
+        {
+          "level": 2,
+          "page": 74,
+          "path": [
+            "NOTE 14 — CONTINGENCIES"
+          ],
+          "title": "NOTE 14 — CONTINGENCIES",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 74,
+          "path": [
+            "Irish Data Protection Commission Matter"
+          ],
+          "title": "Irish Data Protection Commission Matter",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 74,
+          "path": [
+            "Other Contingencies"
+          ],
+          "title": "Other Contingencies",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 74,
+          "path": [
+            "NOTE 15 — STOCKHOLDERS’ EQUITY"
+          ],
+          "title": "NOTE 15 — STOCKHOLDERS’ EQUITY",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 74,
+          "path": [
+            "Shares Outstanding"
+          ],
+          "title": "Shares Outstanding",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 75,
+          "path": [
+            "Share Repurchases"
+          ],
+          "title": "Share Repurchases",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 75,
+          "path": [
+            "Dividends"
+          ],
+          "title": "Dividends",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 76,
+          "path": [
+            "NOTE 16 — ACCUMULATED OTHER COMPREHENSIVE INCOME (LOSS)"
+          ],
+          "title": "NOTE 16 — ACCUMULATED OTHER COMPREHENSIVE INCOME (LOSS)",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 76,
+          "path": [
+            "NOTE 17 — EMPLOYEE STOCK AND SAVINGS PLANS"
+          ],
+          "title": "NOTE 17 — EMPLOYEE STOCK AND SAVINGS PLANS",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 76,
+          "path": [
+            "Stock Plans"
+          ],
+          "title": "Stock Plans",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 76,
+          "path": [
+            "Unrealized gains (losses), net of tax of $20, $(4), and $9"
+          ],
+          "title": "Unrealized gains (losses), net of tax of $20, $(4), and $9",
+          "source": "font_fallback"
+        },
+        {
+          "level": 2,
+          "page": 76,
+          "path": [
+            "Net change related to derivatives, net of tax of $(1), $6, and $(4)"
+          ],
+          "title": "Net change related to derivatives, net of tax of $(1), $6, and $(4)",
+          "source": "font_fallback"
+        },
+        {
+          "level": 2,
+          "page": 76,
+          "path": [
+            "Unrealized gains (losses), net of tax of $411, $247, and $(393)"
+          ],
+          "title": "Unrealized gains (losses), net of tax of $411, $247, and $(393)",
+          "source": "font_fallback"
+        },
+        {
+          "level": 2,
+          "page": 76,
+          "path": [
+            "Net change related to investments, net of tax of $414, $258, and $(373)"
+          ],
+          "title": "Net change related to investments, net of tax of $414, $258, and $(373)",
+          "source": "font_fallback"
+        },
+        {
+          "level": 2,
+          "page": 76,
+          "path": [
+            "Translation adjustments and other, net of tax of $8, $0, and $0"
+          ],
+          "title": "Translation adjustments and other, net of tax of $8, $0, and $0",
+          "source": "font_fallback"
+        },
+        {
+          "level": 2,
+          "page": 77,
+          "path": [
+            "Executive Incentive Plan"
+          ],
+          "title": "Executive Incentive Plan",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 77,
+          "path": [
+            "Activity for All Stock Plans"
+          ],
+          "title": "Activity for All Stock Plans",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 77,
+          "path": [
+            "Employee Stock Purchase Plan"
+          ],
+          "title": "Employee Stock Purchase Plan",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 78,
+          "path": [
+            "Savings Plans"
+          ],
+          "title": "Savings Plans",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 78,
+          "path": [
+            "NOTE 18 — SEGMENT INFORMATION AND GEOGRAPHIC DATA"
+          ],
+          "title": "NOTE 18 — SEGMENT INFORMATION AND GEOGRAPHIC DATA",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 78,
+          "path": [
+            "Productivity and Business Processes"
+          ],
+          "title": "Productivity and Business Processes",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 78,
+          "path": [
+            "Intelligent Cloud"
+          ],
+          "title": "Intelligent Cloud",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 78,
+          "path": [
+            "More Personal Computing"
+          ],
+          "title": "More Personal Computing",
+          "source": "font_fallback"
+        },
+        {
+          "level": 2,
+          "page": 81,
+          "path": [
+            "PART II"
+          ],
+          "title": "PART II",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 81,
+          "path": [
+            "REPORT OF INDEPENDENT REGISTERED PUBLIC ACCOUNTING FIRM"
+          ],
+          "title": "REPORT OF INDEPENDENT REGISTERED PUBLIC ACCOUNTING FIRM",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 81,
+          "path": [
+            "Opinion on the Financial Statements"
+          ],
+          "title": "Opinion on the Financial Statements",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 81,
+          "path": [
+            "Basis for Opinion"
+          ],
+          "title": "Basis for Opinion",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 81,
+          "path": [
+            "Critical Audit Matters"
+          ],
+          "title": "Critical Audit Matters",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 82,
+          "path": [
+            "Revenue Recognition – Refer to Note 1 to the financial statements"
+          ],
+          "title": "Revenue Recognition – Refer to Note 1 to the financial statements",
+          "source": "layout"
+        },
+        {
+          "level": 3,
+          "page": 82,
+          "path": [
+            "Revenue Recognition – Refer to Note 1 to the financial statements",
+            "Critical Audit Matter Description"
+          ],
+          "title": "Critical Audit Matter Description",
+          "source": "layout"
+        },
+        {
+          "level": 3,
+          "page": 82,
+          "path": [
+            "Revenue Recognition – Refer to Note 1 to the financial statements",
+            "How the Critical Audit Matter Was Addressed in the Audit"
+          ],
+          "title": "How the Critical Audit Matter Was Addressed in the Audit",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 83,
+          "path": [
+            "Income Taxes – Uncertain Tax Positions – Refer to Note 11 to the financial statements"
+          ],
+          "title": "Income Taxes – Uncertain Tax Positions – Refer to Note 11 to the financial statements",
+          "source": "font_fallback"
+        },
+        {
+          "level": 3,
+          "page": 83,
+          "path": [
+            "Income Taxes – Uncertain Tax Positions – Refer to Note 11 to the financial statements",
+            "Critical Audit Matter Description"
+          ],
+          "title": "Critical Audit Matter Description",
+          "source": "font_fallback"
+        }
+      ]
+    },
+    {
+      "part": "Part II",
+      "item": "Item 9",
+      "item_title": "CHANGES IN AND DISAGREEMENTS WITH ACCOUNTANTS ON ACCOUNTING AND",
+      "item_page": 83,
+      "page_range": [
+        83,
+        83
+      ],
+      "subsection_count": 4,
+      "sources": {
+        "layout": 0,
+        "layout_only": 3,
+        "font_fallback": 1
+      },
+      "by_level": {
+        "L1": [],
+        "L2": [
+          {
+            "title": "PART II",
+            "page": 83,
+            "path": [
+              "PART II"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "FINANCIAL DISCLOSURE",
+            "page": 83,
+            "path": [
+              "FINANCIAL DISCLOSURE"
+            ],
+            "source": "font_fallback"
+          }
+        ],
+        "L3": [
+          {
+            "title": "Critical Audit Matter Description",
+            "page": 83,
+            "path": [
+              "Critical Audit Matter Description"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "How the Critical Audit Matter Was Addressed in the Audit",
+            "page": 83,
+            "path": [
+              "How the Critical Audit Matter Was Addressed in the Audit"
+            ],
+            "source": "layout_only"
+          }
+        ],
+        "L4": []
+      },
+      "reading_order": [
+        {
+          "level": 3,
+          "page": 83,
+          "path": [
+            "Critical Audit Matter Description"
+          ],
+          "title": "Critical Audit Matter Description",
+          "source": "layout_only"
+        },
+        {
+          "level": 3,
+          "page": 83,
+          "path": [
+            "How the Critical Audit Matter Was Addressed in the Audit"
+          ],
+          "title": "How the Critical Audit Matter Was Addressed in the Audit",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 83,
+          "path": [
+            "PART II"
+          ],
+          "title": "PART II",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 83,
+          "path": [
+            "FINANCIAL DISCLOSURE"
+          ],
+          "title": "FINANCIAL DISCLOSURE",
+          "source": "font_fallback"
+        }
+      ]
+    },
+    {
+      "part": "Part II",
+      "item": "Item 9A",
+      "item_title": "CONTROLS AND PROCEDURES",
+      "item_page": 83,
+      "page_range": [
+        83,
+        84
+      ],
+      "subsection_count": 8,
+      "sources": {
+        "layout": 4,
+        "layout_only": 3,
+        "font_fallback": 1
+      },
+      "by_level": {
+        "L1": [],
+        "L2": [
+          {
+            "title": "PART II",
+            "page": 83,
+            "path": [
+              "PART II"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "REPORT OF MANAGEMENT ON INTERNAL CONTROL OVER FINANCIAL REPORTING",
+            "page": 84,
+            "path": [
+              "REPORT OF MANAGEMENT ON INTERNAL CONTROL OVER FINANCIAL REPORTING"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "REPORT OF INDEPENDENT REGISTERED PUBLIC ACCOUNTING FIRM",
+            "page": 84,
+            "path": [
+              "REPORT OF INDEPENDENT REGISTERED PUBLIC ACCOUNTING FIRM"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Opinion on Internal Control over Financial Reporting",
+            "page": 84,
+            "path": [
+              "Opinion on Internal Control over Financial Reporting"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Basis for Opinion",
+            "page": 84,
+            "path": [
+              "Basis for Opinion"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "Definition and Limitations of Internal Control over Financial Reporting",
+            "page": 85,
+            "path": [
+              "Definition and Limitations of Internal Control over Financial Reporting"
+            ],
+            "source": "font_fallback"
+          }
+        ],
+        "L3": [
+          {
+            "title": "Critical Audit Matter Description",
+            "page": 83,
+            "path": [
+              "Critical Audit Matter Description"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "How the Critical Audit Matter Was Addressed in the Audit",
+            "page": 83,
+            "path": [
+              "How the Critical Audit Matter Was Addressed in the Audit"
+            ],
+            "source": "layout_only"
+          }
+        ],
+        "L4": []
+      },
+      "reading_order": [
+        {
+          "level": 3,
+          "page": 83,
+          "path": [
+            "Critical Audit Matter Description"
+          ],
+          "title": "Critical Audit Matter Description",
+          "source": "layout_only"
+        },
+        {
+          "level": 3,
+          "page": 83,
+          "path": [
+            "How the Critical Audit Matter Was Addressed in the Audit"
+          ],
+          "title": "How the Critical Audit Matter Was Addressed in the Audit",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 83,
+          "path": [
+            "PART II"
+          ],
+          "title": "PART II",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 84,
+          "path": [
+            "REPORT OF MANAGEMENT ON INTERNAL CONTROL OVER FINANCIAL REPORTING"
+          ],
+          "title": "REPORT OF MANAGEMENT ON INTERNAL CONTROL OVER FINANCIAL REPORTING",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 84,
+          "path": [
+            "REPORT OF INDEPENDENT REGISTERED PUBLIC ACCOUNTING FIRM"
+          ],
+          "title": "REPORT OF INDEPENDENT REGISTERED PUBLIC ACCOUNTING FIRM",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 84,
+          "path": [
+            "Opinion on Internal Control over Financial Reporting"
+          ],
+          "title": "Opinion on Internal Control over Financial Reporting",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 84,
+          "path": [
+            "Basis for Opinion"
+          ],
+          "title": "Basis for Opinion",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 85,
+          "path": [
+            "Definition and Limitations of Internal Control over Financial Reporting"
+          ],
+          "title": "Definition and Limitations of Internal Control over Financial Reporting",
+          "source": "font_fallback"
+        }
+      ]
+    },
+    {
+      "part": "Part II",
+      "item": "Item 9B",
+      "item_title": "OTHER INFORMATION",
+      "item_page": 85,
+      "page_range": [
+        85,
+        85
+      ],
+      "subsection_count": 4,
+      "sources": {
+        "layout": 1,
+        "layout_only": 3,
+        "font_fallback": 0
+      },
+      "by_level": {
+        "L1": [],
+        "L2": [
+          {
+            "title": "Definition and Limitations of Internal Control over Financial Reporting",
+            "page": 85,
+            "path": [
+              "Definition and Limitations of Internal Control over Financial Reporting"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "Insider Trading Arrangements",
+            "page": 85,
+            "path": [
+              "Insider Trading Arrangements"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "PART III",
+            "page": 85,
+            "path": [
+              "PART III"
+            ],
+            "source": "layout_only"
+          }
+        ],
+        "L3": [],
+        "L4": [
+          {
+            "title": "/s/ DELOITTE & TOUCHE LLP",
+            "page": 85,
+            "path": [
+              "Definition and Limitations of Internal Control over Financial Reporting",
+              "/s/ DELOITTE & TOUCHE LLP"
+            ],
+            "source": "layout_only"
+          }
+        ]
+      },
+      "reading_order": [
+        {
+          "level": 2,
+          "page": 85,
+          "path": [
+            "Definition and Limitations of Internal Control over Financial Reporting"
+          ],
+          "title": "Definition and Limitations of Internal Control over Financial Reporting",
+          "source": "layout_only"
+        },
+        {
+          "level": 4,
+          "page": 85,
+          "path": [
+            "Definition and Limitations of Internal Control over Financial Reporting",
+            "/s/ DELOITTE & TOUCHE LLP"
+          ],
+          "title": "/s/ DELOITTE & TOUCHE LLP",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 85,
+          "path": [
+            "Insider Trading Arrangements"
+          ],
+          "title": "Insider Trading Arrangements",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 85,
+          "path": [
+            "PART III"
+          ],
+          "title": "PART III",
+          "source": "layout_only"
+        }
+      ]
+    },
+    {
+      "part": "Part II",
+      "item": "Item 9C",
+      "item_title": "DISCLOSURE REGARDING FOREIGN JURISDICTIONS THAT PREVENT",
+      "item_page": 85,
+      "page_range": [
+        85,
+        85
+      ],
+      "subsection_count": 4,
+      "sources": {
+        "layout": 0,
+        "layout_only": 4,
+        "font_fallback": 0
+      },
+      "by_level": {
+        "L1": [],
+        "L2": [
+          {
+            "title": "Definition and Limitations of Internal Control over Financial Reporting",
+            "page": 85,
+            "path": [
+              "Definition and Limitations of Internal Control over Financial Reporting"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "Insider Trading Arrangements",
+            "page": 85,
+            "path": [
+              "Insider Trading Arrangements"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "PART III",
+            "page": 85,
+            "path": [
+              "PART III"
+            ],
+            "source": "layout_only"
+          }
+        ],
+        "L3": [],
+        "L4": [
+          {
+            "title": "/s/ DELOITTE & TOUCHE LLP",
+            "page": 85,
+            "path": [
+              "Definition and Limitations of Internal Control over Financial Reporting",
+              "/s/ DELOITTE & TOUCHE LLP"
+            ],
+            "source": "layout_only"
+          }
+        ]
+      },
+      "reading_order": [
+        {
+          "level": 2,
+          "page": 85,
+          "path": [
+            "Definition and Limitations of Internal Control over Financial Reporting"
+          ],
+          "title": "Definition and Limitations of Internal Control over Financial Reporting",
+          "source": "layout_only"
+        },
+        {
+          "level": 4,
+          "page": 85,
+          "path": [
+            "Definition and Limitations of Internal Control over Financial Reporting",
+            "/s/ DELOITTE & TOUCHE LLP"
+          ],
+          "title": "/s/ DELOITTE & TOUCHE LLP",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 85,
+          "path": [
+            "Insider Trading Arrangements"
+          ],
+          "title": "Insider Trading Arrangements",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 85,
+          "path": [
+            "PART III"
+          ],
+          "title": "PART III",
+          "source": "layout_only"
+        }
+      ]
+    },
+    {
+      "part": "Part III",
+      "item": "Item 10",
+      "item_title": "DIRECTORS, EXECUTIVE OFFICERS, AND CORPORATE GOVERNANCE",
+      "item_page": 85,
+      "page_range": [
+        85,
+        85
+      ],
+      "subsection_count": 4,
+      "sources": {
+        "layout": 0,
+        "layout_only": 4,
+        "font_fallback": 0
+      },
+      "by_level": {
+        "L1": [],
+        "L2": [
+          {
+            "title": "Definition and Limitations of Internal Control over Financial Reporting",
+            "page": 85,
+            "path": [
+              "Definition and Limitations of Internal Control over Financial Reporting"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "Insider Trading Arrangements",
+            "page": 85,
+            "path": [
+              "Insider Trading Arrangements"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "PART III",
+            "page": 85,
+            "path": [
+              "PART III"
+            ],
+            "source": "layout_only"
+          }
+        ],
+        "L3": [],
+        "L4": [
+          {
+            "title": "/s/ DELOITTE & TOUCHE LLP",
+            "page": 85,
+            "path": [
+              "Definition and Limitations of Internal Control over Financial Reporting",
+              "/s/ DELOITTE & TOUCHE LLP"
+            ],
+            "source": "layout_only"
+          }
+        ]
+      },
+      "reading_order": [
+        {
+          "level": 2,
+          "page": 85,
+          "path": [
+            "Definition and Limitations of Internal Control over Financial Reporting"
+          ],
+          "title": "Definition and Limitations of Internal Control over Financial Reporting",
+          "source": "layout_only"
+        },
+        {
+          "level": 4,
+          "page": 85,
+          "path": [
+            "Definition and Limitations of Internal Control over Financial Reporting",
+            "/s/ DELOITTE & TOUCHE LLP"
+          ],
+          "title": "/s/ DELOITTE & TOUCHE LLP",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 85,
+          "path": [
+            "Insider Trading Arrangements"
+          ],
+          "title": "Insider Trading Arrangements",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 85,
+          "path": [
+            "PART III"
+          ],
+          "title": "PART III",
+          "source": "layout_only"
+        }
+      ]
+    },
+    {
+      "part": "Part III",
+      "item": "Item 11",
+      "item_title": "EXECUTIVE COMPENSATION",
+      "item_page": 86,
+      "page_range": [
+        86,
+        86
+      ],
+      "subsection_count": 2,
+      "sources": {
+        "layout": 0,
+        "layout_only": 2,
+        "font_fallback": 0
+      },
+      "by_level": {
+        "L1": [],
+        "L2": [
+          {
+            "title": "PART IV",
+            "page": 86,
+            "path": [
+              "PART IV"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "(a)Financial Statements and Schedules",
+            "page": 86,
+            "path": [
+              "(a)Financial Statements and Schedules"
+            ],
+            "source": "layout_only"
+          }
+        ],
+        "L3": [],
+        "L4": []
+      },
+      "reading_order": [
+        {
+          "level": 2,
+          "page": 86,
+          "path": [
+            "PART IV"
+          ],
+          "title": "PART IV",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 86,
+          "path": [
+            "(a)Financial Statements and Schedules"
+          ],
+          "title": "(a)Financial Statements and Schedules",
+          "source": "layout_only"
+        }
+      ]
+    },
+    {
+      "part": "Part III",
+      "item": "Item 12",
+      "item_title": "SECURITY OWNERSHIP OF CERTAIN BENEFICIAL OWNERS AND MANAGEMENT",
+      "item_page": 86,
+      "page_range": [
+        86,
+        86
+      ],
+      "subsection_count": 3,
+      "sources": {
+        "layout": 0,
+        "layout_only": 2,
+        "font_fallback": 1
+      },
+      "by_level": {
+        "L1": [],
+        "L2": [
+          {
+            "title": "PART IV",
+            "page": 86,
+            "path": [
+              "PART IV"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "(a)Financial Statements and Schedules",
+            "page": 86,
+            "path": [
+              "(a)Financial Statements and Schedules"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "AND RELATED STOCKHOLDER MATTERS",
+            "page": 86,
+            "path": [
+              "AND RELATED STOCKHOLDER MATTERS"
+            ],
+            "source": "font_fallback"
+          }
+        ],
+        "L3": [],
+        "L4": []
+      },
+      "reading_order": [
+        {
+          "level": 2,
+          "page": 86,
+          "path": [
+            "PART IV"
+          ],
+          "title": "PART IV",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 86,
+          "path": [
+            "(a)Financial Statements and Schedules"
+          ],
+          "title": "(a)Financial Statements and Schedules",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 86,
+          "path": [
+            "AND RELATED STOCKHOLDER MATTERS"
+          ],
+          "title": "AND RELATED STOCKHOLDER MATTERS",
+          "source": "font_fallback"
+        }
+      ]
+    },
+    {
+      "part": "Part III",
+      "item": "Item 13",
+      "item_title": "CERTAIN RELATIONSHIPS AND RELATED TRANSACTIONS, AND DIRECTOR",
+      "item_page": 86,
+      "page_range": [
+        86,
+        86
+      ],
+      "subsection_count": 2,
+      "sources": {
+        "layout": 0,
+        "layout_only": 2,
+        "font_fallback": 0
+      },
+      "by_level": {
+        "L1": [],
+        "L2": [
+          {
+            "title": "PART IV",
+            "page": 86,
+            "path": [
+              "PART IV"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "(a)Financial Statements and Schedules",
+            "page": 86,
+            "path": [
+              "(a)Financial Statements and Schedules"
+            ],
+            "source": "layout_only"
+          }
+        ],
+        "L3": [],
+        "L4": []
+      },
+      "reading_order": [
+        {
+          "level": 2,
+          "page": 86,
+          "path": [
+            "PART IV"
+          ],
+          "title": "PART IV",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 86,
+          "path": [
+            "(a)Financial Statements and Schedules"
+          ],
+          "title": "(a)Financial Statements and Schedules",
+          "source": "layout_only"
+        }
+      ]
+    },
+    {
+      "part": "Part III",
+      "item": "Item 14",
+      "item_title": "PRINCIPAL ACCOUNTANT FEES AND SERVICES",
+      "item_page": 86,
+      "page_range": [
+        86,
+        286
+      ],
+      "subsection_count": 6,
+      "sources": {
+        "layout": 2,
+        "layout_only": 4,
+        "font_fallback": 0
+      },
+      "by_level": {
+        "L1": [],
+        "L2": [
+          {
+            "title": "PART IV",
+            "page": 86,
+            "path": [
+              "PART IV"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "(a) Financial Statements and Schedules",
+            "page": 86,
+            "path": [
+              "(a) Financial Statements and Schedules"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "(b) Exhibit Listing",
+            "page": 87,
+            "path": [
+              "(b) Exhibit Listing"
+            ],
+            "source": "layout"
+          },
+          {
+            "title": "PART IV",
+            "page": 92,
+            "path": [
+              "PART IV"
+            ],
+            "source": "layout_only"
+          },
+          {
+            "title": "SIGNATURES",
+            "page": 93,
+            "path": [
+              "SIGNATURES"
+            ],
+            "source": "layout_only"
+          }
+        ],
+        "L3": [],
+        "L4": [
+          {
+            "title": "MICROSOFT CORPORATION",
+            "page": 93,
+            "path": [
+              "SIGNATURES",
+              "MICROSOFT CORPORATION"
+            ],
+            "source": "layout_only"
+          }
+        ]
+      },
+      "reading_order": [
+        {
+          "level": 2,
+          "page": 86,
+          "path": [
+            "PART IV"
+          ],
+          "title": "PART IV",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 86,
+          "path": [
+            "(a) Financial Statements and Schedules"
+          ],
+          "title": "(a) Financial Statements and Schedules",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 87,
+          "path": [
+            "(b) Exhibit Listing"
+          ],
+          "title": "(b) Exhibit Listing",
+          "source": "layout"
+        },
+        {
+          "level": 2,
+          "page": 92,
+          "path": [
+            "PART IV"
+          ],
+          "title": "PART IV",
+          "source": "layout_only"
+        },
+        {
+          "level": 2,
+          "page": 93,
+          "path": [
+            "SIGNATURES"
+          ],
+          "title": "SIGNATURES",
+          "source": "layout_only"
+        },
+        {
+          "level": 4,
+          "page": 93,
+          "path": [
+            "SIGNATURES",
+            "MICROSOFT CORPORATION"
+          ],
+          "title": "MICROSOFT CORPORATION",
+          "source": "layout_only"
+        }
+      ]
+    }
+  ]
+}

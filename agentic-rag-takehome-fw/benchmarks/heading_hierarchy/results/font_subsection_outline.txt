@@ -1,0 +1,277 @@
+Item 1
+  What We Offer
+  Commitment to Sustainability
+  OPERATING SEGMENTS
+  Productivity and Business Processes
+  Microsoft 365 Commercial Products and Cloud Services
+  Microsoft 365 Consumer Products and Cloud Services
+  LinkedIn
+  Dynamics Products and Cloud Services
+    Competition
+  Intelligent Cloud
+  Server Products and Cloud Services
+  Enterprise and Partner Services
+    Competition
+  More Personal Computing
+  Windows and Devices
+  Gaming
+  Search and News Advertising
+    Competition
+  HUMAN CAPITAL RESOURCES
+  RESEARCH AND DEVELOPMENT
+  Product and Service Development
+  Intellectual Property
+  DISTRIBUTION, SALES, AND MARKETING
+  Direct
+  Distributors and Resellers
+  OEMs
+  LICENSING OPTIONS
+  Volume Licensing Programs
+  Enterprise Agreement
+  Microsoft Customer Agreement
+  Microsoft Online Subscription Agreement
+  Microsoft Products and Services Agreement
+  Open Value
+  Select Plus
+  Partner Programs
+  GOVERNMENT REGULATION
+  INFORMATION ABOUT OUR EXECUTIVE OFFICERS
+  AVAILABLE INFORMATION
+
+Item 1A
+  STRATEGIC AND COMPETITIVE RISKS
+  Competition in the technology sector
+  Competition among platform-based ecosystems
+  Business model competition
+  RISKS RELATING TO THE EVOLUTION OF OUR BUSINESS
+  CYBERSECURITY, DATA PRIVACY, AND PLATFORM ABUSE RISKS
+  Security of our information technology
+  Security of our products, services, devices, and customers’ data
+  Development and deployment of defensive measures
+  Advertising, professional, marketplace, and gaming platform abuses
+  Other digital safety abuses
+  OPERATIONAL RISKS
+  LEGAL, REGULATORY, AND LITIGATION RISKS
+  Competition laws and new market regulation: Government agencies closely scrutinize us under U.S. and
+  Trade: Increasing trade laws, policies, sanctions, and other regulatory requirements also affect our
+  INTELLECTUAL PROPERTY RISKS
+  GENERAL RISKS
+
+Item 1B
+
+Item 1C
+  RISK MANAGEMENT AND STRATEGY
+
+Item 2
+
+Item 3
+
+Item 4
+
+Item 5
+  MARKET AND STOCKHOLDERS
+  SHARE REPURCHASES AND DIVIDENDS
+  RECENT SALES OF UNREGISTERED SECURITIES
+
+Item 6
+
+Item 7
+  RESULTS OF OPERATIONS
+  Industry Trends and Opportunities
+  Economic Conditions, Challenges, and Risks
+  Seasonality
+  Reportable Segments
+  Metrics
+  Commercial
+  Productivity and Business Processes and Intelligent Cloud
+  More Personal Computing
+  SUMMARY RESULTS OF OPERATIONS
+  Fiscal Year 2025 Compared with Fiscal Year 2024
+  SEGMENT RESULTS OF OPERATIONS
+  Reportable Segments
+  Fiscal Year 2025 Compared with Fiscal Year 2024
+    Productivity and Business Processes
+    Intelligent Cloud
+    More Personal Computing
+  OPERATING EXPENSES
+  Research and Development
+  Fiscal Year 2025 Compared with Fiscal Year 2024
+  Sales and Marketing
+  Fiscal Year 2025 Compared with Fiscal Year 2024
+  General and Administrative
+  Fiscal Year 2025 Compared with Fiscal Year 2024
+  OTHER INCOME (EXPENSE), NET
+  Fiscal Year 2025 Compared with Fiscal Year 2024
+  INCOME TAXES
+  Effective Tax Rate
+  Uncertain Tax Positions
+  LIQUIDITY AND CAPITAL RESOURCES
+  Cash, Cash Equivalents, and Investments
+  Valuation
+  Cash Flows
+  Debt Proceeds
+  Unearned Revenue
+  Material Cash Requirements and Other Obligations
+  Contractual Obligations
+  Income Taxes
+  Share Repurchases
+  Dividends
+  Other Planned Uses of Capital
+  RECENT ACCOUNTING GUIDANCE
+  CRITICAL ACCOUNTING ESTIMATES
+  Revenue Recognition
+  Impairment of Investment Securities
+  Goodwill
+  Research and Development Costs
+  Legal and Other Contingencies
+  Income Taxes
+  STATEMENT OF MANAGEMENT’S RESPONSIBILITY FOR FINANCIAL STATEMENTS
+
+Item 7A
+  Foreign Currencies
+  Interest Rate
+  Credit
+  Equity
+  SENSITIVITY ANALYSIS
+  Credit
+  Equity
+
+Item 8
+  INCOME STATEMENTS
+  COMPREHENSIVE INCOME STATEMENTS
+  BALANCE SHEETS
+  Assets
+  Accounts receivable, net of allowance for doubtful accounts of $944 and $830
+  Property and equipment, net of accumulated depreciation of $93,653 and $76,421
+  Liabilities and stockholders’ equity
+  Common stock and paid-in capital – shares authorized 24,000; outstanding 7,434 and
+  CASH FLOWS STATEMENTS
+  Operations
+  Financing
+  Investing
+  STOCKHOLDERS’ EQUITY STATEMENTS
+  Common stock and paid-in capital
+  Retained earnings
+  Accumulated other comprehensive loss
+  NOTES TO FINANCIAL STATEMENTS
+  NOTE 1 — ACCOUNTING POLICIES
+  Accounting Principles
+  Principles of Consolidation
+  Recast of Certain Prior Period Information
+  Estimates and Assumptions
+  Foreign Currencies
+  Revenue
+  Product Revenue and Service and Other Revenue
+  Revenue Recognition
+    Nature of Products and Services
+    Significant Judgments
+  Contract Balances and Other Receivables
+  Assets Recognized from Costs to Obtain a Contract with a Customer
+  Cost of Revenue
+  Research and Development
+  Sales and Marketing
+  Stock-Based Compensation
+  Income Taxes
+  Financial Instruments
+  Investments
+  Derivatives
+  Fair Value Measurements
+  Property and Equipment
+  Leases
+  Goodwill
+  Intangible Assets
+  Related Party Transactions
+  Recent Accounting Guidance
+  Recently Adopted Accounting Guidance
+  Recent Accounting Guidance Not Yet Adopted
+    Income Taxes – Improvements to Income Tax Disclosures
+    Income Statement – Disaggregation of Income Statement Expenses
+  NOTE 2 — EARNINGS PER SHARE
+  NOTE 3 — OTHER INCOME (EXPENSE), NET
+  Net Recognized Gains (Losses) on Investments
+  NOTE 4 — INVESTMENTS
+  Investment Components
+  Certificates of deposit Level 2
+  Certificates of deposit Level 2
+  Unrealized Losses on Debt Investments
+  Debt Investment Maturities
+  NOTE 5 — DERIVATIVES
+  Foreign Currencies
+  Interest Rate
+  Equity
+  Credit
+  Credit-Risk-Related Contingent Features
+  Fair Values of Derivative Instruments
+  NOTE 6 — PROPERTY AND EQUIPMENT
+  NOTE 7 — BUSINESS COMBINATIONS
+  NOTE 8 — GOODWILL
+  Goodwill Impairment
+  NOTE 9 — INTANGIBLE ASSETS
+  NOTE 10 — DEBT
+  Short-term Debt
+  Long-term Debt
+  NOTE 11 — INCOME TAXES
+  Provision for Income Taxes
+  Effective Tax Rate
+  Uncertain Tax Positions
+  NOTE 12 — UNEARNED REVENUE
+  NOTE 13 — LEASES
+  NOTE 14 — CONTINGENCIES
+  Irish Data Protection Commission Matter
+  Other Contingencies
+  NOTE 15 — STOCKHOLDERS’ EQUITY
+  Shares Outstanding
+  Share Repurchases
+  Dividends
+  NOTE 16 — ACCUMULATED OTHER COMPREHENSIVE INCOME (LOSS)
+  Unrealized gains (losses), net of tax of $20, $(4), and $9
+  Net change related to derivatives, net of tax of $(1), $6, and $(4)
+  Unrealized gains (losses), net of tax of $411, $247, and $(393)
+  Net change related to investments, net of tax of $414, $258, and $(373)
+  Translation adjustments and other, net of tax of $8, $0, and $0
+  NOTE 17 — EMPLOYEE STOCK AND SAVINGS PLANS
+  Stock Plans
+  Executive Incentive Plan
+  Activity for All Stock Plans
+  Employee Stock Purchase Plan
+  Savings Plans
+  NOTE 18 — SEGMENT INFORMATION AND GEOGRAPHIC DATA
+  Productivity and Business Processes
+  Intelligent Cloud
+  More Personal Computing
+  REPORT OF INDEPENDENT REGISTERED PUBLIC ACCOUNTING FIRM
+  Opinion on the Financial Statements
+  Basis for Opinion
+  Critical Audit Matters
+  Revenue Recognition – Refer to Note 1 to the financial statements
+    Critical Audit Matter Description
+  Income Taxes – Uncertain Tax Positions – Refer to Note 11 to the financial statements
+    Critical Audit Matter Description
+
+Item 9
+  FINANCIAL DISCLOSURE
+
+Item 9A
+  REPORT OF MANAGEMENT ON INTERNAL CONTROL OVER FINANCIAL REPORTING
+  REPORT OF INDEPENDENT REGISTERED PUBLIC ACCOUNTING FIRM
+  Opinion on Internal Control over Financial Reporting
+  Basis for Opinion
+  Definition and Limitations of Internal Control over Financial Reporting
+
+Item 9B
+  Insider Trading Arrangements
+
+Item 9C
+
+Item 10
+
+Item 11
+
+Item 12
+  AND RELATED STOCKHOLDER MATTERS
+
+Item 13
+
+Item 14
+  (a) Financial Statements and Schedules
+  (b) Exhibit Listing

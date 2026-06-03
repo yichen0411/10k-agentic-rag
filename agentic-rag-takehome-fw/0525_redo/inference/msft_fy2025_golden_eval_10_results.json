@@ -1,0 +1,1908 @@
+{
+  "dataset_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/0525_redo/common/msft_fy2025_golden_eval_50.json",
+  "workspace": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d",
+  "settings": {
+    "vector_top_k": 10,
+    "bm25_top_k": 10,
+    "rerank_top_n": 3,
+    "table_threshold": 0.75,
+    "rerank_model": "accounts/fireworks/models/qwen3-reranker-8b",
+    "answer_model": "claude-sonnet-4-20250514",
+    "judge_model": "claude-sonnet-4-20250514",
+    "balanced_limit": 10,
+    "limit": null
+  },
+  "summary": {
+    "n": 10,
+    "retrieval": {
+      "recall_ks": [
+        1,
+        3,
+        5,
+        10,
+        15
+      ],
+      "eval_top_k": 15,
+      "text_questions": {
+        "n": 7,
+        "vector": {
+          "recall_at_1": 0.8571,
+          "recall_at_3": 0.8571,
+          "recall_at_5": 1.0,
+          "recall_at_10": 1.0,
+          "recall_at_15": 1.0
+        },
+        "bm25": {
+          "recall_at_1": 0.7143,
+          "recall_at_3": 1.0,
+          "recall_at_5": 1.0,
+          "recall_at_10": 1.0,
+          "recall_at_15": 1.0
+        },
+        "merged": {
+          "recall_at_1": 0.8571,
+          "recall_at_3": 0.8571,
+          "recall_at_5": 1.0,
+          "recall_at_10": 1.0,
+          "recall_at_15": 1.0
+        },
+        "best_of_vector_bm25": {
+          "recall_at_1": 1.0,
+          "recall_at_3": 1.0,
+          "recall_at_5": 1.0,
+          "recall_at_10": 1.0,
+          "recall_at_15": 1.0
+        }
+      },
+      "table_questions": {
+        "n": 3,
+        "table_vector": {
+          "recall_at_1": 0.6667,
+          "recall_at_3": 0.6667,
+          "recall_at_5": 0.6667,
+          "recall_at_10": 1.0,
+          "recall_at_15": 1.0
+        }
+      },
+      "fusion_gain_at_k": {
+        "at_1": -0.1,
+        "at_3": -0.1,
+        "at_5": 0.0,
+        "at_10": 0.0,
+        "at_15": 0.0
+      }
+    },
+    "text_merged_recall_at_1": 0.8571,
+    "table_vector_recall_at_1": 0.6667,
+    "text_merged_recall_at_3": 0.8571,
+    "table_vector_recall_at_3": 0.6667,
+    "text_merged_recall_at_5": 1.0,
+    "table_vector_recall_at_5": 0.6667,
+    "text_merged_recall_at_10": 1.0,
+    "table_vector_recall_at_10": 1.0,
+    "text_merged_recall_at_15": 1.0,
+    "table_vector_recall_at_15": 1.0,
+    "rerank_kick_out_rate": 0.1,
+    "rerank_position_improvement_mean": 0.4286,
+    "mean_faithfulness": 4.8,
+    "mean_answer_relevancy": 4.6,
+    "mean_llm_judge_score": 4.5,
+    "by_question_type": {
+      "text_semantic": {
+        "n": 4,
+        "retrieval": {
+          "vector": {
+            "recall_at_1": 1.0,
+            "recall_at_3": 1.0,
+            "recall_at_5": 1.0,
+            "recall_at_10": 1.0,
+            "recall_at_15": 1.0
+          },
+          "bm25": {
+            "recall_at_1": 0.75,
+            "recall_at_3": 1.0,
+            "recall_at_5": 1.0,
+            "recall_at_10": 1.0,
+            "recall_at_15": 1.0
+          },
+          "merged": {
+            "recall_at_1": 1.0,
+            "recall_at_3": 1.0,
+            "recall_at_5": 1.0,
+            "recall_at_10": 1.0,
+            "recall_at_15": 1.0
+          },
+          "table_vector": null
+        },
+        "rerank_kick_out_rate": 0.0,
+        "mean_faithfulness": 5.0,
+        "mean_answer_relevancy": 5.0,
+        "mean_llm_judge_score": 5.0
+      },
+      "text_keyword": {
+        "n": 3,
+        "retrieval": {
+          "vector": {
+            "recall_at_1": 0.6667,
+            "recall_at_3": 0.6667,
+            "recall_at_5": 1.0,
+            "recall_at_10": 1.0,
+            "recall_at_15": 1.0
+          },
+          "bm25": {
+            "recall_at_1": 0.6667,
+            "recall_at_3": 1.0,
+            "recall_at_5": 1.0,
+            "recall_at_10": 1.0,
+            "recall_at_15": 1.0
+          },
+          "merged": {
+            "recall_at_1": 0.6667,
+            "recall_at_3": 0.6667,
+            "recall_at_5": 1.0,
+            "recall_at_10": 1.0,
+            "recall_at_15": 1.0
+          },
+          "table_vector": null
+        },
+        "rerank_kick_out_rate": 0.0,
+        "mean_faithfulness": 5.0,
+        "mean_answer_relevancy": 5.0,
+        "mean_llm_judge_score": 5.0
+      },
+      "table": {
+        "n": 3,
+        "retrieval": {
+          "vector": {
+            "recall_at_1": 0.0,
+            "recall_at_3": 0.0,
+            "recall_at_5": 0.0,
+            "recall_at_10": 0.0,
+            "recall_at_15": 0.3333
+          },
+          "bm25": {
+            "recall_at_1": 0.0,
+            "recall_at_3": 0.0,
+            "recall_at_5": 0.0,
+            "recall_at_10": 0.0,
+            "recall_at_15": 0.0
+          },
+          "merged": {
+            "recall_at_1": 0.0,
+            "recall_at_3": 0.0,
+            "recall_at_5": 0.0,
+            "recall_at_10": 0.0,
+            "recall_at_15": 0.3333
+          },
+          "table_vector": {
+            "recall_at_1": 0.6667,
+            "recall_at_3": 0.6667,
+            "recall_at_5": 0.6667,
+            "recall_at_10": 1.0,
+            "recall_at_15": 1.0
+          }
+        },
+        "rerank_kick_out_rate": 0.3333,
+        "mean_faithfulness": 4.3333,
+        "mean_answer_relevancy": 3.6667,
+        "mean_llm_judge_score": 3.3333
+      }
+    },
+    "latency": {
+      "mean_load_sec": 0.2547,
+      "mean_vector_search_sec": 0.7674,
+      "mean_rerank_sec": 0.5893,
+      "mean_context_expansion_sec": 0.0034,
+      "mean_answer_sec": 6.4311,
+      "mean_judge_sec": 6.1682,
+      "mean_total_sec": 15.8226
+    },
+    "latency_by_question_type": {
+      "text_semantic": {
+        "mean_load_sec": 0.219,
+        "mean_vector_search_sec": 0.7417,
+        "mean_rerank_sec": 0.5935,
+        "mean_context_expansion_sec": 0.0027,
+        "mean_answer_sec": 5.3948,
+        "mean_judge_sec": 5.9115,
+        "mean_total_sec": 14.384
+      },
+      "text_keyword": {
+        "mean_load_sec": 0.335,
+        "mean_vector_search_sec": 0.69,
+        "mean_rerank_sec": 0.5453,
+        "mean_context_expansion_sec": 0.002,
+        "mean_answer_sec": 7.417,
+        "mean_judge_sec": 6.424,
+        "mean_total_sec": 16.7907
+      },
+      "table": {
+        "mean_load_sec": 0.222,
+        "mean_vector_search_sec": 0.879,
+        "mean_rerank_sec": 0.6277,
+        "mean_context_expansion_sec": 0.0057,
+        "mean_answer_sec": 6.827,
+        "mean_judge_sec": 6.2547,
+        "mean_total_sec": 16.7727
+      }
+    }
+  },
+  "results": [
+    {
+      "question_id": "q001",
+      "question_type": "text_semantic",
+      "question": "What role do Bing and Microsoft Edge play in the company's advertising business model?",
+      "ground_truth_chunk_id": "text_00018",
+      "expected_answer": "Bing search engine and Microsoft Edge browser with Copilot serve as key tools for user acquisition and engagement, while the technology platform enables accelerated delivery of digital advertising solutions.",
+      "answer": "Based on the provided context, Bing and Microsoft Edge play key roles in Microsoft's advertising business model as part of their Search and News Advertising segment:\n\n**Primary Functions** (source.pdf::text_00018):\n- **User Acquisition and Engagement Tools**: Microsoft Edge browser and Bing search engine with Copilot are described as \"key tools to enable user acquisition and engagement\"\n- **Technology Platform**: They enable \"accelerated delivery of digital advertising solutions\"\n- **Content Delivery**: The business is \"designed to deliver relevant search, native, and display advertising to a global audience\"\n\n**Business Model Integration** (source.pdf::text_00015):\n- Bing and Microsoft Edge are core components of the \"Search and news advertising\" business within the More Personal Computing segment\n- This segment includes \"Bing and Copilot, Microsoft News, Microsoft Edge, and third-party affiliates\"\n\n**Revenue Generation Strategy** (source.pdf::text_00018):\n- Growth depends on the ability to \"attract new users, understand intent, and match intent with relevant content on advertising offerings\"\n- Microsoft has \"several partnerships with companies through which we provide and monetize search offerings\"\n\n**AI Integration** (source.pdf::text_00018):\n- Microsoft Copilot is integrated as \"a digital companion designed to inform, entertain, and inspire,\" working alongside Bing search engine\n\nIn essence, Bing and Microsoft Edge serve as the primary customer touchpoints that drive user engagement and enable Microsoft to deliver targeted advertising, while also providing the technological infrastructure to support their broader digital advertising ecosystem.",
+      "latency": {
+        "load_sec": 0.051,
+        "vector_search_sec": 0.599,
+        "rerank_sec": 0.503,
+        "context_expansion_sec": 0.003,
+        "answer_sec": 10.335,
+        "judge_sec": 6.382,
+        "total_sec": 19.246,
+        "eval_embed_sec": 0.493,
+        "eval_retrieval_sec": 0.206,
+        "eval_rerank_sec": 0.652
+      },
+      "metrics": {
+        "retrieval": {
+          "eval_top_k": 15,
+          "recall_ks": [
+            1,
+            3,
+            5,
+            10,
+            15
+          ],
+          "per_path": {
+            "vector": {
+              "recall_at_k": {
+                "1": true,
+                "3": true,
+                "5": true,
+                "10": true,
+                "15": true
+              },
+              "rank": 1,
+              "retrieved_k": 15,
+              "top_ids": [
+                "text_00018",
+                "text_00019",
+                "text_00085",
+                "text_00023",
+                "text_00001",
+                "text_00007",
+                "text_00020",
+                "text_00002",
+                "text_00003",
+                "text_00015",
+                "text_00010",
+                "text_00017",
+                "text_00006",
+                "text_00028",
+                "text_00078"
+              ]
+            },
+            "bm25": {
+              "recall_at_k": {
+                "1": true,
+                "3": true,
+                "5": true,
+                "10": true,
+                "15": true
+              },
+              "rank": 1,
+              "retrieved_k": 15,
+              "top_ids": [
+                "text_00018",
+                "text_00015",
+                "text_00003",
+                "text_00039",
+                "text_00070",
+                "text_00191",
+                "text_00002",
+                "text_00017",
+                "text_00085",
+                "text_00078",
+                "text_00004",
+                "text_00097",
+                "text_00032",
+                "text_00077",
+                "text_00216"
+              ]
+            },
+            "merged": {
+              "recall_at_k": {
+                "1": true,
+                "3": true,
+                "5": true,
+                "10": true,
+                "15": true
+              },
+              "rank": 1,
+              "pool_size": 23,
+              "pool_hit": true,
+              "pool_ids": [
+                "text_00018",
+                "text_00019",
+                "text_00085",
+                "text_00023",
+                "text_00001",
+                "text_00007",
+                "text_00020",
+                "text_00002",
+                "text_00003",
+                "text_00015",
+                "text_00010",
+                "text_00017",
+                "text_00006",
+                "text_00028",
+                "text_00078",
+                "text_00039",
+                "text_00070",
+                "text_00191",
+                "text_00004",
+                "text_00097",
+                "text_00032",
+                "text_00077",
+                "text_00216"
+              ]
+            }
+          },
+          "fusion_gain_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0,
+            "15": 0.0
+          },
+          "fusion_gain_pool": 0.0,
+          "table_vector": {
+            "rank": null,
+            "recall_at_k": null,
+            "retrieved_k": null
+          },
+          "merged_pool_size": 23
+        },
+        "rerank": {
+          "pre_rerank_rank": 1,
+          "post_rerank_rank": 1,
+          "position_improvement": 0,
+          "kicked_out_by_rerank": false,
+          "in_merged_pool": true,
+          "in_rerank_top3": true,
+          "rerank_top3_table_ref_chunks": 1,
+          "rerank_top3_pure_text_chunks": 2,
+          "rerank_top3_table_ref_ratio": 0.333
+        },
+        "judge": {
+          "faithfulness": 5.0,
+          "answer_relevancy": 5.0,
+          "context_precision": 4.0,
+          "reference_coverage": 5.0,
+          "verdict": "pass",
+          "notes": "The model answer perfectly captures all core facts from the expected answer: Bing and Edge serve as user acquisition/engagement tools, and the technology platform enables accelerated delivery of digital advertising solutions. The answer provides comprehensive detail with proper source citations while maintaining semantic accuracy.",
+          "llm_judge_score": 5.0
+        },
+        "final_context": {
+          "text_chunks": 8,
+          "table_contexts": 1,
+          "table_to_text_ratio": 0.125
+        }
+      }
+    },
+    {
+      "question_id": "q002",
+      "question_type": "text_semantic",
+      "question": "Who is responsible for evaluating the effectiveness of disclosure controls and procedures?",
+      "ground_truth_chunk_id": "text_00199",
+      "expected_answer": "The Chief Executive Officer and Chief Financial Officer, under the supervision and participation of management, evaluated the effectiveness of disclosure controls and procedures and concluded they are effective.",
+      "answer": "Based on the provided context, the responsibility for evaluating the effectiveness of disclosure controls and procedures lies with **management, specifically including the Chief Executive Officer and Chief Financial Officer**.\n\nAccording to the filing, \"Under the supervision and with the participation of our management, including the Chief Executive Officer and Chief Financial Officer, we have evaluated the effectiveness of our disclosure controls and procedures as required by Exchange Act Rule 13a-15(b)\" (source.pdf::text_00199).\n\nThe evaluation is conducted under management's supervision with the participation of the CEO and CFO, and based on that evaluation, \"the Chief Executive Officer and Chief Financial Officer have concluded that these disclosure controls and procedures are effective\" (source.pdf::text_00199).",
+      "latency": {
+        "load_sec": 0.318,
+        "vector_search_sec": 0.87,
+        "rerank_sec": 0.69,
+        "context_expansion_sec": 0.002,
+        "answer_sec": 4.351,
+        "judge_sec": 5.235,
+        "total_sec": 13.091,
+        "eval_embed_sec": 0.64,
+        "eval_retrieval_sec": 0.35,
+        "eval_rerank_sec": 0.615
+      },
+      "metrics": {
+        "retrieval": {
+          "eval_top_k": 15,
+          "recall_ks": [
+            1,
+            3,
+            5,
+            10,
+            15
+          ],
+          "per_path": {
+            "vector": {
+              "recall_at_k": {
+                "1": true,
+                "3": true,
+                "5": true,
+                "10": true,
+                "15": true
+              },
+              "rank": 1,
+              "retrieved_k": 15,
+              "top_ids": [
+                "text_00199",
+                "text_00203",
+                "text_00204",
+                "text_00200",
+                "text_00202",
+                "text_00201",
+                "text_00115",
+                "text_00111",
+                "text_00049",
+                "text_00194",
+                "text_00152",
+                "text_00208",
+                "text_00155",
+                "text_00185",
+                "text_00156"
+              ]
+            },
+            "bm25": {
+              "recall_at_k": {
+                "1": false,
+                "3": true,
+                "5": true,
+                "10": true,
+                "15": true
+              },
+              "rank": 2,
+              "retrieved_k": 15,
+              "top_ids": [
+                "text_00203",
+                "text_00199",
+                "text_00200",
+                "text_00204",
+                "text_00194",
+                "text_00197",
+                "text_00196",
+                "text_00049",
+                "text_00201",
+                "text_00208",
+                "text_00202",
+                "text_00156",
+                "text_00068",
+                "text_00115",
+                "text_00148"
+              ]
+            },
+            "merged": {
+              "recall_at_k": {
+                "1": true,
+                "3": true,
+                "5": true,
+                "10": true,
+                "15": true
+              },
+              "rank": 1,
+              "pool_size": 19,
+              "pool_hit": true,
+              "pool_ids": [
+                "text_00199",
+                "text_00203",
+                "text_00204",
+                "text_00200",
+                "text_00202",
+                "text_00201",
+                "text_00115",
+                "text_00111",
+                "text_00049",
+                "text_00194",
+                "text_00152",
+                "text_00208",
+                "text_00155",
+                "text_00185",
+                "text_00156",
+                "text_00197",
+                "text_00196",
+                "text_00068",
+                "text_00148"
+              ]
+            }
+          },
+          "fusion_gain_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0,
+            "15": 0.0
+          },
+          "fusion_gain_pool": 0.0,
+          "table_vector": {
+            "rank": null,
+            "recall_at_k": null,
+            "retrieved_k": null
+          },
+          "merged_pool_size": 19
+        },
+        "rerank": {
+          "pre_rerank_rank": 1,
+          "post_rerank_rank": 1,
+          "position_improvement": 0,
+          "kicked_out_by_rerank": false,
+          "in_merged_pool": true,
+          "in_rerank_top3": true,
+          "rerank_top3_table_ref_chunks": 0,
+          "rerank_top3_pure_text_chunks": 3,
+          "rerank_top3_table_ref_ratio": 0.0
+        },
+        "judge": {
+          "faithfulness": 5.0,
+          "answer_relevancy": 5.0,
+          "context_precision": 4.0,
+          "reference_coverage": 5.0,
+          "verdict": "pass",
+          "notes": "The model answer correctly identifies that the CEO and CFO are responsible for evaluating disclosure controls and procedures under management supervision. It captures the same core facts as the expected answer with proper attribution and additional context from the source document.",
+          "llm_judge_score": 5.0
+        },
+        "final_context": {
+          "text_chunks": 5,
+          "table_contexts": 0,
+          "table_to_text_ratio": 0.0
+        }
+      }
+    },
+    {
+      "question_id": "q003",
+      "question_type": "text_semantic",
+      "question": "How frequently does the Board of Directors conduct cybersecurity reviews?",
+      "ground_truth_chunk_id": "text_00070",
+      "expected_answer": "Cybersecurity reviews by the Board are scheduled to occur at least quarterly, or more frequently as determined to be necessary or advisable.",
+      "answer": "Based on the provided context, the Board of Directors conducts cybersecurity reviews **at least quarterly, or more frequently as determined to be necessary or advisable** (source.pdf::text_00070).\n\nThe context specifically states: \"Cybersecurity reviews by the Board are scheduled to occur at least quarterly, or more frequently as determined to be necessary or advisable.\" These presentations are made by senior management, including the Chief Information Security Officer (CISO), EVP of Microsoft Security, EVP of Cloud + AI, and the head of the Customer Security and Trust organization.",
+      "latency": {
+        "load_sec": 0.172,
+        "vector_search_sec": 0.71,
+        "rerank_sec": 0.582,
+        "context_expansion_sec": 0.003,
+        "answer_sec": 4.49,
+        "judge_sec": 5.885,
+        "total_sec": 13.512,
+        "eval_embed_sec": 0.437,
+        "eval_retrieval_sec": 0.219,
+        "eval_rerank_sec": 0.989
+      },
+      "metrics": {
+        "retrieval": {
+          "eval_top_k": 15,
+          "recall_ks": [
+            1,
+            3,
+            5,
+            10,
+            15
+          ],
+          "per_path": {
+            "vector": {
+              "recall_at_k": {
+                "1": true,
+                "3": true,
+                "5": true,
+                "10": true,
+                "15": true
+              },
+              "rank": 1,
+              "retrieved_k": 15,
+              "top_ids": [
+                "text_00070",
+                "text_00069",
+                "text_00068",
+                "text_00203",
+                "text_00045",
+                "text_00174",
+                "text_00202",
+                "text_00043",
+                "text_00208",
+                "text_00044",
+                "text_00056",
+                "text_00042",
+                "text_00194",
+                "text_00052",
+                "text_00067"
+              ]
+            },
+            "bm25": {
+              "recall_at_k": {
+                "1": true,
+                "3": true,
+                "5": true,
+                "10": true,
+                "15": true
+              },
+              "rank": 1,
+              "retrieved_k": 15,
+              "top_ids": [
+                "text_00070",
+                "text_00154",
+                "text_00208",
+                "text_00107",
+                "text_00068",
+                "text_00192",
+                "text_00201",
+                "text_00177",
+                "text_00178",
+                "text_00069",
+                "text_00032",
+                "text_00115",
+                "text_00132",
+                "text_00074",
+                "text_00081"
+              ]
+            },
+            "merged": {
+              "recall_at_k": {
+                "1": true,
+                "3": true,
+                "5": true,
+                "10": true,
+                "15": true
+              },
+              "rank": 1,
+              "pool_size": 26,
+              "pool_hit": true,
+              "pool_ids": [
+                "text_00070",
+                "text_00069",
+                "text_00068",
+                "text_00203",
+                "text_00045",
+                "text_00174",
+                "text_00202",
+                "text_00043",
+                "text_00208",
+                "text_00044",
+                "text_00056",
+                "text_00042",
+                "text_00194",
+                "text_00052",
+                "text_00067",
+                "text_00154",
+                "text_00107",
+                "text_00192",
+                "text_00201",
+                "text_00177",
+                "text_00178",
+                "text_00032",
+                "text_00115",
+                "text_00132",
+                "text_00074",
+                "text_00081"
+              ]
+            }
+          },
+          "fusion_gain_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0,
+            "15": 0.0
+          },
+          "fusion_gain_pool": 0.0,
+          "table_vector": {
+            "rank": null,
+            "recall_at_k": null,
+            "retrieved_k": null
+          },
+          "merged_pool_size": 26
+        },
+        "rerank": {
+          "pre_rerank_rank": 1,
+          "post_rerank_rank": 1,
+          "position_improvement": 0,
+          "kicked_out_by_rerank": false,
+          "in_merged_pool": true,
+          "in_rerank_top3": true,
+          "rerank_top3_table_ref_chunks": 0,
+          "rerank_top3_pure_text_chunks": 3,
+          "rerank_top3_table_ref_ratio": 0.0
+        },
+        "judge": {
+          "faithfulness": 5.0,
+          "answer_relevancy": 5.0,
+          "context_precision": 4.0,
+          "reference_coverage": 5.0,
+          "verdict": "pass",
+          "notes": "Perfect match - captures the exact frequency (at least quarterly, or more frequently as needed) with proper source citation and additional relevant context about who conducts the presentations.",
+          "llm_judge_score": 5.0
+        },
+        "final_context": {
+          "text_chunks": 7,
+          "table_contexts": 0,
+          "table_to_text_ratio": 0.0
+        }
+      }
+    },
+    {
+      "question_id": "q004",
+      "question_type": "text_semantic",
+      "question": "Where can shareholders find information about the company's director nominees?",
+      "ground_truth_chunk_id": "text_00208",
+      "expected_answer": "Information about director nominees can be found under the caption 'Our Director Nominees' in the Proxy Statement for the Annual Meeting of Shareholders to be held December 5, 2025.",
+      "answer": "Based on the provided context, shareholders can find information about the company's director nominees in the **Proxy Statement for the Annual Meeting of Shareholders** under the caption **\"Our Director Nominees\"** (chunk_id: source.pdf::text_00208).\n\nThe context specifically states that \"Information about our directors may be found under the caption 'Our Director Nominees' in our Proxy Statement for the Annual Meeting of Shareholders to be held December 5, 2025 (the 'Proxy Statement').\"\n\nThis information is incorporated by reference into the Form 10-K filing from the separate Proxy Statement document.",
+      "latency": {
+        "load_sec": 0.335,
+        "vector_search_sec": 0.788,
+        "rerank_sec": 0.599,
+        "context_expansion_sec": 0.003,
+        "answer_sec": 2.403,
+        "judge_sec": 6.144,
+        "total_sec": 11.687,
+        "eval_embed_sec": 0.64,
+        "eval_retrieval_sec": 0.228,
+        "eval_rerank_sec": 0.527
+      },
+      "metrics": {
+        "retrieval": {
+          "eval_top_k": 15,
+          "recall_ks": [
+            1,
+            3,
+            5,
+            10,
+            15
+          ],
+          "per_path": {
+            "vector": {
+              "recall_at_k": {
+                "1": true,
+                "3": true,
+                "5": true,
+                "10": true,
+                "15": true
+              },
+              "rank": 1,
+              "retrieved_k": 15,
+              "top_ids": [
+                "text_00208",
+                "text_00178",
+                "text_00210",
+                "text_00034",
+                "text_00107",
+                "text_00074",
+                "text_00184",
+                "text_00115",
+                "text_00185",
+                "text_00209",
+                "text_00192",
+                "text_00177",
+                "text_00211",
+                "text_00187",
+                "text_00075"
+              ]
+            },
+            "bm25": {
+              "recall_at_k": {
+                "1": true,
+                "3": true,
+                "5": true,
+                "10": true,
+                "15": true
+              },
+              "rank": 1,
+              "retrieved_k": 15,
+              "top_ids": [
+                "text_00208",
+                "text_00034",
+                "text_00211",
+                "text_00221",
+                "text_00210",
+                "text_00209",
+                "text_00046",
+                "text_00194",
+                "text_00203",
+                "text_00047",
+                "text_00032",
+                "text_00197",
+                "text_00115",
+                "text_00107",
+                "text_00004"
+              ]
+            },
+            "merged": {
+              "recall_at_k": {
+                "1": true,
+                "3": true,
+                "5": true,
+                "10": true,
+                "15": true
+              },
+              "rank": 1,
+              "pool_size": 23,
+              "pool_hit": true,
+              "pool_ids": [
+                "text_00208",
+                "text_00178",
+                "text_00210",
+                "text_00034",
+                "text_00107",
+                "text_00074",
+                "text_00184",
+                "text_00115",
+                "text_00185",
+                "text_00209",
+                "text_00192",
+                "text_00177",
+                "text_00211",
+                "text_00187",
+                "text_00075",
+                "text_00221",
+                "text_00046",
+                "text_00194",
+                "text_00203",
+                "text_00047",
+                "text_00032",
+                "text_00197",
+                "text_00004"
+              ]
+            }
+          },
+          "fusion_gain_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0,
+            "15": 0.0
+          },
+          "fusion_gain_pool": 0.0,
+          "table_vector": {
+            "rank": null,
+            "recall_at_k": null,
+            "retrieved_k": null
+          },
+          "merged_pool_size": 23
+        },
+        "rerank": {
+          "pre_rerank_rank": 1,
+          "post_rerank_rank": 1,
+          "position_improvement": 0,
+          "kicked_out_by_rerank": false,
+          "in_merged_pool": true,
+          "in_rerank_top3": true,
+          "rerank_top3_table_ref_chunks": 0,
+          "rerank_top3_pure_text_chunks": 3,
+          "rerank_top3_table_ref_ratio": 0.0
+        },
+        "judge": {
+          "faithfulness": 5.0,
+          "answer_relevancy": 5.0,
+          "context_precision": 4.0,
+          "reference_coverage": 5.0,
+          "verdict": "pass",
+          "notes": "The model answer perfectly captures all the key facts from the expected answer: location (Proxy Statement), section ('Our Director Nominees'), and meeting date (December 5, 2025). The additional context about incorporation by reference and chunk ID enhances rather than detracts from the core information.",
+          "llm_judge_score": 5.0
+        },
+        "final_context": {
+          "text_chunks": 3,
+          "table_contexts": 0,
+          "table_to_text_ratio": 0.0
+        }
+      }
+    },
+    {
+      "question_id": "q021",
+      "question_type": "text_keyword",
+      "question": "According to the Risk Factors section on Development and deployment of defensive measures, what are the potential consequences if the company fails to adequately develop security measures and mitigation technologies for customers' systems?",
+      "ground_truth_chunk_id": "text_00048",
+      "expected_answer": "If the company fails to develop adequate security measures, actual or perceived security vulnerabilities, data corruption issues, or reduced performance could harm reputation and lead customers to exercise contractual remedies, reduce or delay future purchases, or use competing products or services.",
+      "answer": "According to the Risk Factors section on Development and deployment of defensive measures, if the company fails to adequately develop security measures and mitigation technologies for customers' systems, the potential consequences include:\n\n**Direct Business Impact:**\n- Harm to reputation and lead customers to exercise contractual or other remedies against the company\n- Customers may reduce or delay future purchases of products or subscriptions to services\n- Customers may use competing products or services instead\n- Adverse impacts to results of operations, reputation, or competitive position (source.pdf::text_00048, source.pdf::text_00049)\n\n**Financial Consequences:**\n- Increased costs or loss of revenue\n- Legal exposure to customers or users\n- Liability under laws that protect personal data\n- Claims against the company due to actual or perceived vulnerabilities (source.pdf::text_00048, source.pdf::text_00049)\n\n**Customer Behavior Changes:**\n- Customers may spend more on protecting their existing computer systems from attack, which could delay adoption of additional products or services\n- Perceptions that personal information is not satisfactorily protected could inhibit sales and limit adoption of cloud-based solutions by consumers, businesses, and government entities (source.pdf::text_00048, source.pdf::text_00049)\n\n**Operational Issues:**\n- Data corruption issues or reduced performance\n- Reputational harm from actual or perceived security vulnerabilities in processes, products, and services (source.pdf::text_00048)\n\nThe filing also notes that while license agreements typically contain provisions to limit liability exposure, there is no assurance these provisions will withstand legal challenges, and the company may sometimes enter agreements with larger liability exposure to achieve commercial objectives (source.pdf::text_00048).",
+      "latency": {
+        "load_sec": 0.155,
+        "vector_search_sec": 0.49,
+        "rerank_sec": 0.558,
+        "context_expansion_sec": 0.002,
+        "answer_sec": 10.076,
+        "judge_sec": 6.983,
+        "total_sec": 19.529,
+        "eval_embed_sec": 0.512,
+        "eval_retrieval_sec": 0.196,
+        "eval_rerank_sec": 0.542
+      },
+      "metrics": {
+        "retrieval": {
+          "eval_top_k": 15,
+          "recall_ks": [
+            1,
+            3,
+            5,
+            10,
+            15
+          ],
+          "per_path": {
+            "vector": {
+              "recall_at_k": {
+                "1": true,
+                "3": true,
+                "5": true,
+                "10": true,
+                "15": true
+              },
+              "rank": 1,
+              "retrieved_k": 15,
+              "top_ids": [
+                "text_00048",
+                "text_00049",
+                "text_00050",
+                "text_00047",
+                "text_00045",
+                "text_00052",
+                "text_00055",
+                "text_00053",
+                "text_00043",
+                "text_00051",
+                "text_00044",
+                "text_00042",
+                "text_00046",
+                "text_00056",
+                "text_00036"
+              ]
+            },
+            "bm25": {
+              "recall_at_k": {
+                "1": true,
+                "3": true,
+                "5": true,
+                "10": true,
+                "15": true
+              },
+              "rank": 1,
+              "retrieved_k": 15,
+              "top_ids": [
+                "text_00048",
+                "text_00050",
+                "text_00049",
+                "text_00064",
+                "text_00046",
+                "text_00041",
+                "text_00047",
+                "text_00002",
+                "text_00044",
+                "text_00053",
+                "text_00045",
+                "text_00052",
+                "text_00040",
+                "text_00062",
+                "text_00014"
+              ]
+            },
+            "merged": {
+              "recall_at_k": {
+                "1": true,
+                "3": true,
+                "5": true,
+                "10": true,
+                "15": true
+              },
+              "rank": 1,
+              "pool_size": 21,
+              "pool_hit": true,
+              "pool_ids": [
+                "text_00048",
+                "text_00049",
+                "text_00050",
+                "text_00047",
+                "text_00045",
+                "text_00052",
+                "text_00055",
+                "text_00053",
+                "text_00043",
+                "text_00051",
+                "text_00044",
+                "text_00042",
+                "text_00046",
+                "text_00056",
+                "text_00036",
+                "text_00064",
+                "text_00041",
+                "text_00002",
+                "text_00040",
+                "text_00062",
+                "text_00014"
+              ]
+            }
+          },
+          "fusion_gain_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0,
+            "15": 0.0
+          },
+          "fusion_gain_pool": 0.0,
+          "table_vector": {
+            "rank": null,
+            "recall_at_k": null,
+            "retrieved_k": null
+          },
+          "merged_pool_size": 21
+        },
+        "rerank": {
+          "pre_rerank_rank": 1,
+          "post_rerank_rank": 1,
+          "position_improvement": 0,
+          "kicked_out_by_rerank": false,
+          "in_merged_pool": true,
+          "in_rerank_top3": true,
+          "rerank_top3_table_ref_chunks": 0,
+          "rerank_top3_pure_text_chunks": 3,
+          "rerank_top3_table_ref_ratio": 0.0
+        },
+        "judge": {
+          "faithfulness": 5.0,
+          "answer_relevancy": 5.0,
+          "context_precision": 4.0,
+          "reference_coverage": 5.0,
+          "verdict": "pass",
+          "notes": "The model answer comprehensively covers all key consequences mentioned in the expected answer: harm to reputation, customers exercising contractual remedies, reduced/delayed purchases, and use of competing products. It also includes additional relevant details like data corruption and reduced performance issues, providing a thorough response that exceeds the expected answer's scope while maintaining accuracy.",
+          "llm_judge_score": 5.0
+        },
+        "final_context": {
+          "text_chunks": 8,
+          "table_contexts": 0,
+          "table_to_text_ratio": 0.0
+        }
+      }
+    },
+    {
+      "question_id": "q022",
+      "question_type": "text_keyword",
+      "question": "What are the three economies of scale that benefit Microsoft's cloud business?",
+      "ground_truth_chunk_id": "text_00002",
+      "expected_answer": "The three economies of scale are: datacenters that deploy computational resources at significantly lower cost per unit than smaller ones; datacenters that coordinate and aggregate diverse customer, geographic, and application demand patterns to improve resource utilization; and multi-tenancy locations that lower application maintenance labor costs.",
+      "answer": "Based on the provided context, Microsoft's cloud business benefits from three economies of scale (source.pdf::text_00002):\n\n1. **Datacenters that deploy computational resources at significantly lower cost per unit than smaller ones** - This refers to the cost advantages of large-scale infrastructure deployment.\n\n2. **Datacenters that coordinate and aggregate diverse customer, geographic, and application demand patterns, improving the utilization of computing, storage, and network resources** - This describes efficiency gains from pooling and optimizing resource usage across varied demand patterns.\n\n3. **Multi-tenancy locations that lower application maintenance labor costs** - This refers to cost savings achieved by serving multiple customers from shared infrastructure, reducing the per-customer maintenance overhead.\n\nThese three economies of scale are explicitly stated in the context as benefits that Microsoft's cloud business derives from its operational model.",
+      "latency": {
+        "load_sec": 0.648,
+        "vector_search_sec": 0.922,
+        "rerank_sec": 0.536,
+        "context_expansion_sec": 0.003,
+        "answer_sec": 6.421,
+        "judge_sec": 6.566,
+        "total_sec": 16.605,
+        "eval_embed_sec": 0.49,
+        "eval_retrieval_sec": 0.26,
+        "eval_rerank_sec": 0.74
+      },
+      "metrics": {
+        "retrieval": {
+          "eval_top_k": 15,
+          "recall_ks": [
+            1,
+            3,
+            5,
+            10,
+            15
+          ],
+          "per_path": {
+            "vector": {
+              "recall_at_k": {
+                "1": false,
+                "3": false,
+                "5": true,
+                "10": true,
+                "15": true
+              },
+              "rank": 4,
+              "retrieved_k": 15,
+              "top_ids": [
+                "text_00084",
+                "text_00011",
+                "text_00007",
+                "text_00002",
+                "text_00010",
+                "text_00028",
+                "text_00003",
+                "text_00079",
+                "text_00190",
+                "text_00006",
+                "text_00004",
+                "text_00009",
+                "text_00030",
+                "text_00014",
+                "text_00005"
+              ]
+            },
+            "bm25": {
+              "recall_at_k": {
+                "1": true,
+                "3": true,
+                "5": true,
+                "10": true,
+                "15": true
+              },
+              "rank": 1,
+              "retrieved_k": 15,
+              "top_ids": [
+                "text_00002",
+                "text_00003",
+                "text_00004",
+                "text_00026",
+                "text_00030",
+                "text_00012",
+                "text_00032",
+                "text_00078",
+                "text_00014",
+                "text_00017",
+                "text_00191",
+                "text_00083",
+                "text_00084",
+                "text_00028",
+                "text_00114"
+              ]
+            },
+            "merged": {
+              "recall_at_k": {
+                "1": false,
+                "3": false,
+                "5": true,
+                "10": true,
+                "15": true
+              },
+              "rank": 4,
+              "pool_size": 23,
+              "pool_hit": true,
+              "pool_ids": [
+                "text_00084",
+                "text_00011",
+                "text_00007",
+                "text_00002",
+                "text_00010",
+                "text_00028",
+                "text_00003",
+                "text_00079",
+                "text_00190",
+                "text_00006",
+                "text_00004",
+                "text_00009",
+                "text_00030",
+                "text_00014",
+                "text_00005",
+                "text_00026",
+                "text_00012",
+                "text_00032",
+                "text_00078",
+                "text_00017",
+                "text_00191",
+                "text_00083",
+                "text_00114"
+              ]
+            }
+          },
+          "fusion_gain_at_k": {
+            "1": -1.0,
+            "3": -1.0,
+            "5": 0.0,
+            "10": 0.0,
+            "15": 0.0
+          },
+          "fusion_gain_pool": 0.0,
+          "table_vector": {
+            "rank": null,
+            "recall_at_k": null,
+            "retrieved_k": null
+          },
+          "merged_pool_size": 23
+        },
+        "rerank": {
+          "pre_rerank_rank": 4,
+          "post_rerank_rank": 1,
+          "position_improvement": 3,
+          "kicked_out_by_rerank": false,
+          "in_merged_pool": true,
+          "in_rerank_top3": true,
+          "rerank_top3_table_ref_chunks": 0,
+          "rerank_top3_pure_text_chunks": 3,
+          "rerank_top3_table_ref_ratio": 0.0
+        },
+        "judge": {
+          "faithfulness": 5.0,
+          "answer_relevancy": 5.0,
+          "context_precision": 4.0,
+          "reference_coverage": 5.0,
+          "verdict": "pass",
+          "notes": "Perfect match. The model answer correctly identifies all three economies of scale with accurate descriptions that align exactly with the expected answer: datacenter cost advantages, demand aggregation for resource utilization, and multi-tenancy labor cost savings.",
+          "llm_judge_score": 5.0
+        },
+        "final_context": {
+          "text_chunks": 9,
+          "table_contexts": 1,
+          "table_to_text_ratio": 0.111
+        }
+      }
+    },
+    {
+      "question_id": "q023",
+      "question_type": "text_keyword",
+      "question": "What are the three main components of internal control over financial reporting as described in the Controls and Procedures section?",
+      "ground_truth_chunk_id": "text_00204",
+      "expected_answer": "The three components are: (1) maintenance of records that accurately and fairly reflect transactions and dispositions of company assets, (2) reasonable assurance that transactions are recorded per GAAP and authorized by management and directors, and (3) reasonable assurance regarding prevention or timely detection of unauthorized acquisition, use, or disposition of company assets that could have a material effect on financial statements.",
+      "answer": "Based on the provided context, the three main components of internal control over financial reporting are described in chunks (source.pdf::text_00204) and (source.pdf::text_00200). These components are:\n\n1. **Record maintenance**: Policies and procedures that pertain to the maintenance of records that, in reasonable detail, accurately and fairly reflect the transactions and dispositions of the assets of the company.\n\n2. **Transaction recording and authorization**: Policies and procedures that provide reasonable assurance that transactions are recorded as necessary to permit preparation of financial statements in accordance with generally accepted accounting principles, and that receipts and expenditures of the company are being made only in accordance with authorizations of management and directors of the company.\n\n3. **Asset protection**: Policies and procedures that provide reasonable assurance regarding prevention or timely detection of unauthorized acquisition, use, or disposition of the company's assets that could have a material effect on the financial statements.\n\nThese three components work together as part of a process designed to provide reasonable assurance regarding the reliability of financial reporting and the preparation of financial statements for external purposes in accordance with generally accepted accounting principles.",
+      "latency": {
+        "load_sec": 0.202,
+        "vector_search_sec": 0.658,
+        "rerank_sec": 0.542,
+        "context_expansion_sec": 0.001,
+        "answer_sec": 5.754,
+        "judge_sec": 5.723,
+        "total_sec": 14.238,
+        "eval_embed_sec": 0.584,
+        "eval_retrieval_sec": 0.149,
+        "eval_rerank_sec": 0.61
+      },
+      "metrics": {
+        "retrieval": {
+          "eval_top_k": 15,
+          "recall_ks": [
+            1,
+            3,
+            5,
+            10,
+            15
+          ],
+          "per_path": {
+            "vector": {
+              "recall_at_k": {
+                "1": true,
+                "3": true,
+                "5": true,
+                "10": true,
+                "15": true
+              },
+              "rank": 1,
+              "retrieved_k": 15,
+              "top_ids": [
+                "text_00204",
+                "text_00200",
+                "text_00202",
+                "text_00203",
+                "text_00115",
+                "text_00199",
+                "text_00081",
+                "text_00201",
+                "text_00213",
+                "text_00155",
+                "text_00136",
+                "text_00130",
+                "text_00195",
+                "text_00072",
+                "text_00196"
+              ]
+            },
+            "bm25": {
+              "recall_at_k": {
+                "1": false,
+                "3": true,
+                "5": true,
+                "10": true,
+                "15": true
+              },
+              "rank": 2,
+              "retrieved_k": 15,
+              "top_ids": [
+                "text_00200",
+                "text_00204",
+                "text_00203",
+                "text_00202",
+                "text_00115",
+                "text_00199",
+                "text_00004",
+                "text_00188",
+                "text_00068",
+                "text_00032",
+                "text_00201",
+                "text_00111",
+                "text_00081",
+                "text_00045",
+                "text_00208"
+              ]
+            },
+            "merged": {
+              "recall_at_k": {
+                "1": true,
+                "3": true,
+                "5": true,
+                "10": true,
+                "15": true
+              },
+              "rank": 1,
+              "pool_size": 22,
+              "pool_hit": true,
+              "pool_ids": [
+                "text_00204",
+                "text_00200",
+                "text_00202",
+                "text_00203",
+                "text_00115",
+                "text_00199",
+                "text_00081",
+                "text_00201",
+                "text_00213",
+                "text_00155",
+                "text_00136",
+                "text_00130",
+                "text_00195",
+                "text_00072",
+                "text_00196",
+                "text_00004",
+                "text_00188",
+                "text_00068",
+                "text_00032",
+                "text_00111",
+                "text_00045",
+                "text_00208"
+              ]
+            }
+          },
+          "fusion_gain_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0,
+            "15": 0.0
+          },
+          "fusion_gain_pool": 0.0,
+          "table_vector": {
+            "rank": null,
+            "recall_at_k": null,
+            "retrieved_k": null
+          },
+          "merged_pool_size": 22
+        },
+        "rerank": {
+          "pre_rerank_rank": 1,
+          "post_rerank_rank": 1,
+          "position_improvement": 0,
+          "kicked_out_by_rerank": false,
+          "in_merged_pool": true,
+          "in_rerank_top3": true,
+          "rerank_top3_table_ref_chunks": 0,
+          "rerank_top3_pure_text_chunks": 3,
+          "rerank_top3_table_ref_ratio": 0.0
+        },
+        "judge": {
+          "faithfulness": 5.0,
+          "answer_relevancy": 5.0,
+          "context_precision": 4.0,
+          "reference_coverage": 5.0,
+          "verdict": "pass",
+          "notes": "The model answer accurately captures all three main components with correct terminology: (1) maintenance of records that accurately and fairly reflect transactions and dispositions of assets, (2) reasonable assurance for transaction recording per GAAP and management/director authorization, and (3) reasonable assurance regarding prevention or timely detection of unauthorized asset acquisition, use, or disposition with material effect on financial statements. All key phrases and concepts match the expected answer.",
+          "llm_judge_score": 5.0
+        },
+        "final_context": {
+          "text_chunks": 7,
+          "table_contexts": 0,
+          "table_to_text_ratio": 0.0
+        }
+      }
+    },
+    {
+      "question_id": "q041",
+      "question_type": "table",
+      "question": "What cash dividend per share did Microsoft declare in the dividend table shown in its fiscal year 2025 10-K MD&A?",
+      "ground_truth_chunk_id": "table_005",
+      "expected_answer": "$0.83 per share",
+      "answer": "Based on the provided context, I can see that Microsoft declared a cash dividend of **$0.83 per share** during the fourth quarter of fiscal year 2025 (source.pdf::text_00075).\n\nThe dividend details show:\n- Declaration Date: June 10, 2025\n- Record Date: August 21, 2025  \n- Payment Date: September 11, 2025\n- Dividend Per Share: $0.83\n- Total Amount: $6,170 million\n\nHowever, the context is insufficient to provide a complete dividend table for the entire fiscal year 2025. The provided chunks only show one dividend declaration from the fourth quarter, and while there are references to dividend tables in the MD&A section (source.pdf::text_00178), the actual table content with all dividend amounts for fiscal year 2025 is not included in the context.",
+      "latency": {
+        "load_sec": 0.253,
+        "vector_search_sec": 0.984,
+        "rerank_sec": 0.744,
+        "context_expansion_sec": 0.012,
+        "answer_sec": 5.019,
+        "judge_sec": 5.491,
+        "total_sec": 14.5,
+        "eval_embed_sec": 0.927,
+        "eval_retrieval_sec": 0.352,
+        "eval_rerank_sec": 0.692
+      },
+      "metrics": {
+        "retrieval": {
+          "eval_top_k": 15,
+          "recall_ks": [
+            1,
+            3,
+            5,
+            10,
+            15
+          ],
+          "per_path": {
+            "vector": {
+              "recall_at_k": {
+                "1": false,
+                "3": false,
+                "5": false,
+                "10": false,
+                "15": false
+              },
+              "rank": null,
+              "retrieved_k": 15,
+              "top_ids": [
+                "text_00178",
+                "text_00107",
+                "text_00077",
+                "text_00075",
+                "text_00074",
+                "text_00096",
+                "text_00099",
+                "text_00106",
+                "text_00087",
+                "text_00082",
+                "text_00101",
+                "text_00186",
+                "text_00161",
+                "text_00089",
+                "text_00192"
+              ]
+            },
+            "bm25": {
+              "recall_at_k": {
+                "1": false,
+                "3": false,
+                "5": false,
+                "10": false,
+                "15": false
+              },
+              "rank": null,
+              "retrieved_k": 15,
+              "top_ids": [
+                "text_00178",
+                "text_00074",
+                "text_00075",
+                "text_00077",
+                "text_00106",
+                "text_00081",
+                "text_00087",
+                "text_00082",
+                "text_00101",
+                "text_00004",
+                "text_00097",
+                "text_00091",
+                "text_00177",
+                "text_00089",
+                "text_00219"
+              ]
+            },
+            "merged": {
+              "recall_at_k": {
+                "1": false,
+                "3": false,
+                "5": false,
+                "10": false,
+                "15": false
+              },
+              "rank": null,
+              "pool_size": 21,
+              "pool_hit": false,
+              "pool_ids": [
+                "text_00178",
+                "text_00107",
+                "text_00077",
+                "text_00075",
+                "text_00074",
+                "text_00096",
+                "text_00099",
+                "text_00106",
+                "text_00087",
+                "text_00082",
+                "text_00101",
+                "text_00186",
+                "text_00161",
+                "text_00089",
+                "text_00192",
+                "text_00081",
+                "text_00004",
+                "text_00097",
+                "text_00091",
+                "text_00177",
+                "text_00219"
+              ]
+            }
+          },
+          "fusion_gain_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0,
+            "15": 0.0
+          },
+          "fusion_gain_pool": 0.0,
+          "table_vector": {
+            "rank": 1,
+            "recall_at_k": {
+              "1": true,
+              "3": true,
+              "5": true,
+              "10": true,
+              "15": true
+            },
+            "retrieved_k": 15
+          },
+          "merged_pool_size": 21
+        },
+        "rerank": {
+          "pre_rerank_rank": null,
+          "post_rerank_rank": null,
+          "position_improvement": null,
+          "kicked_out_by_rerank": false,
+          "in_merged_pool": false,
+          "in_rerank_top3": false,
+          "rerank_top3_table_ref_chunks": 0,
+          "rerank_top3_pure_text_chunks": 3,
+          "rerank_top3_table_ref_ratio": 0.0
+        },
+        "judge": {
+          "faithfulness": 4.0,
+          "answer_relevancy": 4.0,
+          "context_precision": 3.0,
+          "reference_coverage": 2.0,
+          "verdict": "pass",
+          "notes": "The model correctly identified the $0.83 per share dividend amount from the table. While it provided additional context about incomplete information, the core answer matches the expected value exactly with proper units.",
+          "llm_judge_score": 5.0
+        },
+        "final_context": {
+          "text_chunks": 6,
+          "table_contexts": 0,
+          "table_to_text_ratio": 0.0
+        }
+      }
+    },
+    {
+      "question_id": "q042",
+      "question_type": "table",
+      "question": "What was the total dividend amount (in millions) associated with that Microsoft dividend declaration?",
+      "ground_truth_chunk_id": "table_005",
+      "expected_answer": "$6,170 million",
+      "answer": "Based on the provided context, I can see information about Microsoft's dividend declarations, but the context is insufficient to provide the specific total dividend amount you're asking about.\n\nHere's what I can determine from the context:\n\nFrom chunk (source.pdf::text_00107), Microsoft's Board of Directors declared dividends totaling $24.7 billion during fiscal year 2025 and $22.3 billion during fiscal year 2024.\n\nFrom chunk (source.pdf::text_00075), there is a reference to a specific dividend declaration on June 10, 2025 with a dividend per share of $0.83 and an amount of $6,170 million (which equals $6.17 billion).\n\nHowever, the context is missing:\n1. Complete dividend declaration tables that would show all individual dividend amounts\n2. Clear identification of which specific \"Microsoft dividend declaration\" you're referring to\n3. The complete data from the dividend tables referenced in chunks (source.pdf::text_00178) and (source.pdf::text_00074), which appear to contain dividend information but the actual table data is not provided\n\nTo answer your question accurately, I would need the complete dividend declaration tables showing the individual dividend amounts in millions of dollars.",
+      "latency": {
+        "load_sec": 0.159,
+        "vector_search_sec": 0.669,
+        "rerank_sec": 0.488,
+        "context_expansion_sec": 0.003,
+        "answer_sec": 10.393,
+        "judge_sec": 6.808,
+        "total_sec": 19.841,
+        "eval_embed_sec": 0.511,
+        "eval_retrieval_sec": 0.202,
+        "eval_rerank_sec": 0.577
+      },
+      "metrics": {
+        "retrieval": {
+          "eval_top_k": 15,
+          "recall_ks": [
+            1,
+            3,
+            5,
+            10,
+            15
+          ],
+          "per_path": {
+            "vector": {
+              "recall_at_k": {
+                "1": false,
+                "3": false,
+                "5": false,
+                "10": false,
+                "15": false
+              },
+              "rank": null,
+              "retrieved_k": 15,
+              "top_ids": [
+                "text_00178",
+                "text_00107",
+                "text_00131",
+                "text_00077",
+                "text_00174",
+                "text_00191",
+                "text_00075",
+                "text_00089",
+                "text_00192",
+                "text_00082",
+                "text_00124",
+                "text_00097",
+                "text_00091",
+                "text_00096",
+                "text_00158"
+              ]
+            },
+            "bm25": {
+              "recall_at_k": {
+                "1": false,
+                "3": false,
+                "5": false,
+                "10": false,
+                "15": false
+              },
+              "rank": null,
+              "retrieved_k": 15,
+              "top_ids": [
+                "text_00178",
+                "text_00074",
+                "text_00177",
+                "text_00196",
+                "text_00003",
+                "text_00071",
+                "text_00033",
+                "text_00143",
+                "text_00186",
+                "text_00078",
+                "text_00114",
+                "text_00002",
+                "text_00032",
+                "text_00004",
+                "text_00097"
+              ]
+            },
+            "merged": {
+              "recall_at_k": {
+                "1": false,
+                "3": false,
+                "5": false,
+                "10": false,
+                "15": false
+              },
+              "rank": null,
+              "pool_size": 28,
+              "pool_hit": false,
+              "pool_ids": [
+                "text_00178",
+                "text_00107",
+                "text_00131",
+                "text_00077",
+                "text_00174",
+                "text_00191",
+                "text_00075",
+                "text_00089",
+                "text_00192",
+                "text_00082",
+                "text_00124",
+                "text_00097",
+                "text_00091",
+                "text_00096",
+                "text_00158",
+                "text_00074",
+                "text_00177",
+                "text_00196",
+                "text_00003",
+                "text_00071",
+                "text_00033",
+                "text_00143",
+                "text_00186",
+                "text_00078",
+                "text_00114",
+                "text_00002",
+                "text_00032",
+                "text_00004"
+              ]
+            }
+          },
+          "fusion_gain_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0,
+            "15": 0.0
+          },
+          "fusion_gain_pool": 0.0,
+          "table_vector": {
+            "rank": 1,
+            "recall_at_k": {
+              "1": true,
+              "3": true,
+              "5": true,
+              "10": true,
+              "15": true
+            },
+            "retrieved_k": 15
+          },
+          "merged_pool_size": 28
+        },
+        "rerank": {
+          "pre_rerank_rank": null,
+          "post_rerank_rank": null,
+          "position_improvement": null,
+          "kicked_out_by_rerank": false,
+          "in_merged_pool": false,
+          "in_rerank_top3": false,
+          "rerank_top3_table_ref_chunks": 0,
+          "rerank_top3_pure_text_chunks": 3,
+          "rerank_top3_table_ref_ratio": 0.0
+        },
+        "judge": {
+          "faithfulness": 4.0,
+          "answer_relevancy": 3.0,
+          "context_precision": 3.0,
+          "reference_coverage": 2.0,
+          "verdict": "pass",
+          "notes": "The model correctly identifies the $6,170 million dividend amount from the June 10, 2025 declaration, which matches the expected answer. However, it provides unnecessary additional context and expresses uncertainty about which specific declaration is being referenced, when the answer is clearly present in the provided information.",
+          "llm_judge_score": 4.0
+        },
+        "final_context": {
+          "text_chunks": 9,
+          "table_contexts": 0,
+          "table_to_text_ratio": 0.0
+        }
+      }
+    },
+    {
+      "question_id": "q043",
+      "question_type": "table",
+      "question": "What was Microsoft's total revenue in fiscal year 2025 according to the MD&A summary results table?",
+      "ground_truth_chunk_id": "table_006_merged",
+      "expected_answer": "$281.7 billion ($281,724 million)",
+      "answer": "Based on the provided context, I cannot find Microsoft's total revenue figure for fiscal year 2025 in the MD&A summary results table. \n\nThe context mentions that chunk_id source.pdf::text_00086 references several tables (table_009_merged, table_011_merged, table_013_merged, table_015_merged), but the actual table content is not provided in the context.\n\nWhile the text mentions that \"Revenue increased $36.6 billion or 15%\" (source.pdf::text_00086), this only gives us the change from the prior year, not the absolute total revenue amount for fiscal year 2025.\n\nWhat is missing: The actual MD&A summary results table content that would contain Microsoft's total revenue figure for fiscal year 2025.",
+      "latency": {
+        "load_sec": 0.254,
+        "vector_search_sec": 0.984,
+        "rerank_sec": 0.651,
+        "context_expansion_sec": 0.002,
+        "answer_sec": 5.069,
+        "judge_sec": 6.465,
+        "total_sec": 15.977,
+        "eval_embed_sec": 0.482,
+        "eval_retrieval_sec": 0.261,
+        "eval_rerank_sec": 1.789
+      },
+      "metrics": {
+        "retrieval": {
+          "eval_top_k": 15,
+          "recall_ks": [
+            1,
+            3,
+            5,
+            10,
+            15
+          ],
+          "per_path": {
+            "vector": {
+              "recall_at_k": {
+                "1": false,
+                "3": false,
+                "5": false,
+                "10": false,
+                "15": true
+              },
+              "rank": 13,
+              "retrieved_k": 15,
+              "top_ids": [
+                "text_00087",
+                "text_00077",
+                "text_00089",
+                "text_00086",
+                "text_00082",
+                "text_00095",
+                "text_00093",
+                "text_00097",
+                "text_00091",
+                "text_00088",
+                "text_00103",
+                "text_00081",
+                "text_00085",
+                "text_00132",
+                "text_00104"
+              ]
+            },
+            "bm25": {
+              "recall_at_k": {
+                "1": false,
+                "3": false,
+                "5": false,
+                "10": false,
+                "15": false
+              },
+              "rank": null,
+              "retrieved_k": 15,
+              "top_ids": [
+                "text_00082",
+                "text_00077",
+                "text_00097",
+                "text_00081",
+                "text_00087",
+                "text_00086",
+                "text_00074",
+                "text_00104",
+                "text_00088",
+                "text_00071",
+                "text_00089",
+                "text_00103",
+                "text_00093",
+                "text_00091",
+                "text_00096"
+              ]
+            },
+            "merged": {
+              "recall_at_k": {
+                "1": false,
+                "3": false,
+                "5": false,
+                "10": false,
+                "15": true
+              },
+              "rank": 13,
+              "pool_size": 18,
+              "pool_hit": true,
+              "pool_ids": [
+                "text_00087",
+                "text_00077",
+                "text_00089",
+                "text_00086",
+                "text_00082",
+                "text_00095",
+                "text_00093",
+                "text_00097",
+                "text_00091",
+                "text_00088",
+                "text_00103",
+                "text_00081",
+                "text_00085",
+                "text_00132",
+                "text_00104",
+                "text_00074",
+                "text_00071",
+                "text_00096"
+              ]
+            }
+          },
+          "fusion_gain_at_k": {
+            "1": 0.0,
+            "3": 0.0,
+            "5": 0.0,
+            "10": 0.0,
+            "15": 0.0
+          },
+          "fusion_gain_pool": 0.0,
+          "table_vector": {
+            "rank": 6,
+            "recall_at_k": {
+              "1": false,
+              "3": false,
+              "5": false,
+              "10": true,
+              "15": true
+            },
+            "retrieved_k": 15
+          },
+          "merged_pool_size": 18
+        },
+        "rerank": {
+          "pre_rerank_rank": 13,
+          "post_rerank_rank": null,
+          "position_improvement": null,
+          "kicked_out_by_rerank": true,
+          "in_merged_pool": true,
+          "in_rerank_top3": false,
+          "rerank_top3_table_ref_chunks": 1,
+          "rerank_top3_pure_text_chunks": 2,
+          "rerank_top3_table_ref_ratio": 0.333
+        },
+        "judge": {
+          "faithfulness": 5.0,
+          "answer_relevancy": 4.0,
+          "context_precision": 2.0,
+          "reference_coverage": 1.0,
+          "verdict": "fail",
+          "notes": "Model completely failed to provide the correct revenue figure of $281.7 billion. Instead, it stated it cannot find the information and only mentioned a revenue increase percentage. This is a complete miss on a basic factual table lookup question.",
+          "llm_judge_score": 1.0
+        },
+        "final_context": {
+          "text_chunks": 6,
+          "table_contexts": 0,
+          "table_to_text_ratio": 0.0
+        }
+      }
+    }
+  ],
+  "langsmith": {
+    "enabled": false,
+    "reason": "skipped_by_flag"
+  }
+}
