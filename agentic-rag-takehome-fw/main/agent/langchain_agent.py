@@ -291,7 +291,7 @@ def _build_executor(
         tools=tools,
         verbose=False,
         max_iterations=max_steps,
-        early_stopping_method="generate",
+        early_stopping_method="force",
         handle_parsing_errors=True,
         return_intermediate_steps=True,
     )
