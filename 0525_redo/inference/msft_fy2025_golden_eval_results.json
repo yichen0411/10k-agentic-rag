@@ -1,0 +1,142 @@
+{
+  "summary": {
+    "n": 1,
+    "vector_hit_at_3": 1.0,
+    "bm25_hit_at_3": 1.0,
+    "vector_hit_at_5": 1.0,
+    "bm25_hit_at_5": 1.0,
+    "vector_hit_at_10": 1.0,
+    "bm25_hit_at_10": 1.0,
+    "merged_pool_recall": 1.0,
+    "fusion_gain_pool": 0.0,
+    "table_vector_hit_at_10": null,
+    "rerank_kick_out_rate": 0.0,
+    "rerank_position_improvement_mean": 0.0,
+    "mean_faithfulness": 5.0,
+    "mean_answer_relevancy": 5.0,
+    "mean_llm_judge_score": 5.0,
+    "by_question_type": {
+      "text_semantic": {
+        "n": 1,
+        "vector_hit_at_10": 1.0,
+        "bm25_hit_at_10": 1.0,
+        "merged_pool_recall": 1.0,
+        "table_vector_hit_at_10": null,
+        "fusion_gain_pool": 0.0,
+        "rerank_kick_out_rate": 0.0,
+        "mean_faithfulness": 5.0,
+        "mean_answer_relevancy": 5.0,
+        "mean_llm_judge_score": 5.0
+      }
+    }
+  },
+  "results": [
+    {
+      "question_id": "q001",
+      "question_type": "text_semantic",
+      "question": "What role do Bing and Microsoft Edge play in the company's advertising business model?",
+      "ground_truth_chunk_id": "text_00018",
+      "expected_answer": "Bing search engine and Microsoft Edge browser with Copilot serve as key tools for user acquisition and engagement, while the technology platform enables accelerated delivery of digital advertising solutions.",
+      "answer": "Based on the provided context, Bing and Microsoft Edge play key roles in Microsoft's advertising business model as part of their Search and News Advertising segment:\n\n**Primary Functions** (source.pdf::text_00018):\n- **User Acquisition and Engagement Tools**: Microsoft Edge browser and Bing search engine with Copilot are described as \"key tools to enable user acquisition and engagement\"\n- **Technology Platform**: They enable \"accelerated delivery of digital advertising solutions\"\n- **Content Delivery**: The business is \"designed to deliver relevant search, native, and display advertising to a global audience\"\n\n**Business Model Integration** (source.pdf::text_00015):\n- Bing and Microsoft Edge are part of the \"Search and news advertising\" component within the More Personal Computing segment\n- This component also includes \"Microsoft News and third-party affiliates\"\n\n**Revenue Generation Strategy** (source.pdf::text_00018):\n- Growth depends on the ability to \"attract new users, understand intent, and match intent with relevant content on advertising offerings\"\n- Microsoft has \"several partnerships with companies through which we provide and monetize search offerings\"\n\n**AI Integration** (source.pdf::text_00018):\n- Both tools now incorporate Microsoft Copilot, described as \"a digital companion designed to inform, entertain, and inspire\"\n\nIn essence, Bing and Microsoft Edge serve as the primary customer-facing platforms that drive user engagement and enable Microsoft to deliver targeted advertising, while also providing the technological infrastructure to support their broader digital advertising ecosystem.",
+      "latency_sec": 20.796,
+      "metrics": {
+        "retrieval": {
+          "per_path": {
+            "vector": {
+              "hit_rate": {
+                "3": true,
+                "5": true,
+                "10": true
+              },
+              "rank": 1,
+              "top_ids": [
+                "text_00018",
+                "text_00019",
+                "text_00085",
+                "text_00023",
+                "text_00001",
+                "text_00007",
+                "text_00020",
+                "text_00002",
+                "text_00003",
+                "text_00015"
+              ]
+            },
+            "bm25": {
+              "hit_rate": {
+                "3": true,
+                "5": true,
+                "10": true
+              },
+              "rank": 1,
+              "top_ids": [
+                "text_00018",
+                "text_00015",
+                "text_00003",
+                "text_00039",
+                "text_00070",
+                "text_00191",
+                "text_00002",
+                "text_00017",
+                "text_00085",
+                "text_00078"
+              ]
+            },
+            "merged": {
+              "pool_hit": true,
+              "rank": 1,
+              "pool_size": 15,
+              "pool_ids": [
+                "text_00018",
+                "text_00019",
+                "text_00085",
+                "text_00023",
+                "text_00001",
+                "text_00007",
+                "text_00020",
+                "text_00002",
+                "text_00003",
+                "text_00015",
+                "text_00039",
+                "text_00070",
+                "text_00191",
+                "text_00017",
+                "text_00078"
+              ]
+            }
+          },
+          "fusion_gain_pool": 0.0,
+          "table_vector_rank": null,
+          "table_vector_hit_at_10": null,
+          "merged_pool_size": 15
+        },
+        "rerank": {
+          "pre_rerank_rank": 1,
+          "post_rerank_rank": 1,
+          "position_improvement": 0,
+          "kicked_out_by_rerank": false,
+          "in_merged_pool": true,
+          "in_rerank_top3": true,
+          "rerank_top3_table_ref_chunks": 1,
+          "rerank_top3_pure_text_chunks": 2,
+          "rerank_top3_table_ref_ratio": 0.333
+        },
+        "judge": {
+          "faithfulness": 5.0,
+          "answer_relevancy": 5.0,
+          "context_precision": 4.0,
+          "reference_coverage": 5.0,
+          "verdict": "pass",
+          "notes": "The model answer perfectly captures all core facts from the expected answer: Bing and Edge serve as user acquisition/engagement tools, and the technology platform enables accelerated delivery of digital advertising solutions. The answer provides comprehensive detail with proper source citations while maintaining semantic accuracy.",
+          "llm_judge_score": 5.0
+        },
+        "final_context": {
+          "text_chunks": 8,
+          "table_contexts": 1,
+          "table_to_text_ratio": 0.125
+        }
+      }
+    }
+  ],
+  "partial": true
+}

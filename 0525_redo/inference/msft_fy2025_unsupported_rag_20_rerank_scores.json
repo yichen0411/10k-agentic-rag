@@ -1,0 +1,1126 @@
+{
+  "settings": {
+    "rerank_model": "accounts/fireworks/models/qwen3-reranker-8b",
+    "vector_top_k": 10,
+    "bm25_top_k": 10,
+    "rerank_top_n": 3,
+    "answer_generation": false,
+    "fallback_enabled": false,
+    "full_rerank_candidate_text": true
+  },
+  "summary": {
+    "n": 20,
+    "rerank_score_by_rank": {
+      "top1": {
+        "min": 0.08035746961832047,
+        "p25": 0.25215935707092285,
+        "median": 0.32082128524780273,
+        "p75": 0.38498886674642563,
+        "max": 0.9046505093574524,
+        "mean": 0.38617447949945927
+      },
+      "top2": {
+        "min": 0.008847355842590332,
+        "p25": 0.027178303338587284,
+        "median": 0.10378460958600044,
+        "p75": 0.19249418005347252,
+        "max": 0.531209409236908,
+        "mean": 0.14192890138365327
+      },
+      "top3": {
+        "min": 0.005730246193706989,
+        "p25": 0.01293056202121079,
+        "median": 0.0408632829785347,
+        "p75": 0.06568404659628868,
+        "max": 0.18242552876472473,
+        "mean": 0.054284432297572495
+      }
+    },
+    "embedding_similarity_by_rerank_rank": {
+      "top1": {
+        "min": 0.6113677724869403,
+        "p25": 0.6188334958302706,
+        "median": 0.6306388806841676,
+        "p75": 0.6625711892625625,
+        "max": 0.7615194828485792,
+        "mean": 0.6448770377306102
+      },
+      "top2": {
+        "min": 0.6058362151171841,
+        "p25": 0.628847397677073,
+        "median": 0.6396246597591366,
+        "p75": 0.6556923252948201,
+        "max": 0.6860827174761909,
+        "mean": 0.6424413840599312
+      },
+      "top3": {
+        "min": 0.5919701736096027,
+        "p25": 0.6211085601758779,
+        "median": 0.62704813947658,
+        "p75": 0.6448123345648223,
+        "max": 0.6691502977179239,
+        "mean": 0.6301318789555557
+      }
+    },
+    "top1_rerank_lt_060": 16,
+    "top1_embedding_lt_060": 1
+  },
+  "rows": [
+    {
+      "id": "unsupported_001",
+      "question": "What does Microsoft's FY2025 10-K say about its employee unionization rate?",
+      "unsupported_reason": "10-K does not disclose an employee unionization rate.",
+      "top3": [
+        {
+          "rank": 1,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00088",
+          "rerank_score": 0.18242552876472473,
+          "embedding_similarity": 0.6306388806841676,
+          "bm25_score": 8.381376532752014,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "RESULTS OF OPERATIONS"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > RESULTS OF OPERATIONS The following Management’s Discussion and Analysis of Financial Condition and Results of Operations (“MD&A”) is intended to help the reader understand the results of operations and financial "
+        },
+        {
+          "rank": 2,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00247",
+          "rerank_score": 0.020332353189587593,
+          "embedding_similarity": null,
+          "bm25_score": 8.760117064027847,
+          "header_path": [
+            "Part III",
+            "Item 14",
+            "Principal Accountant Fees and Services",
+            "(b) Exhibit Listing"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part III > Item 14 > Principal Accountant Fees and Services > (b) Exhibit Listing ** Furnished, not filed. ITEM 16. FORM 10-K SUMMARY None. SIGNATURES Pursuant to the requirements of Section 13 or 15(d) of the Securities Exchange Act of 1934, the Registrant has duly caused this report to be signed on its behalf by the "
+        },
+        {
+          "rank": 3,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00100",
+          "rerank_score": 0.0120537793263793,
+          "embedding_similarity": 0.6218353633996477,
+          "bm25_score": null,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "Fiscal Year 2025 Compared with Fiscal Year 2024",
+            "Productivity and Business Processes"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > Fiscal Year 2025 Compared with Fiscal Year 2024 > Productivity and Business Processes Revenue increased $14.0 billion or 13%. • Microsoft 365 Commercial products and cloud services revenue increased $10.8 billion "
+        }
+      ]
+    },
+    {
+      "id": "unsupported_002",
+      "question": "What does Microsoft's FY2025 10-K disclose about Satya Nadella's CEO succession plan?",
+      "unsupported_reason": "10-K does not disclose a CEO succession plan.",
+      "top3": [
+        {
+          "rank": 1,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00247",
+          "rerank_score": 0.8807970285415649,
+          "embedding_similarity": null,
+          "bm25_score": 18.926787100022963,
+          "header_path": [
+            "Part III",
+            "Item 14",
+            "Principal Accountant Fees and Services",
+            "(b) Exhibit Listing"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part III > Item 14 > Principal Accountant Fees and Services > (b) Exhibit Listing ** Furnished, not filed. ITEM 16. FORM 10-K SUMMARY None. SIGNATURES Pursuant to the requirements of Section 13 or 15(d) of the Securities Exchange Act of 1934, the Registrant has duly caused this report to be signed on its behalf by the "
+        },
+        {
+          "rank": 2,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00037",
+          "rerank_score": 0.32082128524780273,
+          "embedding_similarity": 0.6568021937013248,
+          "bm25_score": null,
+          "header_path": [
+            "Part I",
+            "Item 1",
+            "Business",
+            "INFORMATION ABOUT OUR EXECUTIVE OFFICERS"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part I > Item 1 > Business > INFORMATION ABOUT OUR EXECUTIVE OFFICERS Our executive officers as of July 30, 2025 were as follows. Microsoft in 1992, Mr. Nadella’s roles also included Vice President of the Business Division. Mr. Althoff was appointed Executive Vice President and Chief Commercial Officer in July 2021. He"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00088",
+          "rerank_score": 0.14804719388484955,
+          "embedding_similarity": 0.6409495969156545,
+          "bm25_score": 9.713937470983392,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "RESULTS OF OPERATIONS"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > RESULTS OF OPERATIONS The following Management’s Discussion and Analysis of Financial Condition and Results of Operations (“MD&A”) is intended to help the reader understand the results of operations and financial "
+        }
+      ]
+    },
+    {
+      "id": "unsupported_003",
+      "question": "What does Microsoft's FY2025 10-K say about the number of paid GitHub Copilot seats?",
+      "unsupported_reason": "10-K discusses products but does not disclose paid GitHub Copilot seat counts.",
+      "top3": [
+        {
+          "rank": 1,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00088",
+          "rerank_score": 0.26894140243530273,
+          "embedding_similarity": 0.6113734879123048,
+          "bm25_score": null,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "RESULTS OF OPERATIONS"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > RESULTS OF OPERATIONS The following Management’s Discussion and Analysis of Financial Condition and Results of Operations (“MD&A”) is intended to help the reader understand the results of operations and financial "
+        },
+        {
+          "rank": 2,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00100",
+          "rerank_score": 0.027585284784436226,
+          "embedding_similarity": 0.6058362151171841,
+          "bm25_score": null,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "Fiscal Year 2025 Compared with Fiscal Year 2024",
+            "Productivity and Business Processes"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > Fiscal Year 2025 Compared with Fiscal Year 2024 > Productivity and Business Processes Revenue increased $14.0 billion or 13%. • Microsoft 365 Commercial products and cloud services revenue increased $10.8 billion "
+        },
+        {
+          "rank": 3,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00095",
+          "rerank_score": 0.013222822919487953,
+          "embedding_similarity": 0.593099341457918,
+          "bm25_score": 23.958523524333852,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "Productivity and Business Processes and Intelligent Cloud"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > Productivity and Business Processes and Intelligent Cloud Metrics related to our Productivity and Business Processes and Intelligent Cloud segments assess the health of our core businesses within these segments. T"
+        }
+      ]
+    },
+    {
+      "id": "unsupported_004",
+      "question": "What does Microsoft's FY2025 10-K disclose about Azure data center water usage in Arizona?",
+      "unsupported_reason": "10-K does not provide Arizona-specific data center water usage.",
+      "top3": [
+        {
+          "rank": 1,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00088",
+          "rerank_score": 0.08035746961832047,
+          "embedding_similarity": 0.6237097128382998,
+          "bm25_score": 10.763626669741969,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "RESULTS OF OPERATIONS"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > RESULTS OF OPERATIONS The following Management’s Discussion and Analysis of Financial Condition and Results of Operations (“MD&A”) is intended to help the reader understand the results of operations and financial "
+        },
+        {
+          "rank": 2,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00004",
+          "rerank_score": 0.012821213342249393,
+          "embedding_similarity": 0.6245861796996495,
+          "bm25_score": 12.952651579191684,
+          "header_path": [
+            "Part I",
+            "Item 1",
+            "Business",
+            "Commitment to Sustainability"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part I > Item 1 > Business > Commitment to Sustainability Microsoft is committed to sustainability and our approach to addressing climate change starts with the sustainability of our own business. In 2020, we announced goals to become a carbon negative, water positive, and zero waste company by 2030. Since announcing t"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00101",
+          "rerank_score": 0.01032815221697092,
+          "embedding_similarity": 0.6209492919345938,
+          "bm25_score": 9.97042222094548,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "Fiscal Year 2025 Compared with Fiscal Year 2024",
+            "Intelligent Cloud"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > Fiscal Year 2025 Compared with Fiscal Year 2024 > Intelligent Cloud Revenue increased $18.8 billion or 21%. • Server products and cloud services revenue increased $18.6 billion or 23% driven by Azure and other clo"
+        }
+      ]
+    },
+    {
+      "id": "unsupported_005",
+      "question": "What does Microsoft's FY2025 10-K say about the revenue-sharing percentage in its OpenAI partnership?",
+      "unsupported_reason": "10-K does not disclose OpenAI revenue-sharing percentages.",
+      "top3": [
+        {
+          "rank": 1,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00089",
+          "rerank_score": 0.29421496391296387,
+          "embedding_similarity": 0.7615194828485792,
+          "bm25_score": 26.955647283739708,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "Industry Trends and Opportunities"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > Industry Trends and Opportunities Our industry is dynamic and highly competitive, with frequent changes in both technologies and business models. Each industry shift is an opportunity to conceive new products, new"
+        },
+        {
+          "rank": 2,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00088",
+          "rerank_score": 0.18242552876472473,
+          "embedding_similarity": 0.6860827174761909,
+          "bm25_score": 12.579017686298325,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "RESULTS OF OPERATIONS"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > RESULTS OF OPERATIONS The following Management’s Discussion and Analysis of Financial Condition and Results of Operations (“MD&A”) is intended to help the reader understand the results of operations and financial "
+        },
+        {
+          "rank": 3,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00098",
+          "rerank_score": 0.01912403479218483,
+          "embedding_similarity": null,
+          "bm25_score": 12.58870170713598,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "Fiscal Year 2025 Compared with Fiscal Year 2024"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > Fiscal Year 2025 Compared with Fiscal Year 2024 Revenue increased $36.6 billion or 15% with growth across each of our segments. Intelligent Cloud revenue increased driven by Azure. Productivity and Business Proces"
+        }
+      ]
+    },
+    {
+      "id": "unsupported_006",
+      "question": "What does Microsoft's FY2025 10-K disclose about a TikTok advertising partnership?",
+      "unsupported_reason": "No TikTok advertising partnership disclosure is expected in the 10-K chunks.",
+      "top3": [
+        {
+          "rank": 1,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00088",
+          "rerank_score": 0.3486451208591461,
+          "embedding_similarity": 0.6134601808554428,
+          "bm25_score": 11.974580098406912,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "RESULTS OF OPERATIONS"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > RESULTS OF OPERATIONS The following Management’s Discussion and Analysis of Financial Condition and Results of Operations (“MD&A”) is intended to help the reader understand the results of operations and financial "
+        },
+        {
+          "rank": 2,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00019",
+          "rerank_score": 0.02595735900104046,
+          "embedding_similarity": null,
+          "bm25_score": 8.458722323263402,
+          "header_path": [
+            "Part I",
+            "Item 1",
+            "Business",
+            "Search and News Advertising"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part I > Item 1 > Business > Search and News Advertising Our Search and news advertising business is designed to deliver relevant search, native, and display advertising to a global audience. Microsoft Copilot is a digital companion designed to inform, entertain, and inspire. Our Microsoft Edge browser and Bing search "
+        },
+        {
+          "rank": 3,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00216",
+          "rerank_score": 0.005730246193706989,
+          "embedding_similarity": 0.5919701736096027,
+          "bm25_score": null,
+          "header_path": [
+            "Part II",
+            "Item 8",
+            "Financial Statements and Supplementary Data",
+            "REPORT OF INDEPENDENT REGISTERED PUBLIC ACCOUNTING FIRM"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 8 > Financial Statements and Supplementary Data > REPORT OF INDEPENDENT REGISTERED PUBLIC ACCOUNTING FIRM To the Stockholders and the Board of Directors of Microsoft Corporation"
+        }
+      ]
+    },
+    {
+      "id": "unsupported_007",
+      "question": "What does Microsoft's FY2025 10-K say about layoffs by business division?",
+      "unsupported_reason": "10-K does not disclose layoffs broken out by business division.",
+      "top3": [
+        {
+          "rank": 1,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00088",
+          "rerank_score": 0.7549149990081787,
+          "embedding_similarity": 0.6625640071806094,
+          "bm25_score": 10.013912862144434,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "RESULTS OF OPERATIONS"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > RESULTS OF OPERATIONS The following Management’s Discussion and Analysis of Financial Condition and Results of Operations (“MD&A”) is intended to help the reader understand the results of operations and financial "
+        },
+        {
+          "rank": 2,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00100",
+          "rerank_score": 0.10669060796499252,
+          "embedding_similarity": 0.6302678036695475,
+          "bm25_score": 9.617732068714233,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "Fiscal Year 2025 Compared with Fiscal Year 2024",
+            "Productivity and Business Processes"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > Fiscal Year 2025 Compared with Fiscal Year 2024 > Productivity and Business Processes Revenue increased $14.0 billion or 13%. • Microsoft 365 Commercial products and cloud services revenue increased $10.8 billion "
+        },
+        {
+          "rank": 3,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00005",
+          "rerank_score": 0.09534946084022522,
+          "embedding_similarity": 0.6435943511670075,
+          "bm25_score": null,
+          "header_path": [
+            "Part I",
+            "Item 1",
+            "Business",
+            "OPERATING SEGMENTS"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part I > Item 1 > Business > OPERATING SEGMENTS We operate our business and report our financial performance using three segments: Productivity and Business Processes, Intelligent Cloud, and More Personal Computing. Our segments provide management with a comprehensive financial view of our key businesses. The segments "
+        }
+      ]
+    },
+    {
+      "id": "unsupported_008",
+      "question": "What does Microsoft's FY2025 10-K disclose about the number of NVIDIA H100 GPUs purchased?",
+      "unsupported_reason": "10-K does not disclose specific GPU purchase counts.",
+      "top3": [
+        {
+          "rank": 1,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00088",
+          "rerank_score": 0.18242552876472473,
+          "embedding_similarity": 0.6213210977387617,
+          "bm25_score": null,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "RESULTS OF OPERATIONS"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > RESULTS OF OPERATIONS The following Management’s Discussion and Analysis of Financial Condition and Results of Operations (“MD&A”) is intended to help the reader understand the results of operations and financial "
+        },
+        {
+          "rank": 2,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00084",
+          "rerank_score": 0.01640303246676922,
+          "embedding_similarity": null,
+          "bm25_score": 14.23673964135758,
+          "header_path": [
+            "Part II",
+            "Item 5",
+            "Market for Registrant’s Common Equity, Related Stockholder Matters, and Issuer Purchases of Equity Securities",
+            "SHARE REPURCHASES AND DIVIDENDS"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 5 > Market for Registrant’s Common Equity, Related Stockholder Matters, and Issuer Purchases of Equity Securities > SHARE REPURCHASES AND DIVIDENDS Following are our monthly share repurchases for the fourth quarter of fiscal year 2025: Period Total Number of Shares Purchased Average Price Paid Per Share "
+        },
+        {
+          "rank": 3,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00100",
+          "rerank_score": 0.011331753805279732,
+          "embedding_similarity": 0.6143709798984213,
+          "bm25_score": null,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "Fiscal Year 2025 Compared with Fiscal Year 2024",
+            "Productivity and Business Processes"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > Fiscal Year 2025 Compared with Fiscal Year 2024 > Productivity and Business Processes Revenue increased $14.0 billion or 13%. • Microsoft 365 Commercial products and cloud services revenue increased $10.8 billion "
+        }
+      ]
+    },
+    {
+      "id": "unsupported_009",
+      "question": "What does Microsoft's FY2025 10-K say about quantum computing revenue?",
+      "unsupported_reason": "10-K does not disclose quantum computing revenue.",
+      "top3": [
+        {
+          "rank": 1,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00088",
+          "rerank_score": 0.9046505093574524,
+          "embedding_similarity": 0.6905777273616583,
+          "bm25_score": 11.509390217133355,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "RESULTS OF OPERATIONS"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > RESULTS OF OPERATIONS The following Management’s Discussion and Analysis of Financial Condition and Results of Operations (“MD&A”) is intended to help the reader understand the results of operations and financial "
+        },
+        {
+          "rank": 2,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00098",
+          "rerank_score": 0.531209409236908,
+          "embedding_similarity": 0.6527368617249261,
+          "bm25_score": 9.513981000543133,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "Fiscal Year 2025 Compared with Fiscal Year 2024"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > Fiscal Year 2025 Compared with Fiscal Year 2024 Revenue increased $36.6 billion or 15% with growth across each of our segments. Intelligent Cloud revenue increased driven by Azure. Productivity and Business Proces"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00100",
+          "rerank_score": 0.16451644897460938,
+          "embedding_similarity": 0.6668341943678707,
+          "bm25_score": 9.45522035067957,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "Fiscal Year 2025 Compared with Fiscal Year 2024",
+            "Productivity and Business Processes"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > Fiscal Year 2025 Compared with Fiscal Year 2024 > Productivity and Business Processes Revenue increased $14.0 billion or 13%. • Microsoft 365 Commercial products and cloud services revenue increased $10.8 billion "
+        }
+      ]
+    },
+    {
+      "id": "unsupported_010",
+      "question": "What does Microsoft's FY2025 10-K disclose about the CEO's annual cash bonus?",
+      "unsupported_reason": "Executive compensation details are generally proxy material, not disclosed in this 10-K chunk set.",
+      "top3": [
+        {
+          "rank": 1,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00037",
+          "rerank_score": 0.2018132209777832,
+          "embedding_similarity": 0.6625783713445156,
+          "bm25_score": null,
+          "header_path": [
+            "Part I",
+            "Item 1",
+            "Business",
+            "INFORMATION ABOUT OUR EXECUTIVE OFFICERS"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part I > Item 1 > Business > INFORMATION ABOUT OUR EXECUTIVE OFFICERS Our executive officers as of July 30, 2025 were as follows. Microsoft in 1992, Mr. Nadella’s roles also included Vice President of the Business Division. Mr. Althoff was appointed Executive Vice President and Chief Commercial Officer in July 2021. He"
+        },
+        {
+          "rank": 2,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00088",
+          "rerank_score": 0.16451644897460938,
+          "embedding_similarity": 0.6553223691593186,
+          "bm25_score": 12.09126160799345,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "RESULTS OF OPERATIONS"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > RESULTS OF OPERATIONS The following Management’s Discussion and Analysis of Financial Condition and Results of Operations (“MD&A”) is intended to help the reader understand the results of operations and financial "
+        },
+        {
+          "rank": 3,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00233",
+          "rerank_score": 0.03963884338736534,
+          "embedding_similarity": 0.62704813947658,
+          "bm25_score": 17.363957950870358,
+          "header_path": [
+            "Part III",
+            "Item 10",
+            "Directors, Executive Officers, and Corporate Governance"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part III > Item 10 > Directors, Executive Officers, and Corporate Governance ITEM 10. DIRECTORS, EXECUTIVE OFFICERS, AND CORPORATE GOVERNANCE A list of our executive officers and biographical information appears in Part I, Item 1 of this Form 10-K. Information about our directors may be found under the caption “Our Dir"
+        }
+      ]
+    },
+    {
+      "id": "unsupported_011",
+      "question": "What does Microsoft's FY2025 10-K say about monthly active users for Microsoft Teams?",
+      "unsupported_reason": "10-K does not disclose Teams monthly active users.",
+      "top3": [
+        {
+          "rank": 1,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00088",
+          "rerank_score": 0.26894140243530273,
+          "embedding_similarity": 0.6558536889880291,
+          "bm25_score": null,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "RESULTS OF OPERATIONS"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > RESULTS OF OPERATIONS The following Management’s Discussion and Analysis of Financial Condition and Results of Operations (“MD&A”) is intended to help the reader understand the results of operations and financial "
+        },
+        {
+          "rank": 2,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00100",
+          "rerank_score": 0.008847355842590332,
+          "embedding_similarity": 0.6440048983078362,
+          "bm25_score": null,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "Fiscal Year 2025 Compared with Fiscal Year 2024",
+            "Productivity and Business Processes"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > Fiscal Year 2025 Compared with Fiscal Year 2024 > Productivity and Business Processes Revenue increased $14.0 billion or 13%. • Microsoft 365 Commercial products and cloud services revenue increased $10.8 billion "
+        },
+        {
+          "rank": 3,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00095",
+          "rerank_score": 0.008847355842590332,
+          "embedding_similarity": 0.6212678284171619,
+          "bm25_score": 11.843816951197871,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "Productivity and Business Processes and Intelligent Cloud"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > Productivity and Business Processes and Intelligent Cloud Metrics related to our Productivity and Business Processes and Intelligent Cloud segments assess the health of our core businesses within these segments. T"
+        }
+      ]
+    },
+    {
+      "id": "unsupported_012",
+      "question": "What does Microsoft's FY2025 10-K disclose about Azure OpenAI API token volume?",
+      "unsupported_reason": "10-K does not disclose Azure OpenAI API token volume.",
+      "top3": [
+        {
+          "rank": 1,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00088",
+          "rerank_score": 0.3775406777858734,
+          "embedding_similarity": 0.6180690795764145,
+          "bm25_score": 10.226349935169535,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "RESULTS OF OPERATIONS"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > RESULTS OF OPERATIONS The following Management’s Discussion and Analysis of Financial Condition and Results of Operations (“MD&A”) is intended to help the reader understand the results of operations and financial "
+        },
+        {
+          "rank": 2,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00101",
+          "rerank_score": 0.10087861120700836,
+          "embedding_similarity": 0.6194797462697783,
+          "bm25_score": 9.041433415832207,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "Fiscal Year 2025 Compared with Fiscal Year 2024",
+            "Intelligent Cloud"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > Fiscal Year 2025 Compared with Fiscal Year 2024 > Intelligent Cloud Revenue increased $18.8 billion or 21%. • Server products and cloud services revenue increased $18.6 billion or 23% driven by Azure and other clo"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00098",
+          "rerank_score": 0.060086652636528015,
+          "embedding_similarity": 0.605880126905772,
+          "bm25_score": null,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "Fiscal Year 2025 Compared with Fiscal Year 2024"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > Fiscal Year 2025 Compared with Fiscal Year 2024 Revenue increased $36.6 billion or 15% with growth across each of our segments. Intelligent Cloud revenue increased driven by Azure. Productivity and Business Proces"
+        }
+      ]
+    },
+    {
+      "id": "unsupported_013",
+      "question": "What does Microsoft's FY2025 10-K say about the churn rate for Microsoft 365 subscribers?",
+      "unsupported_reason": "10-K does not disclose subscriber churn rate.",
+      "top3": [
+        {
+          "rank": 1,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00088",
+          "rerank_score": 0.29421496391296387,
+          "embedding_similarity": 0.6444252297706959,
+          "bm25_score": 15.728261697191144,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "RESULTS OF OPERATIONS"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > RESULTS OF OPERATIONS The following Management’s Discussion and Analysis of Financial Condition and Results of Operations (“MD&A”) is intended to help the reader understand the results of operations and financial "
+        },
+        {
+          "rank": 2,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00100",
+          "rerank_score": 0.22270013391971588,
+          "embedding_similarity": 0.6674022935431005,
+          "bm25_score": 14.494446891207446,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "Fiscal Year 2025 Compared with Fiscal Year 2024",
+            "Productivity and Business Processes"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > Fiscal Year 2025 Compared with Fiscal Year 2024 > Productivity and Business Processes Revenue increased $14.0 billion or 13%. • Microsoft 365 Commercial products and cloud services revenue increased $10.8 billion "
+        },
+        {
+          "rank": 3,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00095",
+          "rerank_score": 0.01912403479218483,
+          "embedding_similarity": 0.6477737148646259,
+          "bm25_score": 18.60339336464596,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "Productivity and Business Processes and Intelligent Cloud"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > Productivity and Business Processes and Intelligent Cloud Metrics related to our Productivity and Business Processes and Intelligent Cloud segments assess the health of our core businesses within these segments. T"
+        }
+      ]
+    },
+    {
+      "id": "unsupported_014",
+      "question": "What does Microsoft's FY2025 10-K disclose about daily active users of Xbox Game Pass?",
+      "unsupported_reason": "10-K does not disclose Xbox Game Pass daily active users.",
+      "top3": [
+        {
+          "rank": 1,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00088",
+          "rerank_score": 0.18242552876472473,
+          "embedding_similarity": 0.6113677724869403,
+          "bm25_score": 10.734877919050453,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "RESULTS OF OPERATIONS"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > RESULTS OF OPERATIONS The following Management’s Discussion and Analysis of Financial Condition and Results of Operations (“MD&A”) is intended to help the reader understand the results of operations and financial "
+        },
+        {
+          "rank": 2,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00102",
+          "rerank_score": 0.11920291930437088,
+          "embedding_similarity": 0.6178249176740337,
+          "bm25_score": 13.41140619391863,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "Fiscal Year 2025 Compared with Fiscal Year 2024",
+            "More Personal Computing"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > Fiscal Year 2025 Compared with Fiscal Year 2024 > More Personal Computing Revenue increased $3.8 billion or 7%. • Windows and Devices revenue increased $288 million or 2%. Windows OEM and Devices revenue increased"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00018",
+          "rerank_score": 0.042087722569704056,
+          "embedding_similarity": 0.6460303179626372,
+          "bm25_score": 19.50264865709726,
+          "header_path": [
+            "Part I",
+            "Item 1",
+            "Business",
+            "Gaming"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part I > Item 1 > Business > Gaming Microsoft is expanding how billions of people globally access and play video games on PC, console, mobile, and cloud. Our game content is developed through a collection of first-party studios creating iconic and differentiated gaming experiences. We continue to invest in gaming studi"
+        }
+      ]
+    },
+    {
+      "id": "unsupported_015",
+      "question": "What does Microsoft's FY2025 10-K say about datacenter electricity costs per Azure region?",
+      "unsupported_reason": "10-K does not disclose electricity costs by Azure region.",
+      "top3": [
+        {
+          "rank": 1,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00088",
+          "rerank_score": 0.32082128524780273,
+          "embedding_similarity": 0.6159124483427536,
+          "bm25_score": 13.713834353218394,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "RESULTS OF OPERATIONS"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > RESULTS OF OPERATIONS The following Management’s Discussion and Analysis of Financial Condition and Results of Operations (“MD&A”) is intended to help the reader understand the results of operations and financial "
+        },
+        {
+          "rank": 2,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00101",
+          "rerank_score": 0.06754669547080994,
+          "embedding_similarity": 0.6342099207647071,
+          "bm25_score": 9.041433415832207,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "Fiscal Year 2025 Compared with Fiscal Year 2024",
+            "Intelligent Cloud"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > Fiscal Year 2025 Compared with Fiscal Year 2024 > Intelligent Cloud Revenue increased $18.8 billion or 21%. • Server products and cloud services revenue increased $18.6 billion or 23% driven by Azure and other clo"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00098",
+          "rerank_score": 0.053403329104185104,
+          "embedding_similarity": 0.6286011175388464,
+          "bm25_score": null,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "Fiscal Year 2025 Compared with Fiscal Year 2024"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > Fiscal Year 2025 Compared with Fiscal Year 2024 Revenue increased $36.6 billion or 15% with growth across each of our segments. Intelligent Cloud revenue increased driven by Azure. Productivity and Business Proces"
+        }
+      ]
+    },
+    {
+      "id": "unsupported_016",
+      "question": "What does Microsoft's FY2025 10-K disclose about customer satisfaction scores for Surface devices?",
+      "unsupported_reason": "10-K does not disclose customer satisfaction scores for Surface devices.",
+      "top3": [
+        {
+          "rank": 1,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00088",
+          "rerank_score": 0.3486451208591461,
+          "embedding_similarity": 0.665831493174154,
+          "bm25_score": 11.083917299406973,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "RESULTS OF OPERATIONS"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > RESULTS OF OPERATIONS The following Management’s Discussion and Analysis of Financial Condition and Results of Operations (“MD&A”) is intended to help the reader understand the results of operations and financial "
+        },
+        {
+          "rank": 2,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00102",
+          "rerank_score": 0.053403329104185104,
+          "embedding_similarity": 0.6409992590537452,
+          "bm25_score": null,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "Fiscal Year 2025 Compared with Fiscal Year 2024",
+            "More Personal Computing"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > Fiscal Year 2025 Compared with Fiscal Year 2024 > More Personal Computing Revenue increased $3.8 billion or 7%. • Windows and Devices revenue increased $288 million or 2%. Windows OEM and Devices revenue increased"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00096",
+          "rerank_score": 0.042087722569704056,
+          "embedding_similarity": 0.6581924647139094,
+          "bm25_score": null,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "More Personal Computing"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > More Personal Computing Metrics related to our More Personal Computing segment assess the performance of our key consumer businesses. Windows OEM and Devices revenue growth Revenue from sales of Windows Pro and no"
+        }
+      ]
+    },
+    {
+      "id": "unsupported_017",
+      "question": "What does Microsoft's FY2025 10-K say about the number of security incidents caused by Copilot?",
+      "unsupported_reason": "10-K does not disclose a count of security incidents caused by Copilot.",
+      "top3": [
+        {
+          "rank": 1,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00088",
+          "rerank_score": 0.32082128524780273,
+          "embedding_similarity": 0.6195979120841266,
+          "bm25_score": null,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "RESULTS OF OPERATIONS"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > RESULTS OF OPERATIONS The following Management’s Discussion and Analysis of Financial Condition and Results of Operations (“MD&A”) is intended to help the reader understand the results of operations and financial "
+        },
+        {
+          "rank": 2,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00050",
+          "rerank_score": 0.06754669547080994,
+          "embedding_similarity": 0.6323582628053148,
+          "bm25_score": null,
+          "header_path": [
+            "Part I",
+            "Item 1",
+            "Item 1A",
+            "Risk Factors",
+            "Security of our information technology"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part I > Item 1 > Item 1A > Risk Factors > Security of our information technology Threats to security can take a variety of forms. Threat actors, including individual and groups of hackers and sophisticated organizations, including nation-states, state-sponsored organizations, or cybercriminal groups, continuously unde"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00052",
+          "rerank_score": 0.06371499598026276,
+          "embedding_similarity": 0.6303433375445938,
+          "bm25_score": null,
+          "header_path": [
+            "Part I",
+            "Item 1",
+            "Item 1A",
+            "Risk Factors",
+            "Security of our information technology"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part I > Item 1 > Item 1A > Risk Factors > Security of our information technology In addition, actions taken to remediate an incident could result in outages, data losses, and disruptions of our services. Our internal environment continues to evolve. Often, we are early adopters of new devices and technologies. We embr"
+        }
+      ]
+    },
+    {
+      "id": "unsupported_018",
+      "question": "What does Microsoft's FY2025 10-K disclose about LinkedIn premium subscriber count?",
+      "unsupported_reason": "10-K does not disclose LinkedIn premium subscriber count.",
+      "top3": [
+        {
+          "rank": 1,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00100",
+          "rerank_score": 0.3486451208591461,
+          "embedding_similarity": 0.6248903076651571,
+          "bm25_score": 11.998338058222695,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "Fiscal Year 2025 Compared with Fiscal Year 2024",
+            "Productivity and Business Processes"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > Fiscal Year 2025 Compared with Fiscal Year 2024 > Productivity and Business Processes Revenue increased $14.0 billion or 13%. • Microsoft 365 Commercial products and cloud services revenue increased $10.8 billion "
+        },
+        {
+          "rank": 2,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00088",
+          "rerank_score": 0.32082128524780273,
+          "embedding_similarity": 0.6382500604645279,
+          "bm25_score": 10.047028224920663,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "RESULTS OF OPERATIONS"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > RESULTS OF OPERATIONS The following Management’s Discussion and Analysis of Financial Condition and Results of Operations (“MD&A”) is intended to help the reader understand the results of operations and financial "
+        },
+        {
+          "rank": 3,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00009",
+          "rerank_score": 0.022977368906140327,
+          "embedding_similarity": 0.6223560619469136,
+          "bm25_score": 13.252898149959957,
+          "header_path": [
+            "Part I",
+            "Item 1",
+            "Business",
+            "LinkedIn"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part I > Item 1 > Business > LinkedIn LinkedIn connects the world’s professionals to make them more productive and successful and transforms the way companies hire, market, sell, and learn. In addition to LinkedIn’s free services, LinkedIn offers monetized solutions designed to offer AI-enabled insights and productivit"
+        }
+      ]
+    },
+    {
+      "id": "unsupported_019",
+      "question": "What does Microsoft's FY2025 10-K say about the exact percentage of Azure revenue from government customers?",
+      "unsupported_reason": "10-K does not disclose Azure revenue percentage from government customers.",
+      "top3": [
+        {
+          "rank": 1,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00088",
+          "rerank_score": 0.7549149990081787,
+          "embedding_similarity": 0.6673749629585128,
+          "bm25_score": 15.915905439425991,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "RESULTS OF OPERATIONS"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > RESULTS OF OPERATIONS The following Management’s Discussion and Analysis of Financial Condition and Results of Operations (“MD&A”) is intended to help the reader understand the results of operations and financial "
+        },
+        {
+          "rank": 2,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00101",
+          "rerank_score": 0.32082128524780273,
+          "embedding_similarity": 0.6728984455277143,
+          "bm25_score": 16.085215752537746,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "Fiscal Year 2025 Compared with Fiscal Year 2024",
+            "Intelligent Cloud"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > Fiscal Year 2025 Compared with Fiscal Year 2024 > Intelligent Cloud Revenue increased $18.8 billion or 21%. • Server products and cloud services revenue increased $18.6 billion or 23% driven by Azure and other clo"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00098",
+          "rerank_score": 0.18242552876472473,
+          "embedding_similarity": 0.6691502977179239,
+          "bm25_score": 16.40187178437599,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "Fiscal Year 2025 Compared with Fiscal Year 2024"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > Fiscal Year 2025 Compared with Fiscal Year 2024 Revenue increased $36.6 billion or 15% with growth across each of our segments. Intelligent Cloud revenue increased driven by Azure. Productivity and Business Proces"
+        }
+      ]
+    },
+    {
+      "id": "unsupported_020",
+      "question": "What does Microsoft's FY2025 10-K disclose about employee attrition rate in engineering roles?",
+      "unsupported_reason": "10-K does not disclose engineering attrition rate.",
+      "top3": [
+        {
+          "rank": 1,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00088",
+          "rerank_score": 0.4073334336280823,
+          "embedding_similarity": 0.6515978730704709,
+          "bm25_score": null,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "RESULTS OF OPERATIONS"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > RESULTS OF OPERATIONS The following Management’s Discussion and Analysis of Financial Condition and Results of Operations (“MD&A”) is intended to help the reader understand the results of operations and financial "
+        },
+        {
+          "rank": 2,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00021",
+          "rerank_score": 0.14804719388484955,
+          "embedding_similarity": null,
+          "bm25_score": 9.610863329551671,
+          "header_path": [
+            "Part I",
+            "Item 1",
+            "Business",
+            "HUMAN CAPITAL RESOURCES"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part I > Item 1 > Business > HUMAN CAPITAL RESOURCES As of June 30, 2025, we employed approximately 228,000 people on a full-time basis, 125,000 in the U.S. and 103,000 internationally. Of the total employees, 89,000 were in operations, including product support and consulting services, datacenter operations, and manuf"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "MSFT_FY2025_10-K.pdf::text_00100",
+          "rerank_score": 0.07159119844436646,
+          "embedding_similarity": 0.6222590003158766,
+          "bm25_score": 9.484632299260056,
+          "header_path": [
+            "Part II",
+            "Item 7",
+            "Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+            "Fiscal Year 2025 Compared with Fiscal Year 2024",
+            "Productivity and Business Processes"
+          ],
+          "source_file": "MSFT_FY2025_10-K.pdf",
+          "excerpt": "Part II > Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > Fiscal Year 2025 Compared with Fiscal Year 2024 > Productivity and Business Processes Revenue increased $14.0 billion or 13%. • Microsoft 365 Commercial products and cloud services revenue increased $10.8 billion "
+        }
+      ]
+    }
+  ]
+}

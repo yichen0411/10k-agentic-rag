@@ -1,0 +1,63 @@
+{
+  "pdf": "data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/source.pdf",
+  "workspace_assets": "data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/assets.json",
+  "description": "Hard 10-K table cases where our pipeline needed heuristics (cross-page header, fragment merge, word rescan).",
+  "cases": [
+    {
+      "id": "unearned_revenue_schedule",
+      "title": "Item 7 Unearned Revenue — cross-page header + schedule",
+      "pages": [42, 43],
+      "subsection": "Unearned Revenue",
+      "must_find_text": [
+        "(In millions)",
+        "Three Months Ending",
+        "September 30, 2025",
+        "67,265"
+      ],
+      "must_find_rows": ["Thereafter", "Total"],
+      "cross_page": true,
+      "notes": "Header-only band on p42 bottom; data on p43 top. find_tables() returns 0 on p42."
+    },
+    {
+      "id": "dividend_declaration",
+      "title": "Item 5 Dividend — cross-page header + data",
+      "pages": [32, 33],
+      "subsection": "SHARE REPURCHASES AND DIVIDENDS",
+      "must_find_text": [
+        "Declaration Date",
+        "Record Date",
+        "Payment Date",
+        "Per Share",
+        "0.83",
+        "6,170"
+      ],
+      "cross_page": true,
+      "notes": "Classic page-break table with column header on previous page."
+    },
+    {
+      "id": "segment_total_operating_income",
+      "title": "Item 7 Segment — Total Operating Income cross-page",
+      "pages": [37, 38],
+      "subsection": "SEGMENT RESULTS OF OPERATIONS",
+      "must_find_text": [
+        "Operating Income",
+        "128,528",
+        "109,433"
+      ],
+      "cross_page": true,
+      "notes": "Total row often on next page; find_tables misses subtotal rows."
+    },
+    {
+      "id": "summary_revenue_eps",
+      "title": "Item 7 Summary results — wide multi-column (same page)",
+      "pages": [33],
+      "subsection": "RESULTS OF OPERATIONS",
+      "must_find_text": [
+        "281,724",
+        "13.64"
+      ],
+      "cross_page": false,
+      "notes": "Sanity check: standard wide financial table on one page."
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+# Optional deps for benchmarks/table_layout/run_benchmark.py
+# Core repo already has pymupdf via starter/requirements.txt
+
+# PyMuPDF4LLM + Layout (closed weights, auto-activates on import)
+pymupdf4llm>=1.27.0
+
+# Docling (MIT, downloads RT-DETR + TableFormer weights on first run)
+docling>=2.0.0
+pandas
+tabulate
+
+# DocLayout-YOLO / MinerU — not wired in default benchmark (see adapters/doclayout_yolo_stub.py)
+# magic-pdf / mineru — install manually if you want to extend the benchmark

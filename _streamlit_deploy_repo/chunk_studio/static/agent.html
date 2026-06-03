@@ -1,0 +1,2354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agent Q&amp;A — Chunks</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/favicon.svg" />
+  <style>
+    :root {
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --panel-soft: #fbfbfc;
+      --line: #e5e7eb;
+      --line-strong: #d4d7dd;
+      --text: #111827;
+      --muted: #6b7280;
+      --accent: #2563eb;
+      --accent-soft: #eff6ff;
+      --sql: #0d9488;
+      --rag: #7c3aed;
+      --plan: #b45309;
+      --good: #15803d;
+      --bad: #b91c1c;
+      --radius: 16px;
+      --shadow: 0 14px 40px rgba(15, 23, 42, 0.06);
+      --thought: #fffbeb;
+      --thought-border: #fde68a;
+    }
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 28rem),
+        radial-gradient(circle at top right, rgba(124, 58, 237, 0.05), transparent 22rem),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+    button, input, textarea, select { font: inherit; }
+    button {
+      border: 0;
+      border-radius: 999px;
+      background: var(--accent);
+      color: white;
+      padding: 0.62rem 1rem;
+      font-size: 0.875rem;
+      font-weight: 650;
+      cursor: pointer;
+      transition: transform 0.12s ease, opacity 0.12s ease;
+    }
+    button:hover:not(:disabled) { transform: translateY(-1px); }
+    button:disabled { opacity: 0.45; cursor: not-allowed; }
+    a { color: var(--accent); font-weight: 650; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .shell {
+      width: min(1680px, calc(100vw - 20px));
+      margin: 0 auto;
+      padding: 20px 0 16px;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      max-height: 100vh;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+    header,
+    .file-row {
+      flex-shrink: 0;
+    }
+    header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 16px;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(1.5rem, 3vw, 2.1rem);
+      letter-spacing: -0.04em;
+    }
+    .subtitle {
+      margin: 0.35rem 0 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+      max-width: 40rem;
+    }
+    .version-badge {
+      display: inline-flex;
+      margin-top: 0.45rem;
+      border: 1px solid #bfdbfe;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #1d4ed8;
+      padding: 0.15rem 0.5rem;
+      font-size: 0.7rem;
+      font-weight: 750;
+    }
+    .file-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+      padding: 12px 14px;
+      background: rgba(255,255,255,0.92);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .file-row label {
+      display: none;
+    }
+    .file-row select {
+      display: none;
+    }
+    .file-row .file-meta {
+      flex: 1;
+    }
+    .file-meta { font-size: 0.78rem; color: var(--muted); }
+    .file-meta.ok { color: var(--good); }
+    .file-meta.bad { color: var(--bad); }
+    .workspace {
+      flex: 1;
+      display: grid;
+      grid-template-columns: minmax(320px, 1fr) minmax(380px, 1.08fr);
+      gap: 12px;
+      min-height: 0;
+      overflow: hidden;
+      align-items: stretch;
+    }
+    .workspace > .panel,
+    .workspace > .side-panel {
+      min-height: 0;
+      min-width: 0;
+    }
+    .side-panel {
+      flex: 1;
+      min-height: 0;
+    }
+    .side-panel > .tab-panel:not([hidden]) {
+      flex: 1;
+      min-height: 0;
+    }
+    @media (max-width: 960px) {
+      .shell {
+        height: auto;
+        max-height: none;
+        overflow: visible;
+      }
+      .workspace {
+        grid-template-columns: 1fr;
+        overflow: visible;
+      }
+      .side-panel > .tab-panel:not([hidden]) {
+        min-height: 360px;
+      }
+      .trace-scroll,
+      .memory-scroll {
+        min-height: 320px;
+      }
+    }
+    .panel {
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(229, 231, 235, 0.9);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      overflow: hidden;
+    }
+    .panel-head {
+      padding: 14px 16px 12px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.7);
+      flex-shrink: 0;
+    }
+    .panel-title {
+      margin: 0;
+      font-size: 0.92rem;
+      font-weight: 750;
+      letter-spacing: -0.01em;
+    }
+    .panel-note {
+      margin: 0.2rem 0 0;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+    .trace-status {
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-weight: 600;
+      margin-left: auto;
+    }
+    .tab-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .tab-btn {
+      flex: 1;
+      border: 1px solid var(--line-strong);
+      border-radius: 10px;
+      background: var(--panel-soft);
+      color: var(--muted);
+      padding: 0.45rem 0.65rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+    }
+    .tab-btn:hover:not(:disabled) { transform: none; opacity: 1; background: white; }
+    .tab-btn.active {
+      background: var(--accent-soft);
+      border-color: #bfdbfe;
+      color: #1d4ed8;
+    }
+    .tab-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      overflow: hidden;
+    }
+    .tab-panel-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(251, 251, 252, 0.9);
+      flex-shrink: 0;
+    }
+    .tab-panel-note {
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+    .memory-scroll {
+      flex: 1;
+      min-height: 0;
+      overflow-x: auto;
+      overflow-y: auto;
+      padding: 12px 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .memory-empty {
+      color: var(--muted);
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.84rem;
+      line-height: 1.55;
+    }
+    .memory-section {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: visible;
+      background: linear-gradient(180deg, #ffffff, #fbfbfc);
+      flex-shrink: 0;
+      min-width: 0;
+    }
+    .memory-section-head {
+      padding: 8px 12px;
+      background: #f3f4f6;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 6px 10px;
+    }
+    .memory-section-title {
+      margin: 0;
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+    .memory-badge {
+      font-size: 0.65rem;
+      font-weight: 750;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.08rem 0.4rem;
+      background: white;
+    }
+    .memory-section-desc {
+      margin: 0;
+      padding: 8px 12px 0;
+      font-size: 0.72rem;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+    .memory-section-body {
+      padding: 10px 12px 12px;
+      display: grid;
+      gap: 8px;
+      min-width: 0;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+    .mem-msg {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 8px 10px;
+      font-size: 0.78rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+      line-height: 1.45;
+    }
+    .mem-msg.user {
+      background: var(--accent-soft);
+      border-color: #bfdbfe;
+    }
+    .mem-msg.assistant {
+      background: var(--panel-soft);
+      white-space: normal;
+    }
+    .mem-msg-role {
+      font-size: 0.62rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .mem-facts {
+      margin: 0;
+      font-size: 0.78rem;
+    }
+    .mem-facts dt {
+      font-weight: 750;
+      color: var(--muted);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-top: 6px;
+    }
+    .mem-facts dt:first-child { margin-top: 0; }
+    .mem-facts dd {
+      margin: 2px 0 0;
+      word-break: break-word;
+    }
+    .mem-injected {
+      margin: 0;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 8px 10px;
+      background: #f8fafc;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.7rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: #334155;
+      max-height: none;
+      overflow: visible;
+    }
+    .memory-scroll .mem-msg .mem-injected {
+      max-height: 8rem;
+      overflow-y: auto;
+    }
+    .mem-meta-row {
+      font-size: 0.68rem;
+      color: var(--muted);
+      padding: 0 2px 4px;
+    }
+    .mem-count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 1.35rem;
+      height: 1.35rem;
+      padding: 0 0.35rem;
+      border-radius: 999px;
+      background: #1d4ed8;
+      color: white;
+      font-size: 0.68rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+    .mem-collapse {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: white;
+      overflow: hidden;
+    }
+    .mem-collapse > summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 8px 10px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: #1e293b;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      user-select: none;
+    }
+    .mem-collapse > summary::-webkit-details-marker { display: none; }
+    .mem-collapse > summary::after {
+      content: '▸';
+      margin-left: auto;
+      color: var(--muted);
+      font-size: 0.7rem;
+      transition: transform 0.12s ease;
+    }
+    .mem-collapse[open] > summary::after { transform: rotate(90deg); }
+    .mem-collapse-body {
+      border-top: 1px solid var(--line);
+      padding: 8px 10px 10px;
+      display: grid;
+      gap: 8px;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+    .mem-turn {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      overflow: hidden;
+      background: #fafafa;
+    }
+    .mem-turn-head {
+      padding: 6px 10px;
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: var(--muted);
+      background: #f1f5f9;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .mem-turn-body {
+      padding: 6px 8px;
+      display: grid;
+      gap: 6px;
+    }
+    .mem-scratch-item {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 8px 10px;
+      background: white;
+      font-size: 0.76rem;
+    }
+    .mem-scratch-item.tool_call {
+      border-left: 3px solid #3b82f6;
+    }
+    .mem-scratch-item.observation {
+      border-left: 3px solid #10b981;
+    }
+    .mem-scratch-item.question {
+      border-left: 3px solid #94a3b8;
+      background: var(--accent-soft);
+    }
+    .mem-scratch-label {
+      font-size: 0.62rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .mem-json {
+      margin: 4px 0 0;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 8px 10px;
+      background: #f8fafc;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.68rem;
+      line-height: 1.4;
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 14rem;
+      overflow: auto;
+    }
+    .mem-prose {
+      margin: 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      line-height: 1.45;
+      color: #334155;
+    }
+    .chat-body {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .msg {
+      display: flex;
+      flex-direction: column;
+      max-width: 88%;
+      animation: fadeIn 0.18s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: none; }
+    }
+    .msg.user { align-self: flex-end; align-items: flex-end; }
+    .msg.assistant { align-self: flex-start; }
+    .msg.system { align-self: center; max-width: 100%; }
+    .bubble {
+      padding: 0.7rem 0.95rem;
+      border-radius: 16px;
+      font-size: 0.9rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+      line-height: 1.55;
+    }
+    .msg.user .bubble {
+      background: var(--accent);
+      color: white;
+      border-bottom-right-radius: 5px;
+    }
+    .msg.assistant .bubble {
+      background: var(--panel-soft);
+      border: 1px solid var(--line);
+      border-bottom-left-radius: 5px;
+    }
+    .msg.assistant .bubble.has-md {
+      white-space: normal;
+    }
+    .ref-chip {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border: 1px solid #c7d2fe;
+      border-radius: 999px;
+      background: #eef2ff;
+      color: #3730a3;
+      padding: 0.08rem 0.38rem;
+      margin-left: 0.25rem;
+      transform: translateY(-0.05rem);
+      font-size: 0.68rem;
+      font-weight: 700;
+      cursor: help;
+      vertical-align: baseline;
+    }
+    .ref-chip:hover,
+    .ref-chip:focus-within {
+      background: #e0e7ff;
+      z-index: 10;
+    }
+    .ref-popover,
+    .ref-tooltip {
+      display: none;
+      position: fixed;
+      width: min(360px, calc(100vw - 48px));
+      border: 1px solid var(--line-strong);
+      border-radius: 14px;
+      background: white;
+      box-shadow: 0 18px 50px rgba(15, 23, 42, 0.16);
+      color: var(--text);
+      padding: 10px 12px;
+      font-size: 0.76rem;
+      font-weight: 500;
+      line-height: 1.45;
+      z-index: 9999;
+    }
+    .ref-tooltip.show { display: block; }
+    .ref-chip:hover .ref-popover,
+    .ref-chip:focus-within .ref-popover {
+      display: block;
+    }
+    .ref-source {
+      font-weight: 800;
+      color: #1e293b;
+      margin-bottom: 4px;
+    }
+    .ref-section {
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .ref-excerpt {
+      color: #334155;
+      font-style: italic;
+    }
+    .msg.system .bubble {
+      background: var(--accent-soft);
+      border: 1px solid #bfdbfe;
+      color: #1e40af;
+      font-size: 0.82rem;
+      text-align: center;
+      border-radius: 12px;
+    }
+    .msg-meta {
+      font-size: 0.68rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
+    .msg.loading .bubble {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--muted);
+    }
+    .dots span {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--muted);
+      animation: bounce 1.2s infinite;
+    }
+    .dots span:nth-child(2) { animation-delay: 0.15s; }
+    .dots span:nth-child(3) { animation-delay: 0.3s; }
+    @keyframes bounce {
+      0%, 80%, 100% { transform: translateY(0); opacity: 0.35; }
+      40% { transform: translateY(-3px); opacity: 1; }
+    }
+    .composer {
+      flex-shrink: 0;
+      padding: 12px 14px 14px;
+      border-top: 1px solid var(--line);
+      background: rgba(255,255,255,0.85);
+    }
+    .composer-box {
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+      border: 1px solid var(--line-strong);
+      border-radius: 14px;
+      padding: 8px 8px 8px 12px;
+      background: var(--panel-soft);
+    }
+    .composer textarea {
+      flex: 1;
+      border: 0;
+      background: transparent;
+      resize: none;
+      min-height: 2.4rem;
+      max-height: 7rem;
+      padding: 0.25rem 0;
+      font-size: 0.9rem;
+      line-height: 1.45;
+    }
+    .composer textarea:focus { outline: none; }
+    .send-btn {
+      width: 38px;
+      height: 38px;
+      padding: 0;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+    .composer-hint {
+      font-size: 0.68rem;
+      color: var(--muted);
+      margin-top: 0.35rem;
+    }
+    .example-queries {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      margin-top: 0.45rem;
+    }
+    .example-label {
+      font-size: 0.66rem;
+      color: var(--muted);
+      font-weight: 650;
+    }
+    .example-chip {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: white;
+      color: #334155;
+      padding: 0.22rem 0.55rem;
+      font-size: 0.68rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.12s ease, border-color 0.12s ease;
+    }
+    button.example-chip {
+      background: white;
+      color: #334155;
+      font-weight: 600;
+      padding: 0.22rem 0.55rem;
+    }
+    button.example-chip:hover:not(:disabled) {
+      background: var(--accent-soft);
+      border-color: #bfdbfe;
+      color: #1d4ed8;
+      transform: none;
+    }
+    .example-chip:hover:not(:disabled) {
+      background: var(--accent-soft);
+      border-color: #bfdbfe;
+      color: #1d4ed8;
+      transform: none;
+    }
+    .example-chip:disabled { opacity: 0.45; cursor: not-allowed; }
+    .err {
+      color: var(--bad);
+      font-size: 0.8rem;
+      margin-top: 0.35rem;
+    }
+    .trace-scroll {
+      flex: 1;
+      min-height: 0;
+      overflow-x: auto;
+      overflow-y: auto;
+      padding: 12px 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .trace-body,
+    .trace-step {
+      min-width: 0;
+    }
+    .trace-empty {
+      color: var(--muted);
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.84rem;
+      line-height: 1.55;
+    }
+    .trace-step {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: visible;
+      background: linear-gradient(180deg, #ffffff, #fbfbfc);
+      transition: box-shadow 0.2s ease;
+    }
+    .trace-step.pending {
+      border-color: #bfdbfe;
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+    .trace-step-head {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      padding: 8px 10px;
+      background: #f3f4f6;
+      border-bottom: 1px solid var(--line);
+      font-size: 0.76rem;
+      font-weight: 750;
+    }
+    .pill {
+      border-radius: 999px;
+      padding: 0.1rem 0.45rem;
+      font-size: 0.62rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: #fff;
+    }
+    .pill.sql { background: var(--sql); }
+    .pill.rag { background: var(--rag); }
+    .pill.send_email { background: #ea580c; }
+    .pill.plan { background: #ca8a04; color: #422006; }
+    .pill.live {
+      background: var(--accent-soft);
+      color: var(--accent);
+      border: 1px solid #bfdbfe;
+    }
+    .trace-body {
+      padding: 10px;
+      font-size: 0.8rem;
+      display: grid;
+      gap: 10px;
+    }
+    .trace-section {
+      display: grid;
+      gap: 5px;
+    }
+    .block {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 8px 10px;
+      background: white;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+      max-width: 100%;
+      line-height: 1.5;
+    }
+    .block.reasoning {
+      background: var(--thought);
+      border-color: var(--thought-border);
+      font-size: 0.78rem;
+    }
+    .block.prose { font-family: inherit; font-size: 0.82rem; }
+    .meta-line {
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .io-label {
+      font-weight: 750;
+      color: var(--muted);
+      font-size: 0.65rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .sql-block {
+      margin: 0;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 8px 10px;
+      background: #f8fafc;
+      color: var(--sql);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.72rem;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+    .io.pending-out {
+      color: var(--muted);
+      font-style: italic;
+      font-family: inherit;
+    }
+    table.rows {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.68rem;
+      margin-top: 4px;
+    }
+    table.rows th, table.rows td {
+      border: 1px solid var(--line);
+      padding: 3px 6px;
+      text-align: left;
+    }
+    table.rows th { background: #f3f4f6; color: var(--muted); }
+    table.rows td { white-space: normal; overflow-wrap: anywhere; }
+    .source-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 6px;
+    }
+    .source-list li {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 6px 8px;
+      background: var(--panel-soft);
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+    .source-list code { color: var(--rag); font-weight: 650; }
+    .trace-flow-wrap {
+      flex-shrink: 0;
+      margin: 0 14px 8px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: linear-gradient(180deg, #f8fafc, #ffffff);
+    }
+    .trace-flow-title {
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .trace-flow {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+    }
+    .flow-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.22rem 0.55rem;
+      font-size: 0.68rem;
+      font-weight: 700;
+      background: white;
+      color: #334155;
+    }
+    .flow-chip.user { border-color: #bfdbfe; background: var(--accent-soft); color: #1d4ed8; }
+    .flow-chip.sql { border-color: #99f6e4; background: #f0fdfa; color: #0f766e; }
+    .flow-chip.rag { border-color: #ddd6fe; background: #f5f3ff; color: #6d28d9; }
+    .flow-chip.send_email { border-color: #fed7aa; background: #fff7ed; color: #c2410c; }
+    .flow-chip.answer { border-color: #bbf7d0; background: #f0fdf4; color: #15803d; }
+    .flow-chip.pending { box-shadow: 0 0 0 2px var(--accent-soft); animation: pulseFlow 1.2s ease infinite; }
+    .flow-arrow {
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+    @keyframes pulseFlow {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.55; }
+    }
+    .step-bridge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 2px 0 2px 12px;
+      font-size: 0.68rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .step-bridge::before {
+      content: '↓';
+      color: #94a3b8;
+      font-weight: 800;
+    }
+    .param-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+    .param-chip {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0.18rem 0.45rem;
+      font-size: 0.68rem;
+      background: #f8fafc;
+      color: #334155;
+    }
+    .param-chip strong {
+      color: var(--muted);
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-right: 4px;
+    }
+    .pipeline-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
+      gap: 6px;
+      margin-top: 6px;
+    }
+    .pipeline-cell {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 5px 7px;
+      background: #fafafa;
+      font-size: 0.66rem;
+    }
+    .pipeline-cell span {
+      display: block;
+      color: var(--muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-size: 0.58rem;
+    }
+    .pipeline-cell em {
+      font-style: normal;
+      font-weight: 750;
+      color: #334155;
+    }
+    .trace-json {
+      margin: 4px 0 0;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 8px 10px;
+      background: #f8fafc;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.68rem;
+      line-height: 1.4;
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 12rem;
+      overflow: auto;
+    }
+    .table-ctx {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 6px 8px;
+      background: var(--panel-soft);
+      font-size: 0.72rem;
+      margin-top: 4px;
+    }
+    .table-ctx code { color: var(--rag); font-weight: 650; }
+    .md-content {
+      white-space: normal;
+      word-break: break-word;
+      line-height: 1.6;
+      color: inherit;
+    }
+    .md-content > :first-child { margin-top: 0; }
+    .md-content > :last-child { margin-bottom: 0; }
+    .md-content h1, .md-content h2, .md-content h3, .md-content h4, .md-content h5, .md-content h6 {
+      margin: 1rem 0 0.45rem;
+      line-height: 1.3;
+      letter-spacing: -0.02em;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .md-content h1 { font-size: 1.35rem; }
+    .md-content h2 { font-size: 1.08rem; margin-top: 1.15rem; }
+    .md-content h3 { font-size: 0.98rem; color: #1e293b; }
+    .md-content h4 { font-size: 0.95rem; color: #334155; }
+    .md-content p { margin: 0.55rem 0; }
+    .md-content ul, .md-content ol { margin: 0.5rem 0 0.65rem; padding-left: 1.35rem; }
+    .md-content li { margin: 0.28rem 0; }
+    .md-content strong { font-weight: 650; color: #0f172a; }
+    .md-content em { font-style: italic; }
+    .md-content code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.86em;
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 0.08rem 0.35rem;
+    }
+    .md-content pre {
+      margin: 0.65rem 0;
+      padding: 0.75rem 0.85rem;
+      border-radius: 10px;
+      background: #0f172a;
+      color: #e2e8f0;
+      overflow: auto;
+      font-size: 0.78rem;
+      line-height: 1.45;
+    }
+    .md-content pre code { background: transparent; border: 0; padding: 0; color: inherit; }
+    .md-content a { color: #2563eb; font-weight: 600; text-decoration: none; }
+    .md-content a:hover { text-decoration: underline; }
+    .md-content hr { border: 0; border-top: 1px solid #e2e8f0; margin: 0.85rem 0; }
+    .md-content blockquote {
+      margin: 0.65rem 0;
+      padding: 0.35rem 0 0.35rem 0.85rem;
+      border-left: 3px solid #cbd5e1;
+      color: #475569;
+    }
+    .md-content table { width: 100%; border-collapse: collapse; margin: 0.65rem 0; font-size: 0.84rem; }
+    .md-content th, .md-content td {
+      border: 1px solid #e2e8f0;
+      padding: 0.35rem 0.55rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    .md-content th { background: #f8fafc; font-weight: 650; }
+    .md-content .md-table-wrap { overflow-x: auto; margin: 0.65rem 0; }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <div>
+        <h1>Agent Q&amp;A</h1>
+        <p class="subtitle">Multi-turn chat — follow up with “shorter”, or ask to email results. Steps update live on the right.</p>
+        <span class="version-badge">Markdown answers · SQL · RAG</span>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <button type="button" class="secondary" id="newChatBtn" style="background:white;color:var(--text);border:1px solid var(--line-strong);border-radius:999px;padding:0.5rem 0.9rem;font-size:0.8rem;font-weight:650;cursor:pointer;">New chat</button>
+        <a href="/">← Chunks</a>
+      </div>
+    </header>
+
+    <div class="file-row">
+      <span class="file-meta" id="fileMeta">Loading index…</span>
+    </div>
+
+    <div class="workspace">
+      <section class="panel">
+        <div class="panel-head">
+          <h2 class="panel-title">Conversation</h2>
+          <p class="panel-note">Enter to send · Shift+Enter for newline</p>
+        </div>
+        <div class="chat-body" id="messages">
+          <div class="msg system">
+            <div class="bubble">Ask across all six 10-K filings (Apple, Microsoft, Alphabet · FY2024 &amp; FY2025). Use ticker/fiscal year in your question when you want a specific filing.</div>
+          </div>
+        </div>
+        <div class="composer">
+          <div class="composer-box">
+            <textarea id="question" rows="1" placeholder="e.g. Which segment grew closest to company revenue growth?"></textarea>
+            <button type="button" class="send-btn" id="runBtn" disabled title="Send">↑</button>
+          </div>
+          <div class="composer-hint">Same thread remembers prior answers · say “shorter” or “email this to me”</div>
+          <div class="example-queries" id="exampleQueries"></div>
+          <div class="err" id="err" hidden></div>
+        </div>
+      </section>
+
+      <aside class="panel side-panel">
+        <div class="panel-head">
+          <div class="tab-bar">
+            <button type="button" class="tab-btn active" data-tab="steps">Tool steps</button>
+            <button type="button" class="tab-btn" data-tab="memory" hidden>Memory</button>
+          </div>
+          <p class="panel-note" id="sidePanelNote">Reasoning → tool params → observation → next step</p>
+        </div>
+        <div id="panelSteps" class="tab-panel">
+          <div class="tab-panel-head">
+            <span class="tab-panel-note">Live agent scratchpad — each LLM turn picks a tool</span>
+            <span class="trace-status" id="statusLine">Waiting</span>
+          </div>
+          <div id="traceFlow" class="trace-flow-wrap" hidden>
+            <div class="trace-flow-title">Execution path</div>
+            <div class="trace-flow" id="traceFlowInner"></div>
+          </div>
+          <div class="trace-scroll" id="trace">
+            <div class="trace-empty">Tool calls will show up here in real time.</div>
+          </div>
+        </div>
+        <div id="panelMemory" class="tab-panel" hidden>
+          <div class="tab-panel-head">
+            <span class="tab-panel-note">Short-term · long-term · preferences</span>
+            <button type="button" id="refreshMemoryBtn" style="margin-left:auto;background:white;color:var(--accent);border:1px solid #bfdbfe;border-radius:8px;padding:0.25rem 0.55rem;font-size:0.68rem;font-weight:700;cursor:pointer;">Refresh</button>
+          </div>
+          <div class="memory-scroll" id="memoryView">
+            <div class="memory-empty">Send a message to create a session; memory appears here.</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script>
+(function (global) {
+  'use strict';
+  function escapeHtml(value) {
+    return String(value ?? '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+  function sanitizeUrl(raw) {
+    const url = String(raw || '').trim();
+    if (!url) return '';
+    if (/^(https?:|mailto:|#)/i.test(url)) return url;
+    return '';
+  }
+  function renderInline(text) {
+    let out = text;
+    out = out.replace(/`([^`\n]+)`/g, '<code>$1</code>');
+    out = out.replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>');
+    out = out.replace(/\*([^*\n]+)\*/g, '<em>$1</em>');
+    out = out.replace(/\[([^\]]+)\]\(([^)\n]+)\)/g, (_, label, href) => {
+      const safe = sanitizeUrl(href);
+      if (!safe) return label;
+      return `<a href="${safe}" target="_blank" rel="noopener noreferrer">${label}</a>`;
+    });
+    return out;
+  }
+  function isTableRow(line) {
+    const trimmed = line.trim();
+    return trimmed.startsWith('|') && trimmed.endsWith('|') && trimmed.includes('|');
+  }
+  function splitTableRow(line) {
+    return line.trim().replace(/^\|/, '').replace(/\|$/, '').split('|').map((cell) => cell.trim());
+  }
+  function isTableSeparator(line) {
+    return /^\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?$/.test(line.trim());
+  }
+  function renderTable(lines) {
+    const header = splitTableRow(lines[0]);
+    const bodyRows = lines.slice(2).map(splitTableRow);
+    const headHtml = header.map((cell) => `<th>${renderInline(cell)}</th>`).join('');
+    const bodyHtml = bodyRows.map((row) =>
+      `<tr>${row.map((cell) => `<td>${renderInline(cell)}</td>`).join('')}</tr>`,
+    ).join('');
+    return `<div class="md-table-wrap"><table><thead><tr>${headHtml}</tr></thead><tbody>${bodyHtml}</tbody></table></div>`;
+  }
+  function renderMarkdownHtml(text) {
+    const source = escapeHtml(String(text ?? '')).replace(/\r\n/g, '\n');
+    if (!source.trim()) return '';
+    const lines = source.split('\n');
+    const blocks = [];
+    let index = 0;
+    while (index < lines.length) {
+      const line = lines[index];
+      if (!line.trim()) { index += 1; continue; }
+      if (/^(-{3,}|\*{3,}|_{3,})$/.test(line.trim())) {
+        blocks.push('<hr />');
+        index += 1;
+        continue;
+      }
+      const heading = line.match(/^(#{1,6})\s+(.+)$/);
+      if (heading) {
+        blocks.push(`<h${heading[1].length}>${renderInline(heading[2])}</h${heading[1].length}>`);
+        index += 1;
+        continue;
+      }
+      if (isTableRow(line) && index + 1 < lines.length && isTableSeparator(lines[index + 1])) {
+        const tableLines = [line, lines[index + 1]];
+        index += 2;
+        while (index < lines.length && isTableRow(lines[index])) {
+          tableLines.push(lines[index]);
+          index += 1;
+        }
+        blocks.push(renderTable(tableLines));
+        continue;
+      }
+      if (/^>\s?/.test(line)) {
+        const quoteLines = [];
+        while (index < lines.length && /^>\s?/.test(lines[index])) {
+          quoteLines.push(lines[index].replace(/^>\s?/, ''));
+          index += 1;
+        }
+        blocks.push(`<blockquote><p>${renderInline(quoteLines.join(' '))}</p></blockquote>`);
+        continue;
+      }
+      if (/^```/.test(line.trim())) {
+        const codeLines = [];
+        index += 1;
+        while (index < lines.length && !/^```/.test(lines[index].trim())) {
+          codeLines.push(lines[index]);
+          index += 1;
+        }
+        if (index < lines.length) index += 1;
+        blocks.push(`<pre><code>${codeLines.join('\n')}</code></pre>`);
+        continue;
+      }
+      const unordered = line.match(/^[-*•]\s+(.+)$/);
+      const ordered = line.match(/^\d+\.\s+(.+)$/);
+      if (unordered || ordered) {
+        const listTag = ordered ? 'ol' : 'ul';
+        const items = [];
+        while (index < lines.length) {
+          const bullet = lines[index].match(/^[-*•]\s+(.+)$/);
+          const number = lines[index].match(/^\d+\.\s+(.+)$/);
+          const match = ordered ? number : bullet;
+          if (!match) break;
+          items.push(`<li>${renderInline(match[1])}</li>`);
+          index += 1;
+        }
+        blocks.push(`<${listTag}>${items.join('')}</${listTag}>`);
+        continue;
+      }
+      const paragraph = [];
+      while (
+        index < lines.length
+        && lines[index].trim()
+        && !/^(#{1,6})\s/.test(lines[index])
+        && !/^(-{3,}|\*{3,}|_{3,})$/.test(lines[index].trim())
+        && !/^[-*•]\s/.test(lines[index])
+        && !/^\d+\.\s/.test(lines[index])
+        && !/^>\s?/.test(lines[index])
+        && !/^```/.test(lines[index].trim())
+        && !(isTableRow(lines[index]) && index + 1 < lines.length && isTableSeparator(lines[index + 1]))
+      ) {
+        paragraph.push(lines[index].trim());
+        index += 1;
+      }
+      if (paragraph.length) blocks.push(`<p>${renderInline(paragraph.join(' '))}</p>`);
+    }
+    return blocks.join('\n');
+  }
+  global.renderMarkdownHtml = renderMarkdownHtml;
+})(window);
+  </script>
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const state = {
+      indexStatus: null,
+      running: false,
+      steps: [],
+      sessionId: null,
+      activeTab: 'steps',
+      lastQuery: '',
+      liveScratchpad: null,
+      lastPromptInjection: null,
+      doneAnswer: null,
+    };
+
+    function clearLegacySessionStorage() {
+      try {
+        const keys = [];
+        for (let i = 0; i < sessionStorage.length; i += 1) {
+          const k = sessionStorage.key(i);
+          if (k && (k.startsWith('agent_session_') || k.startsWith('agent_last_query_'))) {
+            keys.push(k);
+          }
+        }
+        keys.forEach((k) => sessionStorage.removeItem(k));
+      } catch (_) { /* ignore */ }
+    }
+    clearLegacySessionStorage();
+
+    function resetMemoryView() {
+      $('memoryView').innerHTML = '<div class="memory-empty">No active session — send a message to create memory.</div>';
+    }
+
+    function loadSessionForFile() {
+      /* single global session for this page visit */
+    }
+
+    function saveSessionId(id) {
+      state.sessionId = id || null;
+    }
+
+    function saveLastQuery(query) {
+      state.lastQuery = (query || '').trim();
+    }
+
+    function switchTab(name) {
+      state.activeTab = name;
+      document.querySelectorAll('.tab-btn').forEach((b) => {
+        b.classList.toggle('active', b.dataset.tab === name);
+      });
+      $('panelSteps').hidden = name !== 'steps';
+      $('panelMemory').hidden = name !== 'memory';
+      $('sidePanelNote').textContent = name === 'memory'
+        ? 'What persists across turns (not tool I/O)'
+        : 'Reasoning → tool params → observation → next step';
+      if (name === 'memory') {
+        if (state.sessionId && hasInjectionContent(state.lastPromptInjection)) {
+          renderMemory({
+            active: true,
+            session_id: state.sessionId,
+            last_prompt_injection: state.lastPromptInjection,
+          });
+        }
+        refreshMemory({ showLoading: !hasInjectionContent(state.lastPromptInjection) });
+      }
+    }
+
+    function prettyJson(value) {
+      if (value == null) return '';
+      if (typeof value === 'string') {
+        const t = value.trim();
+        if (!t) return '';
+        try {
+          return JSON.stringify(JSON.parse(t), null, 2);
+        } catch (_) {
+          return value;
+        }
+      }
+      try {
+        return JSON.stringify(value, null, 2);
+      } catch (_) {
+        return String(value);
+      }
+    }
+
+    function formatJsonBlock(value) {
+      const text = prettyJson(value);
+      if (!text) return '<div class="memory-empty" style="padding:0.35rem 0">—</div>';
+      return `<pre class="mem-json">${esc(text)}</pre>`;
+    }
+
+    function groupChatHistory(messages) {
+      const turns = [];
+      let current = null;
+      (messages || []).forEach((m) => {
+        const role = m.role;
+        const content = (m.content || '').trim();
+        if (!content) return;
+        if (role === 'user') {
+          if (current) turns.push(current);
+          current = { user: content, assistant: '' };
+        } else if (role === 'assistant' && current) {
+          current.assistant = content;
+        }
+      });
+      if (current) turns.push(current);
+      return turns;
+    }
+
+    function renderScratchpadItem(item) {
+      const kind = item.kind || '';
+      if (kind === 'question') {
+        return `
+          <div class="mem-scratch-item question">
+            <div class="mem-scratch-label">Current question</div>
+            <p class="mem-prose">${esc(item.content || '')}</p>
+          </div>`;
+      }
+      if (kind === 'tool_call') {
+        const step = item.step != null ? `<span class="memory-badge">step ${esc(item.step)}</span>` : '';
+        const reasoning = (item.reasoning || '').trim();
+        return `
+          <div class="mem-scratch-item tool_call">
+            <div class="mem-scratch-label">
+              <span>Tool call · ${esc(item.tool || 'tool')}</span>${step}
+            </div>
+            ${reasoning ? `<p class="mem-prose" style="font-size:0.72rem;color:var(--muted);margin:0 0 6px">${esc(reasoning)}</p>` : ''}
+            <div class="io-label">Input</div>
+            <p class="mem-prose">${esc(item.input || '')}</p>
+          </div>`;
+      }
+      if (kind === 'observation') {
+        const step = item.step != null ? `<span class="memory-badge">${esc(item.step)}</span>` : '';
+        return `
+          <div class="mem-scratch-item observation">
+            <div class="mem-scratch-label">
+              <span>Observation · ${esc(item.tool || 'tool')}</span>${step}
+            </div>
+            ${formatJsonBlock(item.content)}
+          </div>`;
+      }
+      return `
+        <div class="mem-scratch-item">
+          <div class="mem-scratch-label">${esc(kind || item.role || 'entry')}</div>
+          ${formatJsonBlock(item.content ?? item)}
+        </div>`;
+    }
+
+    function buildLiveScratchpad(query, steps) {
+      const items = [{ role: 'human', kind: 'question', content: (query || '').trim() }];
+      (steps || []).forEach((s) => {
+        if (s.pending) return;
+        items.push({
+          role: 'assistant',
+          kind: 'tool_call',
+          step: s.step,
+          tool: s.tool,
+          input: s.input,
+          reasoning: stepReasoning(s),
+        });
+        items.push({
+          role: 'tool',
+          kind: 'observation',
+          step: s.step,
+          tool: s.tool,
+          content: s.output || {},
+        });
+      });
+      return items;
+    }
+
+    function renderScratchpadSection(scratchpad, running) {
+      const items = Array.isArray(scratchpad) ? scratchpad : [];
+      const toolSteps = items.filter((i) => i.kind === 'tool_call').length;
+      if (!items.length) {
+        const hint = running
+          ? 'Agent is running — scratchpad will appear when tools finish.'
+          : 'No scratchpad yet. Send a question that uses sql or rag.';
+        return `<div class="memory-empty" style="padding:0.5rem 0">${hint}</div>`;
+      }
+      const badge = toolSteps
+        ? `<span class="memory-badge"><span class="mem-count">${toolSteps}</span> tool step${toolSteps === 1 ? '' : 's'}</span>`
+        : '<span class="memory-badge">no tools</span>';
+      return `${badge}<div style="display:grid;gap:8px;margin-top:8px">${items.map(renderScratchpadItem).join('')}</div>`;
+    }
+
+    function renderChatHistorySection(messages, stats) {
+      const turns = groupChatHistory(messages);
+      const msgCount = stats?.message_count ?? messages?.length ?? 0;
+      const turnCount = stats?.turn_count ?? turns.length;
+      const windowTurns = stats?.window_turns ?? 6;
+      if (!turnCount) {
+        return '<div class="memory-empty" style="padding:0.5rem 0">No prior turns — first message starts chat_history.</div>';
+      }
+      const turnHtml = turns.map((t, i) => `
+        <div class="mem-turn">
+          <div class="mem-turn-head">
+            <span class="mem-count">${i + 1}</span>
+            <span>Turn ${i + 1}</span>
+          </div>
+          <div class="mem-turn-body">
+            <div class="mem-msg user">
+              <div class="mem-msg-role">User</div>
+              ${esc(t.user)}
+            </div>
+            <div class="mem-msg assistant">
+              <div class="mem-msg-role">Assistant</div>
+              <div class="md-content">${typeof renderMarkdownHtml === 'function' ? renderMarkdownHtml(t.assistant || '—') : esc(t.assistant || '—')}</div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+      return `
+        <details class="mem-collapse">
+          <summary>
+            <span class="mem-count">${turnCount}</span>
+            <span>turn${turnCount === 1 ? '' : 's'} in chat_history</span>
+            <span class="memory-badge">${msgCount} messages</span>
+            <span class="memory-badge">window ≤ ${windowTurns}</span>
+          </summary>
+          <div class="mem-collapse-body">${turnHtml}</div>
+        </details>`;
+    }
+
+    function hasInjectionContent(snap) {
+      if (!snap || typeof snap !== 'object') return false;
+      return Boolean(
+        (snap.query || '').trim()
+        || (snap.memory_context || '').trim()
+        || (snap.chat_history && snap.chat_history.length)
+        || (snap.scratchpad && snap.scratchpad.length),
+      );
+    }
+
+    function resolvePromptInjection(data) {
+      const snap = state.lastPromptInjection || data?.last_prompt_injection || null;
+      if (state.running && state.liveScratchpad?.length) {
+        const base = snap || {};
+        return {
+          query: state.lastQuery || base.query || '',
+          memory_context: base.memory_context || '',
+          chat_history: base.chat_history || [],
+          scratchpad: state.liveScratchpad,
+          system_note: base.system_note || '',
+          _live: true,
+        };
+      }
+      if (hasInjectionContent(snap)) return snap;
+      if (data && (data.memory_context || data.agent_scratchpad?.length || data.chat_history?.length)) {
+        return {
+          query: data.injection_query || '',
+          memory_context: data.memory_context || '',
+          chat_history: data.chat_history || [],
+          scratchpad: data.agent_scratchpad || [],
+          system_note: '',
+        };
+      }
+      return null;
+    }
+
+    function buildDonePromptInjection(ev) {
+      if (ev.prompt_injection && hasInjectionContent(ev.prompt_injection)) {
+        return ev.prompt_injection;
+      }
+      const scratch = ev.scratchpad?.length
+        ? ev.scratchpad
+        : buildLiveScratchpad(state.lastQuery || ev.query || '', state.steps);
+      if (!scratch.length && !(state.lastQuery || ev.query)) return null;
+      return {
+        query: state.lastQuery || ev.query || '',
+        memory_context: '',
+        chat_history: [],
+        scratchpad: scratch,
+        system_note: 'Scratchpad from this run. Restart uvicorn to persist full memory_context + chat_history snapshots.',
+      };
+    }
+
+    function renderPreferencesSection(prefs, other) {
+      const prefKeys = Object.keys(prefs || {});
+      const otherKeys = Object.keys(other || {});
+      if (!prefKeys.length && !otherKeys.length) {
+        return '<div class="memory-empty" style="padding:0.5rem 0">No preferences yet — try “shorter”, “my email is …”, or style instructions.</div>';
+      }
+      let html = '';
+      if (prefKeys.length) {
+        html += '<dl class="mem-facts">' + prefKeys.map((k) =>
+          `<dt>${esc(k)}</dt><dd>${esc(prefs[k])}</dd>`
+        ).join('') + '</dl>';
+      }
+      if (otherKeys.length) {
+        html += `<div class="io-label" style="margin-top:8px">Other facts</div><dl class="mem-facts">`
+          + otherKeys.map((k) => `<dt>${esc(k)}</dt><dd>${esc(other[k])}</dd>`).join('')
+          + '</dl>';
+      }
+      return html;
+    }
+
+    function renderLongTermSection(data) {
+      const lt = data.long_term || {};
+      const semantic = lt.semantic || {};
+      const ret = data.retrieval || {};
+      const summary = (semantic.summary || '').trim();
+      const notes = semantic.notes || [];
+      const selected = ret.selected || [];
+      const preview = (data.preview_memory_context || '').trim();
+      const q = state.lastQuery || ret.query || '';
+
+      let html = '';
+      if (summary) {
+        html += `<div class="io-label">Compressed summary (folded old turns)</div>`
+          + `<div class="block prose" style="font-size:0.76rem;max-height:8rem;overflow:auto">${esc(summary.slice(0, 2000))}${summary.length > 2000 ? '…' : ''}</div>`;
+      }
+      if (notes.length) {
+        const show = notes.slice(-6);
+        html += `<div class="io-label" style="margin-top:8px">Experience notes <span class="memory-badge">${notes.length} total</span></div>`;
+        html += show.map((n) => `
+          <div class="mem-msg assistant" style="margin-top:6px">
+            <div class="mem-msg-role">#${esc(n.id)}</div>
+            ${esc((n.content || '').slice(0, 350))}${(n.content || '').length > 350 ? '…' : ''}
+          </div>
+        `).join('');
+      }
+      if (!summary && !notes.length) {
+        html += '<div class="memory-empty" style="padding:0.35rem 0">No long-term archive yet.</div>';
+      }
+      if (q && selected.length) {
+        html += `<div class="io-label" style="margin-top:10px">Would inject for current question (keyword match)</div>`;
+        html += selected.slice(0, 6).map((i) => `
+          <div class="mem-msg assistant" style="margin-top:4px;font-size:0.72rem">
+            <span class="memory-badge">${esc(i.score)}</span> ${esc((i.content || '').slice(0, 200))}
+          </div>
+        `).join('');
+      } else if (q && (ret.items || []).length) {
+        html += `<div class="memory-empty" style="padding:0.5rem 0;margin-top:8px">No semantic lines scored above threshold for: “${esc(q.slice(0, 60))}…”</div>`;
+      }
+      if (preview && q) {
+        html += `<details class="mem-collapse" style="margin-top:8px">
+          <summary>Full memory_context preview (episodic + retrieved)</summary>
+          <div class="mem-collapse-body"><pre class="mem-injected">${esc(preview)}</pre></div>
+        </details>`;
+      }
+      return html;
+    }
+
+    function renderMemory(data) {
+      const view = $('memoryView');
+      if (!data || !data.active) {
+        const reason = data?.reason === 'not_found'
+          ? 'Session not found on server (try New chat or send a message).'
+          : 'No active session — send a message to create memory.';
+        view.innerHTML = `<div class="memory-empty">${esc(reason)}</div>`;
+        return;
+      }
+
+      const prefs = data.user_preferences || data.long_term?.episodic?.preferences || {};
+      const other = data.long_term?.episodic?.other_facts || {};
+      const shortHistory = data.live_chat_history || data.chat_history || [];
+      const shortStats = data.live_chat_history_stats || data.short_term_stats || data.chat_history_stats || {};
+      const storedTurns = data.short_term_stats?.turn_count ?? 0;
+      const hasSummary = Boolean(data.long_term?.semantic?.has_summary);
+
+      view.innerHTML = `
+        <div class="mem-meta-row">Session <code>${esc(data.session_id)}</code>${data.updated_at ? ` · ${esc(data.updated_at.slice(0, 19))}` : ''}</div>
+        <p class="memory-section-desc" style="padding:0 2px 8px;margin:0">
+          Persists across turns. <strong>Tool calls / scratchpad</strong> for the current question are under <em>Tool steps</em> (and LangSmith).
+        </p>
+
+        <section class="memory-section">
+          <div class="memory-section-head">
+            <h3 class="memory-section-title">1 · Preferences</h3>
+            <span class="memory-badge">episodic</span>
+          </div>
+          <p class="memory-section-desc">Always injected into system (email, shorter, bullets, etc.) — exact key lookup.</p>
+          <div class="memory-section-body">
+            ${renderPreferencesSection(prefs, other)}
+          </div>
+        </section>
+
+        <details class="mem-collapse">
+          <summary>
+            <span class="memory-section-title">2 · Short-term</span>
+            <span class="memory-badge">chat_history</span>
+            <span class="memory-badge">${esc(shortStats.window_turns ?? '?')} turn window</span>
+          </summary>
+          <div class="mem-collapse-body">
+            <p class="memory-section-desc" style="margin:0">Recent verbatim Q/A (sliding window). Stored: <strong>${esc(storedTurns)}</strong> turn pairs in DB.</p>
+            ${renderChatHistorySection(shortHistory, shortStats)}
+          </div>
+        </details>
+
+        <section class="memory-section">
+          <div class="memory-section-head">
+            <h3 class="memory-section-title">3 · Long-term</h3>
+            <span class="memory-badge">${esc(data.long_term?.semantic?.note_count ?? 0)} notes</span>
+            ${hasSummary ? '<span class="memory-badge">has summary</span>' : ''}
+          </div>
+          <p class="memory-section-desc">Folded older dialogue + per-turn notes; keyword-retrieved into system when relevant.</p>
+          <div class="memory-section-body">
+            ${renderLongTermSection(data)}
+          </div>
+        </section>
+      `;
+    }
+
+    async function refreshMemory(opts = {}) {
+      const { showLoading = true } = opts;
+      const view = $('memoryView');
+      if (!state.sessionId) {
+        view.innerHTML = '<div class="memory-empty">No active session — send a message to create memory.</div>';
+        return null;
+      }
+      if (showLoading) {
+        view.innerHTML = '<div class="memory-empty">Loading memory…</div>';
+      }
+      try {
+        const res = await fetch(
+          `/api/agent/memory?session_id=${encodeURIComponent(state.sessionId)}`,
+          { cache: 'no-store' },
+        );
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        if (data.last_prompt_injection) {
+          state.lastPromptInjection = data.last_prompt_injection;
+        }
+        renderMemory(data);
+        return data;
+      } catch (e) {
+        view.innerHTML = `<div class="memory-empty" style="color:var(--bad)">${esc(e.message || String(e))}</div>`;
+        return null;
+      }
+    }
+
+    /** After page load: show memory only for in-page session. */
+    async function syncMemoryForCurrentFile() {
+      if (!state.sessionId) {
+        resetMemoryView();
+        return;
+      }
+      await refreshMemory({ showLoading: state.activeTab === 'memory' });
+    }
+
+    async function startNewChat() {
+      const sid = state.sessionId;
+      if (sid) {
+        try {
+          await fetch(`/api/agent/memory?session_id=${encodeURIComponent(sid)}`, { method: 'DELETE' });
+        } catch (_) { /* ignore */ }
+      }
+      state.sessionId = null;
+      state.lastQuery = '';
+      state.steps = [];
+      state.liveScratchpad = null;
+      state.lastPromptInjection = null;
+      $('messages').innerHTML = '<div class="msg system"><div class="bubble">New conversation — ask a question.</div></div>';
+      $('trace').innerHTML = '<div class="trace-empty">Tool calls will show up here in real time.</div>';
+      $('statusLine').textContent = 'Waiting';
+      resetMemoryView();
+    }
+
+    const EXAMPLE_QUERIES = [
+      {
+        label: 'MSFT segment growth',
+        query: "Among Microsoft's three reporting segments, which one's revenue growth from fiscal 2024 to fiscal 2025 was closest to Microsoft's overall company revenue growth, and what did management say in the FY2025 10-K about the drivers behind that segment's performance?",
+      },
+      {
+        label: 'AAPL vs MSFT margin FY2025',
+        query: 'Compare Apple and Microsoft operating margin in FY2025 using the 10-K filings.',
+      },
+      {
+        label: 'GOOGL cloud revenue drivers',
+        query: 'What did Alphabet say in the FY2025 10-K about Google Cloud revenue growth drivers?',
+      },
+    ];
+
+    function renderExampleQueries() {
+      const wrap = $('exampleQueries');
+      if (!wrap) return;
+      wrap.innerHTML = '<span class="example-label">Try:</span>' + EXAMPLE_QUERIES.map((ex, i) =>
+        `<button type="button" class="example-chip" data-idx="${i}" title="${esc(ex.query)}">${esc(ex.label)}</button>`
+      ).join('');
+      wrap.querySelectorAll('.example-chip').forEach((btn) => {
+        btn.disabled = state.running;
+        btn.addEventListener('click', () => {
+          if (state.running) return;
+          const ex = EXAMPLE_QUERIES[Number(btn.dataset.idx)];
+          if (!ex) return;
+          $('question').value = ex.query;
+          autoResize($('question'));
+          $('question').focus();
+        });
+      });
+    }
+
+    function esc(s) {
+      const d = document.createElement('div');
+      d.textContent = s == null ? '' : String(s);
+      return d.innerHTML;
+    }
+
+    function compactSourceName(source) {
+      const name = String(source || '10-K filing');
+      return name.replace(/_/g, ' ').replace(/\.pdf$/i, '');
+    }
+
+    function renderReferenceChip(ref, idx) {
+      if (!ref?.excerpt) return '';
+      const source = compactSourceName(ref.source_file);
+      const section = ref.header_path || 'Section not labeled';
+      const title = `${source}\n${section}\n\n… ${ref.excerpt} …`;
+      return `
+        <span
+          class="ref-chip"
+          tabindex="0"
+          aria-label="Reference ${idx + 1}"
+          title="${esc(title)}"
+          data-ref-source="${esc(source)}"
+          data-ref-section="${esc(section)}"
+          data-ref-excerpt="${esc(ref.excerpt)}"
+        >
+          ↗ ${idx + 1}
+        </span>`;
+    }
+
+    function ensureReferenceTooltip() {
+      let tooltip = document.getElementById('referenceTooltip');
+      if (!tooltip) {
+        tooltip = document.createElement('div');
+        tooltip.id = 'referenceTooltip';
+        tooltip.className = 'ref-tooltip';
+        tooltip.setAttribute('role', 'tooltip');
+        document.body.appendChild(tooltip);
+      }
+      return tooltip;
+    }
+
+    function showReferenceTooltip(chip) {
+      const tooltip = ensureReferenceTooltip();
+      const source = chip.dataset.refSource || '10-K filing';
+      const section = chip.dataset.refSection || 'Section not labeled';
+      const excerpt = chip.dataset.refExcerpt || '';
+      if (!excerpt) return;
+      tooltip.innerHTML = `
+        <div class="ref-source">${esc(source)}</div>
+        <div class="ref-section">${esc(section)}</div>
+        <div class="ref-excerpt">… ${esc(excerpt)} …</div>
+      `;
+      tooltip.classList.add('show');
+
+      const rect = chip.getBoundingClientRect();
+      const tooltipRect = tooltip.getBoundingClientRect();
+      const margin = 12;
+      let left = Math.min(Math.max(margin, rect.left), window.innerWidth - tooltipRect.width - margin);
+      let top = rect.bottom + 8;
+      if (top + tooltipRect.height + margin > window.innerHeight) {
+        top = Math.max(margin, rect.top - tooltipRect.height - 8);
+      }
+      tooltip.style.left = `${left}px`;
+      tooltip.style.top = `${top}px`;
+    }
+
+    function hideReferenceTooltip() {
+      document.getElementById('referenceTooltip')?.classList.remove('show');
+    }
+
+    function renderMarkdownWithInlineReferences(text, references) {
+      const html = typeof renderMarkdownHtml === 'function'
+        ? renderMarkdownHtml(text)
+        : esc(text);
+      const refs = (references || []).filter((ref) => ref?.excerpt).slice(0, 4);
+      if (!refs.length) return `<div class="md-content">${html}</div>`;
+
+      let output = html;
+      let refIndex = 0;
+      output = output.replace(/<\/(p|li)>/g, (match) => {
+        if (refIndex >= refs.length) return match;
+        const chip = renderReferenceChip(refs[refIndex], refIndex);
+        refIndex += 1;
+        return `${chip}${match}`;
+      });
+
+      if (refIndex === 0 && refs[0]) {
+        output += ` ${renderReferenceChip(refs[0], 0)}`;
+      }
+      return `<div class="md-content">${output}</div>`;
+    }
+
+    function canRun() {
+      return state.indexStatus && state.indexStatus.ready;
+    }
+
+    function updateControls() {
+      const meta = $('fileMeta');
+      const runBtn = $('runBtn');
+      const status = state.indexStatus;
+      if (!status) {
+        meta.textContent = 'Loading index…';
+        meta.className = 'file-meta';
+        runBtn.disabled = true;
+        return;
+      }
+      if (canRun()) {
+        meta.textContent = `All ${status.filing_count || 6} filings · ${status.text?.row_count || 0} text chunks · ${status.table?.row_count || 0} table summaries`;
+        meta.className = 'file-meta ok';
+        runBtn.disabled = state.running;
+      } else {
+        const issue = status.text?.reason || status.table?.reason || 'index not ready';
+        meta.textContent = `Global index not ready (${issue}). Run rebuild_workspace_indexes.py.`;
+        meta.className = 'file-meta bad';
+        runBtn.disabled = true;
+      }
+      renderExampleQueries();
+    }
+
+    function appendMessage(role, text, metaText, references = []) {
+      const wrap = document.createElement('div');
+      wrap.className = `msg ${role}`;
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble';
+      if (role === 'assistant' && text) {
+        bubble.classList.add('has-md');
+        const html = typeof renderMarkdownHtml === 'function'
+          ? renderMarkdownHtml(text)
+          : esc(text);
+        bubble.innerHTML = `<div class="md-content">${html}</div>`;
+      } else {
+        bubble.textContent = text;
+      }
+      wrap.appendChild(bubble);
+      if (metaText) {
+        const m = document.createElement('div');
+        m.className = 'msg-meta';
+        m.textContent = metaText;
+        wrap.appendChild(m);
+      }
+      $('messages').appendChild(wrap);
+      $('messages').scrollTop = $('messages').scrollHeight;
+      return wrap;
+    }
+
+    function setLoading(on) {
+      const existing = document.getElementById('loadingMsg');
+      if (!on) { existing?.remove(); return; }
+      if (existing) return;
+      const wrap = document.createElement('div');
+      wrap.className = 'msg assistant loading';
+      wrap.id = 'loadingMsg';
+      wrap.innerHTML = '<div class="bubble"><span class="dots"><span></span><span></span><span></span></span> Thinking…</div>';
+      $('messages').appendChild(wrap);
+      $('messages').scrollTop = $('messages').scrollHeight;
+    }
+
+    document.addEventListener('mouseover', (event) => {
+      const chip = event.target.closest?.('.ref-chip');
+      if (chip) showReferenceTooltip(chip);
+    });
+    document.addEventListener('focusin', (event) => {
+      const chip = event.target.closest?.('.ref-chip');
+      if (chip) showReferenceTooltip(chip);
+    });
+    document.addEventListener('mouseout', (event) => {
+      const chip = event.target.closest?.('.ref-chip');
+      if (chip && !chip.contains(event.relatedTarget)) hideReferenceTooltip();
+    });
+    document.addEventListener('focusout', (event) => {
+      const chip = event.target.closest?.('.ref-chip');
+      if (chip) hideReferenceTooltip();
+    });
+    document.addEventListener('scroll', hideReferenceTooltip, true);
+
+    function autoResize(el) {
+      el.style.height = 'auto';
+      el.style.height = Math.min(el.scrollHeight, 112) + 'px';
+    }
+
+    function upsertStep(step) {
+      const n = step.step;
+      const idx = state.steps.findIndex((s) => s.step === n);
+      if (idx >= 0) state.steps[idx] = step;
+      else state.steps.push(step);
+      state.steps.sort((a, b) => a.step - b.step);
+      renderTraceSteps();
+      if (state.running && state.lastQuery) {
+        state.liveScratchpad = buildLiveScratchpad(state.lastQuery, state.steps);
+        if (state.activeTab === 'memory' && state.lastPromptInjection) {
+          renderMemory({
+            active: true,
+            session_id: state.sessionId,
+            last_prompt_injection: state.lastPromptInjection,
+          });
+        }
+      }
+    }
+
+    function isRawLog(text) {
+      const t = (text || '').trim();
+      return !t || t.includes('partial_json') || t.includes("'type': 'tool_use'") || /^Invoking:/.test(t);
+    }
+
+    function stepReasoning(s) {
+      const r = (s.reasoning || '').trim();
+      if (r) return r;
+      const legacy = (s.thought_before || '').trim();
+      return isRawLog(legacy) ? '' : legacy;
+    }
+
+    function stepBridgeText(prev, next) {
+      if (!prev || !next) return '';
+      const prevTool = prev.tool || 'tool';
+      const nextTool = next.tool || 'tool';
+      const hints = {
+        sql: 'SQL rows returned to scratchpad',
+        rag: '10-K excerpts returned to scratchpad',
+        send_email: 'Email status returned to scratchpad',
+      };
+      const read = hints[prevTool] || `${prevTool} output in scratchpad`;
+      return `${read} → LLM chooses ${nextTool} (step ${next.step})`;
+    }
+
+    function renderParamChips(params) {
+      if (!params || typeof params !== 'object') return '';
+      const chips = [];
+      Object.entries(params).forEach(([key, val]) => {
+        if (val == null || val === '') return;
+        if (key === 'question') return;
+        chips.push(`<span class="param-chip"><strong>${esc(key)}</strong>${esc(String(val))}</span>`);
+      });
+      if (params.question) {
+        chips.unshift(`<span class="param-chip"><strong>question</strong>${esc(String(params.question))}</span>`);
+      }
+      if (params.body && params.body.length) {
+        chips.push(`<span class="param-chip"><strong>body</strong>${esc(String(params.body).slice(0, 120))}${params.body.length > 120 ? '…' : ''}</span>`);
+      }
+      if (!chips.length) return '';
+      return `<div class="param-chips">${chips.join('')}</div>`;
+    }
+
+    function renderPipelineLatency(latency) {
+      if (!latency || typeof latency !== 'object' || !Object.keys(latency).length) return '';
+      const cells = Object.entries(latency).map(([key, val]) => {
+        const num = Number(val);
+        const display = Number.isFinite(num) ? `${num.toFixed(2)}s` : esc(String(val));
+        return `<div class="pipeline-cell"><span>${esc(key.replace(/_/g, ' '))}</span><em>${display}</em></div>`;
+      });
+      return `<div class="io-label" style="margin-top:8px">RAG pipeline timing</div><div class="pipeline-grid">${cells.join('')}</div>`;
+    }
+
+    function renderScopeFilters(scope) {
+      if (!scope || typeof scope !== 'object') return '';
+      const parts = [];
+      if (scope.ticker_filter) parts.push(`ticker=${scope.ticker_filter}`);
+      if (scope.fiscal_year_filter) parts.push(`FY=${scope.fiscal_year_filter}`);
+      if (scope.filtered_chunk_count != null) parts.push(`${scope.filtered_chunk_count} text chunks`);
+      if (scope.filtered_table_chunk_count != null) parts.push(`${scope.filtered_table_chunk_count} table chunks`);
+      if (!parts.length) return '<div class="meta-line" style="margin-top:6px">No hard filter — searched all filings</div>';
+      return `<div class="meta-line" style="margin-top:6px">Index scope: ${esc(parts.join(' · '))}</div>`;
+    }
+
+    function renderFlowTimeline() {
+      const wrap = $('traceFlow');
+      const inner = $('traceFlowInner');
+      const steps = state.steps;
+      if (!steps.length && !state.lastQuery) {
+        wrap.hidden = true;
+        return;
+      }
+      wrap.hidden = false;
+      const parts = [];
+      const q = (state.lastQuery || '').trim();
+      parts.push(`<span class="flow-chip user">Question</span>`);
+      if (q) parts.push(`<span class="flow-arrow">→</span>`);
+      steps.forEach((s, i) => {
+        const cls = `flow-chip ${esc(s.tool || 'tool')} ${s.pending ? 'pending' : 'done'}`;
+        const label = `${s.step}. ${s.tool || 'tool'}${s.pending ? '…' : ''}`;
+        parts.push(`<span class="${cls}">${esc(label)}</span>`);
+        if (i < steps.length - 1 || state.running || state.doneAnswer) {
+          parts.push('<span class="flow-arrow">→</span>');
+        }
+      });
+      if (state.doneAnswer && !state.running) {
+        parts.push('<span class="flow-chip answer">Final answer</span>');
+      } else if (state.running && steps.length && !steps.some((s) => s.pending)) {
+        parts.push('<span class="flow-chip answer pending">LLM…</span>');
+      }
+      inner.innerHTML = parts.join('');
+    }
+
+    function renderOutput(out, pending) {
+      if (pending || !out || !Object.keys(out).length) {
+        return '<div class="block prose" style="color:var(--muted);font-style:italic">Running tool…</div>';
+      }
+      if (out.tool === 'sql') {
+        let html = `<div class="meta-line">${esc(out.status || '—')} · ${esc(out.row_count ?? 0)} rows · ${esc(out.latency_sec)}s</div>`;
+        if (out.sql) {
+          html += `<div class="io-label" style="margin-top:6px">SQL executed</div><pre class="sql-block">${esc(out.sql)}</pre>`;
+        }
+        if (out.rows?.length) {
+          const keys = Object.keys(out.rows[0]);
+          html += `<div class="io-label" style="margin-top:8px">Query results</div>`;
+          html += '<table class="rows"><thead><tr>' + keys.map((k) => `<th>${esc(k)}</th>`).join('') + '</tr></thead><tbody>';
+          out.rows.forEach((row) => {
+            html += '<tr>' + keys.map((k) => `<td>${esc(row[k])}</td>`).join('') + '</tr>';
+          });
+          html += '</tbody></table>';
+        }
+        if (out.error_message) html += `<div class="err">${esc(out.error_message)}</div>`;
+        return html;
+      }
+      if (out.tool === 'rag') {
+        let html = `<div class="meta-line">${out.ok ? 'Retrieved' : 'Failed'} · ${esc(out.latency_sec)}s total</div>`;
+        html += renderScopeFilters(out.scope_filters);
+        html += renderPipelineLatency(out.pipeline_latency);
+        if (out.answer) {
+          html += `<div class="io-label" style="margin-top:8px">10-K excerpt</div><div class="block prose">${esc(out.answer)}</div>`;
+        }
+        const sources = out.sources?.length
+          ? out.sources
+          : (out.reranked_top || []).map((c) => ({
+              chunk_id: c.chunk_id || c.candidate_id,
+              header_path: (c.header_path || []).join(' › '),
+              score: c.score || c.rerank_score,
+              source_file: c.source_file,
+            }));
+        if (sources.length) {
+          html += `<div class="io-label" style="margin-top:8px">Top reranked chunks (${sources.length})</div><ul class="source-list">`;
+          sources.forEach((c) => {
+            const path = c.header_path || '';
+            const score = c.score != null ? ` · score ${Number(c.score).toFixed(3)}` : '';
+            const file = c.source_file ? ` · ${esc(c.source_file)}` : '';
+            html += `<li><code>${esc(c.chunk_id)}</code>${path ? ` — ${esc(path)}` : ''}${score}${file}</li>`;
+          });
+          html += '</ul>';
+        }
+        if (out.table_contexts?.length) {
+          html += `<div class="io-label" style="margin-top:8px">Table contexts (${out.table_contexts.length})</div>`;
+          out.table_contexts.forEach((t) => {
+            const path = t.section_path ? ` — ${esc(t.section_path)}` : '';
+            const summary = t.summary ? `<div style="margin-top:4px;color:#475569">${esc(t.summary)}</div>` : '';
+            html += `<div class="table-ctx"><code>${esc(t.table_id || 'table')}</code>${path}${summary}</div>`;
+          });
+        }
+        if (out.error_message) html += `<div class="err">${esc(out.error_message)}</div>`;
+        return html;
+      }
+      if (out.tool === 'send_email') {
+        let html = `<div class="meta-line">${out.ok ? 'Sent' : 'Failed'} · ${esc(out.latency_sec)}s</div>`;
+        if (out.to_email) html += `<div class="block prose" style="margin-top:6px"><strong>To:</strong> ${esc(out.to_email)}</div>`;
+        if (out.subject) html += `<div class="block prose" style="margin-top:6px"><strong>Subject:</strong> ${esc(out.subject)}</div>`;
+        if (out.body_chars) html += `<div class="meta-line" style="margin-top:4px">${esc(out.body_chars)} characters</div>`;
+        if (out.error_message) html += `<div class="err">${esc(out.error_message)}</div>`;
+        return html;
+      }
+      return '<div class="block prose" style="color:var(--muted)">No structured output.</div>';
+    }
+
+    function renderStepBody(s) {
+      const reasoning = stepReasoning(s);
+      let html = '';
+      if (reasoning) {
+        html += `<div class="trace-section"><div class="io-label">① LLM reasoning</div><div class="block reasoning prose">${esc(reasoning)}</div></div>`;
+      }
+      html += `<div class="trace-section"><div class="io-label">② Tool invocation · ${esc(s.tool || 'tool')}</div>`;
+      if (s.input_params) {
+        html += renderParamChips(s.input_params);
+        html += `<pre class="trace-json">${esc(prettyJson(s.input_params))}</pre>`;
+      } else if (s.input) {
+        html += `<div class="block prose">${esc(s.input)}</div>`;
+      }
+      html += '</div>';
+      html += `<div class="trace-section"><div class="io-label">③ Tool observation</div>${renderOutput(s.output, s.pending)}</div>`;
+      if (!s.pending) {
+        html += `<div class="meta-line" style="margin-top:2px">Observation appended to agent scratchpad → next LLM turn</div>`;
+      }
+      return html;
+    }
+
+    function renderTraceSteps() {
+      const steps = state.steps;
+      renderFlowTimeline();
+      if (!steps.length) {
+        $('trace').innerHTML = '<div class="trace-empty">Tool calls will show up here in real time.</div>';
+        return;
+      }
+      const blocks = [];
+      steps.forEach((s, i) => {
+        if (i > 0) {
+          blocks.push(`<div class="step-bridge">${esc(stepBridgeText(steps[i - 1], s))}</div>`);
+        }
+        blocks.push(`
+        <article class="trace-step ${s.pending ? 'pending' : ''}" data-step="${esc(s.step)}">
+          <div class="trace-step-head">
+            <span>Step ${esc(s.step)}</span>
+            ${stepReasoning(s) ? '<span class="pill plan">reasoning</span>' : ''}
+            <span class="pill ${esc(s.tool)}">${esc(s.tool)}</span>
+            ${s.pending ? '<span class="pill live">running</span>' : '<span class="pill live" style="background:#ecfdf5;color:#15803d;border-color:#bbf7d0">done</span>'}
+          </div>
+          <div class="trace-body">
+            ${renderStepBody(s)}
+          </div>
+        </article>`);
+      });
+      $('trace').innerHTML = blocks.join('');
+      const el = $('trace');
+      const active = el.querySelector('.trace-step.pending');
+      if (active) active.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      else el.scrollTop = el.scrollHeight;
+    }
+
+    function handleStreamEvent(ev) {
+      if (ev.type === 'started') {
+        if (ev.session_id) saveSessionId(ev.session_id);
+        $('statusLine').textContent = 'Running…';
+        if (state.activeTab === 'memory' && state.sessionId) {
+          const base = state.lastPromptInjection;
+          renderMemory({
+            active: true,
+            session_id: state.sessionId,
+            last_prompt_injection: base || {
+              query: state.lastQuery || ev.query || '',
+              memory_context: '',
+              chat_history: [],
+              scratchpad: state.liveScratchpad || [],
+              system_note: '',
+              _live: true,
+            },
+          });
+        }
+        return;
+      }
+      if (ev.type === 'step_start' || ev.type === 'step') {
+        upsertStep(ev.step);
+        const n = state.steps.length;
+        $('statusLine').textContent = `Step ${ev.step?.step ?? n} · ${ev.step?.tool ?? 'tool'}${ev.step?.pending ? '…' : ''}`;
+        return;
+      }
+      if (ev.type === 'done') {
+        if (ev.session_id) saveSessionId(ev.session_id);
+        setLoading(false);
+        const answer = ev.answer || '(empty answer)';
+        state.doneAnswer = answer;
+        const lat = ev.latency || {};
+        const sec = lat.total_sec ?? '?';
+        appendMessage('assistant', answer, `${sec}s · ${(ev.steps || state.steps).length} steps`, ev.references || []);
+        if (ev.steps?.length) {
+          state.steps = ev.steps.map((s) => ({ ...s, pending: false }));
+          renderTraceSteps();
+        }
+        const inj = buildDonePromptInjection(ev);
+        if (inj) {
+          state.lastPromptInjection = inj;
+          state.liveScratchpad = null;
+        }
+        $('statusLine').textContent = `Done · ${sec}s · tools ${lat.tool_sec ?? '?'}s · ${(ev.steps || state.steps).length} steps`;
+        if (state.activeTab === 'memory' && state.sessionId) {
+          renderMemory({
+            active: true,
+            session_id: ev.session_id || state.sessionId,
+            last_prompt_injection: state.lastPromptInjection,
+          });
+          refreshMemory({ showLoading: false });
+        }
+        return;
+      }
+      if (ev.type === 'error') {
+        throw new Error(ev.detail || 'Agent error');
+      }
+    }
+
+    async function loadIndexStatus() {
+      let res;
+      try {
+        res = await fetch('/api/agent/index-status', { cache: 'no-store' });
+      } catch (e) {
+        throw new Error('Cannot reach Chunks server. Start it with: python -m chunk_studio.server');
+      }
+      if (res.status === 404) {
+        throw new Error('Server is outdated (missing /api/agent/index-status). Restart: python -m chunk_studio.server');
+      }
+      if (!res.ok) {
+        const detail = await res.text().catch(() => '');
+        throw new Error(`Failed to load global index status (${res.status})${detail ? `: ${detail.slice(0, 120)}` : ''}`);
+      }
+      state.indexStatus = await res.json();
+      updateControls();
+    }
+
+    async function runAgent() {
+      const question = ($('question').value || '').trim();
+      $('err').hidden = true;
+      if (!question) {
+        $('err').textContent = 'Type a question first.';
+        $('err').hidden = false;
+        return;
+      }
+      if (!canRun()) {
+        $('err').textContent = 'Global RAG index is not ready yet.';
+        $('err').hidden = false;
+        return;
+      }
+
+      saveLastQuery(question);
+      state.liveScratchpad = [{ role: 'human', kind: 'question', content: question }];
+      appendMessage('user', question);
+      $('question').value = '';
+      autoResize($('question'));
+
+      state.running = true;
+      state.steps = [];
+      state.doneAnswer = null;
+      updateControls();
+      setLoading(true);
+      $('statusLine').textContent = 'Starting…';
+      $('traceFlow').hidden = true;
+      $('traceFlowInner').innerHTML = '';
+      $('trace').innerHTML = '<div class="trace-empty">Waiting for first tool…</div>';
+
+      const t0 = performance.now();
+      try {
+        const res = await fetch('/api/agent/trace/stream', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question, max_steps: 6, session_id: state.sessionId }),
+        });
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          throw new Error(typeof data.detail === 'string' ? data.detail : JSON.stringify(data.detail || res.status));
+        }
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = '';
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+          let nl;
+          while ((nl = buffer.indexOf('\n')) >= 0) {
+            const line = buffer.slice(0, nl).trim();
+            buffer = buffer.slice(nl + 1);
+            if (!line) continue;
+            handleStreamEvent(JSON.parse(line));
+          }
+        }
+        if (buffer.trim()) handleStreamEvent(JSON.parse(buffer.trim()));
+      } catch (e) {
+        setLoading(false);
+        $('statusLine').textContent = 'Failed';
+        $('err').textContent = e.message || String(e);
+        $('err').hidden = false;
+        appendMessage('assistant', `Error: ${e.message || String(e)}`);
+      } finally {
+        state.running = false;
+        updateControls();
+        if ($('statusLine').textContent.startsWith('Step')) {
+          $('statusLine').textContent += ` · ${Math.round((performance.now() - t0) / 1000)}s`;
+        }
+      }
+    }
+
+    document.querySelectorAll('.tab-btn').forEach((btn) => {
+      btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+    });
+    $('refreshMemoryBtn').addEventListener('click', refreshMemory);
+
+    window.addEventListener('pageshow', (ev) => {
+      if (!ev.persisted) return;
+      state.sessionId = null;
+      state.lastQuery = '';
+      state.liveScratchpad = null;
+      resetMemoryView();
+    });
+    $('newChatBtn').addEventListener('click', () => { startNewChat(); });
+    $('runBtn').addEventListener('click', runAgent);
+    $('question').addEventListener('input', () => autoResize($('question')));
+    $('question').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        if (!state.running) runAgent();
+      }
+    });
+
+    loadIndexStatus().catch((e) => {
+      $('fileMeta').textContent = e.message;
+      $('fileMeta').className = 'file-meta bad';
+    });
+    renderExampleQueries();
+  </script>
+</body>
+</html>

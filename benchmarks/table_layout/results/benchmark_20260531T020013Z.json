@@ -1,0 +1,181 @@
+{
+  "generated_at": "20260531T020013Z",
+  "pdf": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/source.pdf",
+  "pages": [
+    32,
+    33,
+    37,
+    38,
+    42,
+    43
+  ],
+  "casebook": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/benchmarks/table_layout/cases/msft_fy2025_hard_tables.json",
+  "results": [
+    {
+      "adapter": "baseline_table_pipeline_v2",
+      "status": "ok",
+      "error": null,
+      "latency_sec": 0.01,
+      "install_note": "Read-only load of assets.json",
+      "applicability": "Best for 10-K + Item/subsection RAG when heuristics are acceptable.",
+      "avg_score": 0.95,
+      "cases": [
+        {
+          "case_id": "unearned_revenue_schedule",
+          "title": "Item 7 Unearned Revenue — cross-page header + schedule",
+          "score": 1.0,
+          "text_hits": [
+            "(In millions)",
+            "Three Months Ending",
+            "September 30, 2025",
+            "67,265"
+          ],
+          "text_misses": [],
+          "row_hits": [
+            "Thereafter",
+            "Total"
+          ],
+          "row_misses": [],
+          "cross_page_ok": true,
+          "tables_on_pages": 2,
+          "table_count_total": 10
+        },
+        {
+          "case_id": "dividend_declaration",
+          "title": "Item 5 Dividend — cross-page header + data",
+          "score": 1.0,
+          "text_hits": [
+            "Declaration Date",
+            "Record Date",
+            "Payment Date",
+            "Per Share",
+            "0.83",
+            "6,170"
+          ],
+          "text_misses": [],
+          "row_hits": [],
+          "row_misses": [],
+          "cross_page_ok": true,
+          "tables_on_pages": 3,
+          "table_count_total": 10
+        },
+        {
+          "case_id": "segment_total_operating_income",
+          "title": "Item 7 Segment — Total Operating Income cross-page",
+          "score": 0.8,
+          "text_hits": [
+            "Operating Income",
+            "128,528",
+            "109,433"
+          ],
+          "text_misses": [],
+          "row_hits": [],
+          "row_misses": [],
+          "cross_page_ok": false,
+          "tables_on_pages": 5,
+          "table_count_total": 10
+        },
+        {
+          "case_id": "summary_revenue_eps",
+          "title": "Item 7 Summary results — wide multi-column (same page)",
+          "score": 1.0,
+          "text_hits": [
+            "281,724",
+            "13.64"
+          ],
+          "text_misses": [],
+          "row_hits": [],
+          "row_misses": [],
+          "cross_page_ok": true,
+          "tables_on_pages": 1,
+          "table_count_total": 10
+        }
+      ],
+      "table_count": 10
+    },
+    {
+      "adapter": "pymupdf_find_tables",
+      "status": "ok",
+      "error": null,
+      "latency_sec": 6.168,
+      "install_note": "pip install pymupdf",
+      "applicability": "Fast baseline; fragments wide tables, misses header-only bands and cross-page merge.",
+      "avg_score": 0.662,
+      "cases": [
+        {
+          "case_id": "unearned_revenue_schedule",
+          "title": "Item 7 Unearned Revenue — cross-page header + schedule",
+          "score": 0.35,
+          "text_hits": [
+            "September 30, 2025"
+          ],
+          "text_misses": [
+            "(In millions)",
+            "Three Months Ending",
+            "67,265"
+          ],
+          "row_hits": [
+            "Thereafter",
+            "Total"
+          ],
+          "row_misses": [],
+          "cross_page_ok": false,
+          "tables_on_pages": 7,
+          "table_count_total": 23
+        },
+        {
+          "case_id": "dividend_declaration",
+          "title": "Item 5 Dividend — cross-page header + data",
+          "score": 0.5,
+          "text_hits": [
+            "Per Share",
+            "0.83",
+            "6,170"
+          ],
+          "text_misses": [
+            "Declaration Date",
+            "Record Date",
+            "Payment Date"
+          ],
+          "row_hits": [],
+          "row_misses": [],
+          "cross_page_ok": false,
+          "tables_on_pages": 5,
+          "table_count_total": 23
+        },
+        {
+          "case_id": "segment_total_operating_income",
+          "title": "Item 7 Segment — Total Operating Income cross-page",
+          "score": 0.8,
+          "text_hits": [
+            "Operating Income",
+            "128,528",
+            "109,433"
+          ],
+          "text_misses": [],
+          "row_hits": [],
+          "row_misses": [],
+          "cross_page_ok": false,
+          "tables_on_pages": 11,
+          "table_count_total": 23
+        },
+        {
+          "case_id": "summary_revenue_eps",
+          "title": "Item 7 Summary results — wide multi-column (same page)",
+          "score": 1.0,
+          "text_hits": [
+            "281,724",
+            "13.64"
+          ],
+          "text_misses": [],
+          "row_hits": [],
+          "row_misses": [],
+          "cross_page_ok": true,
+          "tables_on_pages": 1,
+          "table_count_total": 23
+        }
+      ],
+      "table_count": 23
+    }
+  ]
+}

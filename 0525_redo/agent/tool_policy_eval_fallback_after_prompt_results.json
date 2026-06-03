@@ -1,0 +1,467 @@
+{
+  "model": "claude-haiku-4-5-20251001",
+  "metrics": {
+    "overall": {
+      "case_count": 5,
+      "exact_policy_pass_rate": 1.0,
+      "mean_binary_action_score": 1.0
+    },
+    "action": {
+      "action_accuracy": 1.0,
+      "tool_needed_recall": 1.0,
+      "stop_recall": null,
+      "stop_precision": null,
+      "over_call_rate": null,
+      "under_call_rate": 0.0
+    },
+    "tool_selection": {
+      "expected_tool_calls": 5,
+      "actual_tool_calls": 5,
+      "matched_tool_calls": 5,
+      "tool_set_precision": 1.0,
+      "tool_set_recall": 1.0,
+      "tool_set_f1": 1.0,
+      "sql_vs_rag_confusion": {}
+    },
+    "args": {
+      "sql_entity_recall": null,
+      "sql_year_recall": null,
+      "sql_metric_recall": null,
+      "rag_ticker_accuracy": 1.0,
+      "rag_fiscal_year_accuracy": 1.0,
+      "rag_single_scope_accuracy": 1.0,
+      "rag_entity_recall": 1.0,
+      "rag_evidence_terms_recall": 1.0,
+      "abstract_query_expansion_accuracy": 1.0
+    },
+    "trajectory": {
+      "stop_after_sufficient_evidence_accuracy": null,
+      "dependency_satisfaction_rate": null,
+      "decomposition_accuracy": null,
+      "missing_followup_rate": null
+    },
+    "by_category": {
+      "fallback": {
+        "n": 5,
+        "exact_pass_rate": 1.0,
+        "action_accuracy": 1.0
+      }
+    }
+  },
+  "results": [
+    {
+      "id": "fallback_abstract_001",
+      "category": "fallback",
+      "expected_action": "tool",
+      "actual_action": "tool",
+      "expected_calls": [
+        {
+          "tool": "rag",
+          "args": {
+            "ticker": "AAPL",
+            "fiscal_year": "FY2025",
+            "entities": [
+              [
+                "Services"
+              ]
+            ],
+            "evidence_any": [
+              [
+                "Services",
+                "include"
+              ],
+              [
+                "Services",
+                "growth"
+              ],
+              [
+                "gross margin"
+              ]
+            ],
+            "dependency_terms": []
+          }
+        }
+      ],
+      "actual_calls": [
+        {
+          "tool": "rag",
+          "args": {
+            "ticker": "AAPL",
+            "fiscal_year": "FY2025",
+            "question": "What does the 10-K say about Services business growth, revenue contribution, and strategic role in Apple's business?"
+          }
+        }
+      ],
+      "matched_calls": [
+        {
+          "expected": {
+            "tool": "rag",
+            "args": {
+              "ticker": "AAPL",
+              "fiscal_year": "FY2025",
+              "entities": [
+                [
+                  "Services"
+                ]
+              ],
+              "evidence_any": [
+                [
+                  "Services",
+                  "include"
+                ],
+                [
+                  "Services",
+                  "growth"
+                ],
+                [
+                  "gross margin"
+                ]
+              ],
+              "dependency_terms": []
+            }
+          },
+          "actual": {
+            "tool": "rag",
+            "args": {
+              "ticker": "AAPL",
+              "fiscal_year": "FY2025",
+              "question": "What does the 10-K say about Services business growth, revenue contribution, and strategic role in Apple's business?"
+            }
+          }
+        }
+      ],
+      "answer_excerpt": "The existing observation shows that a direct search for \"strategic importance of Services\" did not find that exact phrase. However, this does not mean the filing lacks relevant information about Servi",
+      "exact_pass": true,
+      "latency_sec": 2.412,
+      "stop_reason": "tool_use"
+    },
+    {
+      "id": "fallback_abstract_002",
+      "category": "fallback",
+      "expected_action": "tool",
+      "actual_action": "tool",
+      "expected_calls": [
+        {
+          "tool": "rag",
+          "args": {
+            "ticker": "MSFT",
+            "fiscal_year": "FY2025",
+            "entities": [
+              [
+                "AI"
+              ]
+            ],
+            "evidence_any": [
+              [
+                "AI"
+              ],
+              [
+                "investment"
+              ],
+              [
+                "risk"
+              ]
+            ],
+            "dependency_terms": []
+          }
+        }
+      ],
+      "actual_calls": [
+        {
+          "tool": "rag",
+          "args": {
+            "ticker": "MSFT",
+            "fiscal_year": "FY2025",
+            "question": "What is Microsoft's AI strategy and how does it drive business growth?"
+          }
+        }
+      ],
+      "matched_calls": [
+        {
+          "expected": {
+            "tool": "rag",
+            "args": {
+              "ticker": "MSFT",
+              "fiscal_year": "FY2025",
+              "entities": [
+                [
+                  "AI"
+                ]
+              ],
+              "evidence_any": [
+                [
+                  "AI"
+                ],
+                [
+                  "investment"
+                ],
+                [
+                  "risk"
+                ]
+              ],
+              "dependency_terms": []
+            }
+          },
+          "actual": {
+            "tool": "rag",
+            "args": {
+              "ticker": "MSFT",
+              "fiscal_year": "FY2025",
+              "question": "What is Microsoft's AI strategy and how does it drive business growth?"
+            }
+          }
+        }
+      ],
+      "answer_excerpt": "The existing observation shows that a direct search for \"strategic importance of AI strategy\" did not find that exact phrase. However, this doesn't mean the filing lacks relevant information about AI'",
+      "exact_pass": true,
+      "latency_sec": 2.252,
+      "stop_reason": "tool_use"
+    },
+    {
+      "id": "fallback_abstract_003",
+      "category": "fallback",
+      "expected_action": "tool",
+      "actual_action": "tool",
+      "expected_calls": [
+        {
+          "tool": "rag",
+          "args": {
+            "ticker": "GOOGL",
+            "fiscal_year": "FY2025",
+            "entities": [
+              [
+                "Google"
+              ]
+            ],
+            "evidence_any": [
+              [
+                "Google Cloud"
+              ],
+              [
+                "growth"
+              ],
+              [
+                "operating"
+              ]
+            ],
+            "dependency_terms": []
+          }
+        }
+      ],
+      "actual_calls": [
+        {
+          "tool": "rag",
+          "args": {
+            "ticker": "GOOGL",
+            "fiscal_year": "FY2025",
+            "question": "What does the 10-K say about Google Cloud's business importance, growth drivers, and strategic role?"
+          }
+        }
+      ],
+      "matched_calls": [
+        {
+          "expected": {
+            "tool": "rag",
+            "args": {
+              "ticker": "GOOGL",
+              "fiscal_year": "FY2025",
+              "entities": [
+                [
+                  "Google"
+                ]
+              ],
+              "evidence_any": [
+                [
+                  "Google Cloud"
+                ],
+                [
+                  "growth"
+                ],
+                [
+                  "operating"
+                ]
+              ],
+              "dependency_terms": []
+            }
+          },
+          "actual": {
+            "tool": "rag",
+            "args": {
+              "ticker": "GOOGL",
+              "fiscal_year": "FY2025",
+              "question": "What does the 10-K say about Google Cloud's business importance, growth drivers, and strategic role?"
+            }
+          }
+        }
+      ],
+      "answer_excerpt": "The existing RAG observation indicates the exact phrase was not found, but this doesn't mean the filing lacks information about Google Cloud's strategic importance. I need to retry with a more concret",
+      "exact_pass": true,
+      "latency_sec": 1.864,
+      "stop_reason": "tool_use"
+    },
+    {
+      "id": "fallback_abstract_004",
+      "category": "fallback",
+      "expected_action": "tool",
+      "actual_action": "tool",
+      "expected_calls": [
+        {
+          "tool": "rag",
+          "args": {
+            "ticker": "AAPL",
+            "fiscal_year": "FY2025",
+            "entities": [
+              [
+                "App"
+              ]
+            ],
+            "evidence_any": [
+              [
+                "App Store"
+              ],
+              [
+                "Services"
+              ],
+              [
+                "Digital Content"
+              ]
+            ],
+            "dependency_terms": []
+          }
+        }
+      ],
+      "actual_calls": [
+        {
+          "tool": "rag",
+          "args": {
+            "ticker": "AAPL",
+            "fiscal_year": "FY2025",
+            "question": "What does Apple say about the App Store's strategic importance, role, or significance to the business?"
+          }
+        }
+      ],
+      "matched_calls": [
+        {
+          "expected": {
+            "tool": "rag",
+            "args": {
+              "ticker": "AAPL",
+              "fiscal_year": "FY2025",
+              "entities": [
+                [
+                  "App"
+                ]
+              ],
+              "evidence_any": [
+                [
+                  "App Store"
+                ],
+                [
+                  "Services"
+                ],
+                [
+                  "Digital Content"
+                ]
+              ],
+              "dependency_terms": []
+            }
+          },
+          "actual": {
+            "tool": "rag",
+            "args": {
+              "ticker": "AAPL",
+              "fiscal_year": "FY2025",
+              "question": "What does Apple say about the App Store's strategic importance, role, or significance to the business?"
+            }
+          }
+        }
+      ],
+      "answer_excerpt": "The existing RAG observation indicates the exact phrase was not found, but this doesn't mean the filing lacks relevant information about the App Store's strategic importance. I need to retry with a mo",
+      "exact_pass": true,
+      "latency_sec": 2.125,
+      "stop_reason": "tool_use"
+    },
+    {
+      "id": "fallback_abstract_005",
+      "category": "fallback",
+      "expected_action": "tool",
+      "actual_action": "tool",
+      "expected_calls": [
+        {
+          "tool": "rag",
+          "args": {
+            "ticker": "MSFT",
+            "fiscal_year": "FY2025",
+            "entities": [
+              [
+                "cloud"
+              ]
+            ],
+            "evidence_any": [
+              [
+                "cloud"
+              ],
+              [
+                "Intelligent Cloud"
+              ],
+              [
+                "growth"
+              ]
+            ],
+            "dependency_terms": []
+          }
+        }
+      ],
+      "actual_calls": [
+        {
+          "tool": "rag",
+          "args": {
+            "ticker": "MSFT",
+            "fiscal_year": "FY2025",
+            "question": "What does the 10-K say about cloud computing as a business driver and its role in Microsoft's strategy?"
+          }
+        }
+      ],
+      "matched_calls": [
+        {
+          "expected": {
+            "tool": "rag",
+            "args": {
+              "ticker": "MSFT",
+              "fiscal_year": "FY2025",
+              "entities": [
+                [
+                  "cloud"
+                ]
+              ],
+              "evidence_any": [
+                [
+                  "cloud"
+                ],
+                [
+                  "Intelligent Cloud"
+                ],
+                [
+                  "growth"
+                ]
+              ],
+              "dependency_terms": []
+            }
+          },
+          "actual": {
+            "tool": "rag",
+            "args": {
+              "ticker": "MSFT",
+              "fiscal_year": "FY2025",
+              "question": "What does the 10-K say about cloud computing as a business driver and its role in Microsoft's strategy?"
+            }
+          }
+        }
+      ],
+      "answer_excerpt": "The existing observation shows that searching for the exact phrase \"strategic importance of cloud importance\" did not yield results. However, this doesn't mean the filing lacks information about cloud",
+      "exact_pass": true,
+      "latency_sec": 2.451,
+      "stop_reason": "tool_use"
+    }
+  ]
+}

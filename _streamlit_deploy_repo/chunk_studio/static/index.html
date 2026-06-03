@@ -1,0 +1,2821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chunks</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/favicon.svg" />
+  <style>
+    :root {
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --panel-soft: #fbfbfc;
+      --line: #e5e7eb;
+      --line-strong: #d4d7dd;
+      --text: #111827;
+      --muted: #6b7280;
+      --muted-2: #9ca3af;
+      --accent: #2563eb;
+      --accent-soft: #eff6ff;
+      --good: #15803d;
+      --warn: #b45309;
+      --bad: #b91c1c;
+      --radius: 16px;
+      --shadow: 0 14px 40px rgba(15, 23, 42, 0.06);
+      --doc-rail: 14px;
+      --doc-drawer-width: 272px;
+      --right-col: 760px;
+      --work-panel-height: calc(100vh - 20px);
+    }
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 28rem),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    button, input, textarea, select { font: inherit; }
+    button {
+      border: 0;
+      border-radius: 999px;
+      background: var(--text);
+      color: white;
+      padding: 0.62rem 1rem;
+      font-size: 0.875rem;
+      font-weight: 650;
+      cursor: pointer;
+      transition: transform 0.12s ease, opacity 0.12s ease, background 0.12s ease;
+    }
+    button:hover:not(:disabled) { transform: translateY(-1px); }
+    button:disabled { opacity: 0.48; cursor: not-allowed; }
+    button.secondary {
+      background: white;
+      color: var(--text);
+      border: 1px solid var(--line-strong);
+    }
+    button.blue { background: var(--accent); }
+    .shell {
+      width: min(2200px, calc(100vw - 16px));
+      margin: 0 auto;
+      height: 100vh;
+      min-height: 100vh;
+      padding: 8px 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 1rem;
+      flex: 0 0 auto;
+      margin-bottom: 8px;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(1.7rem, 3vw, 2.5rem);
+      letter-spacing: -0.045em;
+    }
+    .subtitle {
+      margin: 0.4rem 0 0;
+      color: var(--muted);
+      max-width: 52rem;
+    }
+    .version-badge {
+      display: inline-flex;
+      margin-top: 0.55rem;
+      border: 1px solid #bfdbfe;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #1d4ed8;
+      padding: 0.18rem 0.55rem;
+      font-size: 0.72rem;
+      font-weight: 750;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns:
+        var(--doc-rail)
+        minmax(440px, 1.45fr)
+        10px
+        minmax(480px, var(--right-col));
+      gap: 8px;
+      align-items: start;
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+    .doc-drawer-zone {
+      position: relative;
+      min-height: 100%;
+      width: var(--doc-rail);
+      z-index: 40;
+    }
+    .doc-drawer-zone::before {
+      content: "";
+      position: absolute;
+      left: 5px;
+      top: 8px;
+      bottom: 8px;
+      width: 3px;
+      border-radius: 999px;
+      background: #d1d5db;
+      transition: background 0.15s ease, box-shadow 0.15s ease;
+      pointer-events: none;
+    }
+    .doc-drawer-zone:hover::before,
+    .doc-drawer-zone:focus-within::before {
+      background: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-soft);
+    }
+    .doc-drawer-zone .doc-panel {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      height: 100%;
+      width: var(--doc-drawer-width);
+      max-width: min(320px, 42vw);
+      transform: translateX(calc(-100% - 8px));
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.2s ease, opacity 0.16s ease;
+      box-shadow: 0 18px 48px rgba(15, 23, 42, 0.14);
+      display: flex;
+      flex-direction: column;
+    }
+    .doc-drawer-zone:hover .doc-panel,
+    .doc-drawer-zone:focus-within .doc-panel {
+      transform: translateX(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .doc-panel .stats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .doc-panel > .panel-head {
+      flex: 0 0 auto;
+    }
+    .doc-panel > .panel-body {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .col-resizer {
+      align-self: stretch;
+      min-height: 100%;
+      border-radius: 999px;
+      cursor: col-resize;
+      background: rgba(226, 232, 240, 0.45);
+      position: relative;
+    }
+    .col-resizer::before {
+      content: "";
+      position: absolute;
+      top: 12px;
+      bottom: 12px;
+      left: 4px;
+      width: 2px;
+      border-radius: 999px;
+      background: #d6dbe3;
+    }
+    .col-resizer:hover::before,
+    body.resizing .col-resizer::before {
+      background: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+    .panel {
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(229, 231, 235, 0.9);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      min-width: 0;
+    }
+    .panel-head {
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.7);
+    }
+    .panel-title {
+      margin: 0;
+      font-size: 0.92rem;
+      font-weight: 750;
+      letter-spacing: -0.01em;
+    }
+    .panel-note {
+      margin: 0.25rem 0 0;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+    .panel-body {
+      padding: 14px;
+      min-width: 0;
+    }
+    .stack { display: grid; gap: 12px; }
+    .drop {
+      border: 1px dashed var(--line-strong);
+      border-radius: 14px;
+      background: var(--panel-soft);
+      padding: 16px;
+    }
+    input[type="file"] {
+      width: 100%;
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+    .status {
+      border-radius: 12px;
+      padding: 10px 12px;
+      background: var(--panel-soft);
+      color: var(--muted);
+      font-size: 0.84rem;
+      border: 1px solid var(--line);
+      white-space: pre-wrap;
+    }
+    .status.good { color: var(--good); background: #f0fdf4; border-color: #bbf7d0; }
+    .status.warn { color: var(--warn); background: #fffbeb; border-color: #fde68a; }
+    .status.bad { color: var(--bad); background: #fef2f2; border-color: #fecaca; }
+    .activity {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: linear-gradient(180deg, #ffffff, #fbfbfc);
+      padding: 12px;
+    }
+    .activity-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .activity-label {
+      font-weight: 780;
+      letter-spacing: -0.02em;
+      font-size: 0.92rem;
+    }
+    .activity-message {
+      color: var(--muted);
+      font-size: 0.8rem;
+      line-height: 1.4;
+      margin-top: 3px;
+    }
+    .activity-pct {
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 750;
+      white-space: nowrap;
+    }
+    .progress {
+      height: 7px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #eef0f3;
+      margin-bottom: 12px;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      border-radius: inherit;
+      background: var(--accent);
+      transition: width 0.25s ease;
+    }
+    .stepper {
+      display: grid;
+      gap: 8px;
+    }
+    .step {
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      gap: 8px;
+      align-items: start;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+    .step-mark {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      border: 1px solid var(--line-strong);
+      background: white;
+      display: grid;
+      place-items: center;
+      font-size: 0.65rem;
+      color: var(--muted);
+      margin-top: 1px;
+    }
+    .step.active { color: var(--text); }
+    .step.active .step-mark {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+    .step.done .step-mark {
+      border-color: #bbf7d0;
+      background: #f0fdf4;
+      color: var(--good);
+    }
+    .step.error .step-mark {
+      border-color: #fecaca;
+      background: #fef2f2;
+      color: var(--bad);
+    }
+    .step.skipped .step-mark {
+      border-color: #fde68a;
+      background: #fffbeb;
+      color: var(--warn);
+    }
+    .step-name {
+      font-weight: 750;
+      color: inherit;
+    }
+    .step-desc {
+      margin-top: 1px;
+      line-height: 1.35;
+      color: var(--muted);
+    }
+    .process-log {
+      display: grid;
+      gap: 8px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: white;
+      padding: 10px;
+      max-height: 240px;
+      overflow: auto;
+    }
+    .event {
+      display: grid;
+      grid-template-columns: 10px 1fr;
+      gap: 9px;
+      align-items: start;
+      font-size: 0.8rem;
+    }
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--muted-2);
+      margin-top: 5px;
+    }
+    .event.running .dot { background: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+    .event.done .dot { background: var(--good); }
+    .event.error .dot { background: var(--bad); }
+    .event.skipped .dot { background: var(--warn); }
+    .event-title {
+      font-weight: 750;
+      letter-spacing: -0.01em;
+    }
+    .event-msg {
+      color: var(--muted);
+      margin-top: 2px;
+      line-height: 1.35;
+      white-space: pre-wrap;
+    }
+    .file-list {
+      display: grid;
+      gap: 8px;
+      max-height: 280px;
+      overflow: auto;
+    }
+    .file-card, .chunk-card, .asset-card {
+      border: 1px solid var(--line);
+      background: white;
+      border-radius: 14px;
+      padding: 11px;
+      cursor: pointer;
+    }
+    .file-card.active, .chunk-card.active, .asset-card.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+    .name {
+      font-weight: 700;
+      font-size: 0.9rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .meta {
+      color: var(--muted);
+      font-size: 0.76rem;
+      margin-top: 4px;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+    }
+    .stat {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 9px;
+      background: white;
+    }
+    .stat strong {
+      display: block;
+      font-size: 1.1rem;
+      letter-spacing: -0.03em;
+    }
+    .stat span {
+      color: var(--muted);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .toolbar {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .search, textarea {
+      width: 100%;
+      border: 1px solid var(--line-strong);
+      border-radius: 12px;
+      padding: 0.68rem 0.8rem;
+      background: white;
+      color: var(--text);
+      outline: none;
+    }
+    .search:focus, textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+    .chunks-panel {
+      position: sticky;
+      top: 0;
+      align-self: start;
+      height: 100%;
+      max-height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .chunks-panel > .panel-body {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .chunks-panel .stack {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .chunks-panel .search {
+      flex-shrink: 0;
+    }
+    .chunk-list {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: block;
+      overflow: auto;
+      padding: 6px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+    }
+    .tree {
+      display: grid;
+      gap: 2px;
+    }
+    .tree details {
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      overflow: visible;
+    }
+    .tree details details {
+      margin: 4px 0 4px 14px;
+      border-left: 1px solid #e2e8f0;
+      border-radius: 0;
+      padding-left: 8px;
+      background: transparent;
+    }
+    .tree summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 8px 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.86rem;
+      font-weight: 740;
+      border-radius: 10px;
+      background: #f8fafc;
+      border: 1px solid transparent;
+      color: #273449;
+    }
+    #chunkList .tree summary {
+      position: sticky;
+      top: var(--tree-sticky-top, 6px);
+      z-index: var(--tree-z, 20);
+      box-shadow: 0 5px 14px rgba(15, 23, 42, 0.05);
+    }
+    .tree summary:hover { background: #f1f5f9; }
+    .tree details details > summary {
+      background: transparent;
+      border-color: transparent;
+      color: #4b5563;
+      padding: 7px 8px;
+      font-size: 0.81rem;
+      font-weight: 680;
+    }
+    .tree details[open] > summary {
+      background: #eef4ff;
+      border-color: #dbeafe;
+      color: #1e3a8a;
+    }
+    .tree details details[open] > summary {
+      background: #ffffff;
+      border-color: #e5e7eb;
+      color: #374151;
+    }
+    .tree summary::-webkit-details-marker { display: none; }
+    .tree summary::before {
+      content: "▸";
+      color: var(--muted);
+      flex: 0 0 auto;
+      transition: transform 0.12s ease;
+    }
+    .tree details[open] > summary::before { content: "▾"; }
+    .tree summary span:first-of-type {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      text-align: left;
+    }
+    .tree-count {
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 700;
+      white-space: nowrap;
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 999px;
+      padding: 2px 7px;
+    }
+    .leaf-list {
+      display: grid;
+      gap: 2px;
+      padding: 2px 0 6px 12px;
+    }
+    .leaf {
+      width: 100%;
+      text-align: left;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text);
+      padding: 9px 10px;
+      display: grid;
+      gap: 2px;
+      cursor: pointer;
+      user-select: text;
+    }
+    .leaf:hover, .leaf.active {
+      background: #f8fbff;
+      border-color: #bfdbfe;
+      transform: none;
+    }
+    .leaf.active {
+      box-shadow: inset 3px 0 0 var(--accent);
+    }
+    .leaf-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 0.82rem;
+      font-weight: 720;
+    }
+    .leaf-sub {
+      color: var(--muted);
+      font-size: 0.73rem;
+      line-height: 1.35;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+    .leaf-detail {
+      margin-top: 8px;
+      border-top: 1px solid #e5e7eb;
+      padding-top: 8px;
+      color: #374151;
+      font-size: 0.82rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      max-height: 320px;
+      overflow: auto;
+    }
+    .leaf-detail .pills {
+      margin-top: 8px;
+    }
+    .chunk-leaf {
+      border: 1px solid transparent;
+      border-radius: 10px;
+      background: transparent;
+      overflow: hidden;
+    }
+    .chunk-leaf[open] {
+      border-color: #bfdbfe;
+      background: #f8fbff;
+      box-shadow: inset 3px 0 0 var(--accent);
+    }
+    .chunk-leaf > summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 9px 10px;
+      display: grid;
+      gap: 2px;
+    }
+    .chunk-leaf > summary::-webkit-details-marker { display: none; }
+    .chunk-leaf > summary::before {
+      content: none;
+    }
+    .chunk-leaf .leaf-detail {
+      margin: 0 10px 10px;
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 10px;
+    }
+    .chunk-toggle {
+      justify-self: start;
+      margin-top: 6px;
+      padding: 0.32rem 0.7rem;
+      font-size: 0.74rem;
+    }
+    .detail-pane {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: white;
+      padding: 13px;
+      max-height: 360px;
+      overflow: auto;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
+    .chunk-card { cursor: default; }
+    .chunk-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: start;
+      margin-bottom: 8px;
+    }
+    .chunk-id {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.74rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .path {
+      font-weight: 720;
+      font-size: 0.9rem;
+      letter-spacing: -0.01em;
+    }
+    .preview {
+      color: #374151;
+      font-size: 0.84rem;
+      line-height: 1.45;
+      white-space: pre-wrap;
+    }
+    .pills {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 9px;
+    }
+    .pill {
+      border-radius: 999px;
+      background: var(--panel-soft);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      padding: 3px 8px;
+      font-size: 0.72rem;
+      font-weight: 650;
+    }
+    .pill.blue { background: var(--accent-soft); border-color: #bfdbfe; color: #1d4ed8; }
+    button.pill.table-ref {
+      cursor: pointer;
+      font: inherit;
+    }
+    button.pill.table-ref:hover {
+      background: #dbeafe;
+      border-color: #93c5fd;
+    }
+    .tabs {
+      display: flex;
+      gap: 6px;
+      padding: 8px;
+      border-bottom: 1px solid var(--line);
+      background: var(--panel-soft);
+    }
+    .tab {
+      background: transparent;
+      color: var(--muted);
+      border-radius: 10px;
+      padding: 0.48rem 0.7rem;
+      border: 1px solid transparent;
+    }
+    .tab.active {
+      background: white;
+      color: var(--text);
+      border-color: var(--line);
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
+    .assets-panel {
+      position: sticky;
+      top: 0;
+      align-self: start;
+      height: 100%;
+      max-height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .assets-panel > .tabs {
+      flex: 0 0 auto;
+    }
+    .assets-panel > .panel-body {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: hidden;
+    }
+    #tabTables,
+    #tabImages {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      gap: 10px;
+    }
+    #tabTables > .vlm-toolbar,
+    #tabTables > .progress,
+    #tabTables > .table-picker-bar {
+      flex-shrink: 0;
+    }
+    #tabTables > .table-preview-pane {
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+    .table-picker-bar {
+      flex-shrink: 0;
+      display: grid;
+      gap: 8px;
+    }
+    .table-picker {
+      border: 1px solid var(--line-strong);
+      border-radius: 12px;
+      background: white;
+      overflow: hidden;
+    }
+    .table-picker-trigger {
+      list-style: none;
+      cursor: pointer;
+      padding: 0.62rem 0.85rem;
+      display: grid;
+      gap: 3px;
+      min-width: 0;
+    }
+    .table-picker-trigger::-webkit-details-marker { display: none; }
+    .table-picker-trigger::after {
+      content: "▾";
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      font-size: 0.85rem;
+      pointer-events: none;
+    }
+    .table-picker[open] .table-picker-trigger::after {
+      content: "▴";
+    }
+    .table-picker { position: relative; }
+    .table-picker-title {
+      font-size: 0.88rem;
+      font-weight: 740;
+      letter-spacing: -0.01em;
+      padding-right: 1.25rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .table-picker-sub {
+      color: var(--muted);
+      font-size: 0.74rem;
+      line-height: 1.35;
+      padding-right: 1.25rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .table-picker-placeholder {
+      color: var(--muted-2);
+      font-size: 0.86rem;
+      padding-right: 1.25rem;
+    }
+    .table-picker-panel {
+      border-top: 1px solid var(--line);
+      max-height: min(52vh, 420px);
+      overflow: auto;
+      padding: 6px;
+      background: #fafbfc;
+    }
+    .table-picker-panel .tree summary {
+      font-size: 0.8rem;
+      padding: 6px 8px;
+    }
+    .table-picker-panel .leaf {
+      padding: 7px 8px;
+    }
+    .table-picker-panel .leaf-sub {
+      -webkit-line-clamp: 1;
+    }
+    .table-preview-pane {
+      flex: 1 1 auto;
+      min-height: 0;
+      min-width: 0;
+      overflow: auto;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      padding: 12px;
+      display: block;
+    }
+    #tablePreview > .preview-header {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: #fff;
+    }
+    #tablePreview > .preview-panel-section {
+      display: block;
+      overflow: visible;
+    }
+    .table-preview-pane.highlight {
+      outline: 2px solid #2563eb;
+      outline-offset: 2px;
+    }
+    .table-wrap {
+      max-height: 430px;
+      overflow-x: scroll;
+      overflow-y: auto;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      margin-top: 12px;
+      background: white;
+      width: 100%;
+      max-width: 100%;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-gutter: stable both-edges;
+      cursor: grab;
+    }
+    .table-crop-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 0;
+      overflow: visible;
+    }
+    .table-crop {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: white;
+      padding: 8px;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-gutter: stable both-edges;
+      min-height: 200px;
+      max-height: none;
+      cursor: grab;
+    }
+    .table-crop.dragging {
+      cursor: grabbing;
+      user-select: none;
+    }
+    .parse-block-merged {
+      border-color: #bfdbfe;
+      background: #f8fafc;
+    }
+    .parse-block-merged h4 {
+      color: #1d4ed8;
+    }
+    .table-crop img {
+      display: block;
+      width: auto;
+      max-width: none;
+      height: auto;
+      min-height: 48px;
+      background: #fff;
+    }
+    .table-wrap.dragging {
+      cursor: grabbing;
+      user-select: none;
+    }
+    .table-wrap::-webkit-scrollbar, .table-crop::-webkit-scrollbar, .chunk-list::-webkit-scrollbar, .asset-list::-webkit-scrollbar {
+      height: 12px;
+      width: 10px;
+    }
+    .table-wrap::-webkit-scrollbar-thumb, .table-crop::-webkit-scrollbar-thumb, .chunk-list::-webkit-scrollbar-thumb, .asset-list::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 999px;
+      border: 3px solid white;
+    }
+    table {
+      border-collapse: collapse;
+      width: max-content;
+      min-width: min-content;
+      font-size: 0.78rem;
+    }
+    .table-wrap table {
+      min-width: max(1000px, 100%);
+    }
+    .table-wrap td,
+    .table-wrap th {
+      border-bottom: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+      padding: 7px 8px;
+      vertical-align: top;
+      min-width: 110px;
+      max-width: 360px;
+      white-space: nowrap;
+    }
+    .preview-panel .panel-body {
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      -webkit-overflow-scrolling: touch;
+    }
+    .preview-header {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+    }
+    .preview-header-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .preview-title {
+      margin: 0;
+      font-size: 0.95rem;
+      font-weight: 780;
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+      word-break: break-word;
+    }
+    .preview-badges {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+    .preview-path {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.76rem;
+      line-height: 1.45;
+      word-break: break-word;
+    }
+    .preview-id {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.72rem;
+      color: var(--muted-2);
+    }
+    .preview-section-tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin: 10px 0 0;
+    }
+    .preview-section-tab {
+      background: var(--panel-soft);
+      color: var(--muted);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.35rem 0.75rem;
+      font-size: 0.74rem;
+      font-weight: 700;
+      cursor: pointer;
+      transform: none;
+    }
+    .preview-section-tab:hover:not(:disabled) {
+      transform: none;
+      background: #f1f5f9;
+    }
+    .preview-section-tab.active {
+      background: var(--accent-soft);
+      color: #1d4ed8;
+      border-color: #bfdbfe;
+    }
+    .preview-panel-section[hidden] {
+      display: none !important;
+    }
+    .leaf-title > span:last-child {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      font-size: 0.72rem;
+      font-weight: 650;
+      color: var(--muted);
+    }
+    tr:first-child td {
+      position: sticky;
+      top: 0;
+      background: #f9fafb;
+      font-weight: 750;
+    }
+    .figure {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      margin-top: 12px;
+      background: white;
+    }
+    textarea {
+      min-height: 92px;
+      resize: vertical;
+      line-height: 1.45;
+    }
+    .answer {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: white;
+      padding: 12px;
+      color: #1f2937;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      min-height: 90px;
+    }
+    details {
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+    .parse-status {
+      font-size: 0.68rem;
+      font-weight: 700;
+      border-radius: 999px;
+      padding: 2px 7px;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+    .parse-status.success { background: #ecfdf5; color: #047857; border-color: #a7f3d0; }
+    .parse-status.missing { background: #f8fafc; color: #64748b; border-color: #e2e8f0; }
+    .parse-status.skipped, .parse-status.parse_error { background: #fff7ed; color: #c2410c; border-color: #fed7aa; }
+    .parse-detail {
+      display: grid;
+      gap: 10px;
+      overflow: visible;
+    }
+    .parse-overview {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      align-items: start;
+    }
+    .parse-overview .parse-block {
+      min-height: 0;
+    }
+    .parse-block {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: white;
+      padding: 12px;
+      min-width: 0;
+    }
+    .parse-block h4 {
+      margin: 0 0 8px;
+      font-size: 0.82rem;
+      color: #334155;
+    }
+    .parse-markdown {
+      padding: 4px 2px;
+    }
+    .parse-table-scroll {
+      overflow: auto;
+      height: min(62vh, 720px);
+      min-height: 520px;
+      max-height: 720px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+      padding: 8px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-gutter: stable both-edges;
+    }
+    .preview-panel-section[data-preview-panel="parse"] {
+      min-height: 240px;
+      overflow: visible;
+      gap: 10px;
+    }
+    .parse-detail {
+      gap: 12px;
+    }
+    .md-content {
+      white-space: normal;
+      word-break: break-word;
+      line-height: 1.6;
+      color: inherit;
+    }
+    .md-content > :first-child { margin-top: 0; }
+    .md-content > :last-child { margin-bottom: 0; }
+    .md-content h1, .md-content h2, .md-content h3, .md-content h4, .md-content h5, .md-content h6 {
+      margin: 1rem 0 0.45rem;
+      line-height: 1.3;
+      letter-spacing: -0.02em;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .md-content h1 { font-size: 1.35rem; }
+    .md-content h2 { font-size: 1.15rem; margin-top: 1.15rem; }
+    .md-content h3 { font-size: 1.02rem; color: #1e293b; }
+    .md-content h4 { font-size: 0.95rem; color: #334155; }
+    .md-content h5, .md-content h6 { font-size: 0.88rem; color: #475569; }
+    .md-content p { margin: 0.55rem 0; }
+    .md-content ul, .md-content ol { margin: 0.5rem 0 0.65rem; padding-left: 1.35rem; }
+    .md-content li { margin: 0.28rem 0; }
+    .md-content strong { font-weight: 650; color: #0f172a; }
+    .md-content em { font-style: italic; }
+    .md-content code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.86em;
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 0.08rem 0.35rem;
+    }
+    .md-content pre {
+      margin: 0.65rem 0;
+      padding: 0.75rem 0.85rem;
+      border-radius: 10px;
+      background: #0f172a;
+      color: #e2e8f0;
+      overflow: auto;
+      font-size: 0.78rem;
+      line-height: 1.45;
+    }
+    .md-content pre code { background: transparent; border: 0; padding: 0; color: inherit; }
+    .md-content a { color: #2563eb; font-weight: 600; text-decoration: none; }
+    .md-content a:hover { text-decoration: underline; }
+    .md-content hr { border: 0; border-top: 1px solid #e2e8f0; margin: 0.85rem 0; }
+    .md-content blockquote {
+      margin: 0.65rem 0;
+      padding: 0.35rem 0 0.35rem 0.85rem;
+      border-left: 3px solid #cbd5e1;
+      color: #475569;
+    }
+    .md-content table { width: 100%; border-collapse: collapse; margin: 0.65rem 0; font-size: 0.84rem; }
+    .md-content th, .md-content td {
+      border: 1px solid #e2e8f0;
+      padding: 0.35rem 0.55rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    .md-content th { background: #f8fafc; font-weight: 650; }
+    .md-content .md-table-wrap { overflow-x: auto; margin: 0.65rem 0; }
+    .parse-image-wrap {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: white;
+      padding: 4px;
+      overflow: auto;
+      width: 100%;
+      height: min(62vh, 720px);
+      min-height: 520px;
+      max-height: 720px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .parse-image {
+      display: block;
+      width: auto;
+      max-width: 100%;
+      height: auto;
+      margin: 0;
+      background: white;
+    }
+    .parse-overview .parse-image {
+      width: 100%;
+      max-width: 100%;
+    }
+    .parse-overview .md-content table,
+    .parse-overview .md-table-wrap table {
+      width: 100%;
+      min-width: 0;
+      font-size: 0.78rem;
+    }
+    .parse-table-scroll table,
+    .parse-table-scroll .md-content table {
+      width: max-content;
+      min-width: min-content;
+    }
+    .parse-table-scroll .md-content th,
+    .parse-table-scroll .md-content td {
+      white-space: nowrap;
+    }
+    @media (max-width: 980px) {
+      .parse-table-scroll {
+        height: min(58vh, 620px);
+        min-height: 420px;
+      }
+      .parse-image-wrap {
+        height: min(58vh, 620px);
+        min-height: 420px;
+      }
+    }
+    .parse-image-fallback {
+      padding: 12px;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+    .vlm-toolbar {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--line);
+    }
+    .vlm-progress {
+      flex: 1 1 100%;
+      height: 8px;
+      margin-top: 2px;
+    }
+    .vlm-progress[hidden] { display: none !important; }
+    .empty {
+      color: var(--muted-2);
+      font-size: 0.86rem;
+      border: 1px dashed var(--line-strong);
+      border-radius: 14px;
+      padding: 16px;
+      text-align: center;
+      background: var(--panel-soft);
+    }
+    .embed-check {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+    .embed-check input { width: auto; margin: 0; }
+    @media (max-width: 1180px) {
+      .grid { grid-template-columns: 1fr; }
+      .col-resizer { display: none; }
+      .doc-drawer-zone {
+        width: auto;
+        min-height: 0;
+      }
+      .doc-drawer-zone::before { display: none; }
+      .doc-drawer-zone .doc-panel {
+        position: static;
+        transform: none;
+        opacity: 1;
+        pointer-events: auto;
+        width: 100%;
+        max-width: none;
+      }
+      .assets-panel,
+      .chunks-panel {
+        position: static;
+        height: 100%;
+        max-height: 100%;
+      }
+      .chunk-list { flex: none; min-height: 240px; }
+      .table-crop {
+        min-height: 240px;
+        max-height: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <div>
+        <h1>Chunks</h1>
+        <p class="subtitle">Upload a filing, build chunks, and inspect sections, tables, and figures.</p>
+        <span class="version-badge">UI v39 tall parsed table frame</span>
+      </div>
+      <div class="toolbar">
+        <a href="/agent" style="font-size:0.875rem;font-weight:650;color:var(--accent);text-decoration:none;">Agent Q&amp;A →</a>
+        <button class="secondary" id="refreshBtn" type="button">Refresh</button>
+      </div>
+    </header>
+
+    <main class="grid">
+      <div class="doc-drawer-zone" id="docDrawerZone" title="Hover to open Document panel" tabindex="0">
+      <section class="panel doc-panel">
+        <div class="panel-head">
+          <h2 class="panel-title">Document</h2>
+          <p class="panel-note">PDF in, chunks out. Hover left edge to open.</p>
+        </div>
+        <div class="panel-body stack">
+          <div class="drop stack">
+            <input id="fileInput" type="file" accept="application/pdf,.pdf" />
+            <div class="toolbar">
+              <button class="blue" id="uploadBtn" type="button">Upload</button>
+              <button id="processBtn" type="button" disabled>Process</button>
+            </div>
+            <label class="embed-check">
+              <input type="checkbox" id="buildVectors" checked />
+              Build embeddings (required for Agent Q&amp;A on this file)
+            </label>
+            <div class="meta">Process creates sections, tables, and chunks. Check <strong>Build embeddings</strong> for text RAG (required for Agent). Use <strong>Parse all tables</strong> afterward for VLM + table embeddings.</div>
+          </div>
+
+          <div id="status" class="status">Choose or upload a PDF to begin.</div>
+          <div class="activity" id="activity">
+            <div class="activity-top">
+              <div>
+                <div class="activity-label" id="activityLabel">Idle</div>
+                <div class="activity-message" id="activityMessage">Upload a PDF, then click Process.</div>
+              </div>
+              <div class="activity-pct" id="activityPct">0%</div>
+            </div>
+            <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+            <div class="stepper" id="stepper"></div>
+          </div>
+          <div class="process-log" id="processLog">
+            <div class="empty">Processing steps will appear here.</div>
+          </div>
+
+          <div class="stats">
+            <div class="stat"><strong id="statSections">-</strong><span>Sections</span></div>
+            <div class="stat"><strong id="statSubs">-</strong><span>Subs</span></div>
+            <div class="stat"><strong id="statChunks">-</strong><span>Chunks</span></div>
+            <div class="stat"><strong id="statTables">-</strong><span>Tables</span></div>
+            <div class="stat"><strong id="statImages">-</strong><span>Images</span></div>
+          </div>
+
+          <div>
+            <p class="panel-title">Recent Files</p>
+            <div class="file-list" id="fileList"></div>
+          </div>
+        </div>
+      </section>
+      </div>
+
+      <section class="panel chunks-panel">
+        <div class="panel-head">
+          <h2 class="panel-title">Chunks</h2>
+          <p class="panel-note">Browse as a collapsible section/subsection tree.</p>
+        </div>
+        <div class="panel-body stack">
+          <input class="search" id="chunkSearch" placeholder="Search chunks..." />
+          <div class="chunk-list" id="chunkList">
+            <div class="empty">Process a document to see chunks.</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="col-resizer" id="rightResizer" title="Drag to resize Chunks vs Tables/Figures"></div>
+
+      <section class="panel assets-panel">
+        <div class="tabs">
+          <button class="tab active" data-tab="tables" type="button">Tables</button>
+          <button class="tab" data-tab="images" type="button">Figures</button>
+        </div>
+        <div class="panel-body stack" id="tabTables">
+          <div class="vlm-toolbar">
+            <button class="blue" id="runVlmParseBtn" type="button" disabled>Parse all tables (VLM)</button>
+            <label class="embed-check">
+              <input type="checkbox" id="buildTableVectors" checked />
+              Build table embeddings
+            </label>
+            <span class="meta" id="vlmParseStatus">Run Process first.</span>
+          </div>
+          <div class="progress vlm-progress" id="vlmProgressWrap" hidden>
+            <div class="progress-bar" id="vlmProgressBar" style="width:0%"></div>
+          </div>
+          <div class="table-picker-bar">
+            <input class="search" id="assetSearch" placeholder="Filter tables (path, summary, id)..." />
+            <details class="table-picker" id="tablePicker">
+              <summary class="table-picker-trigger" id="tablePickerSummary">
+                <span class="table-picker-placeholder">Select a table…</span>
+              </summary>
+              <div class="table-picker-panel" id="tablePickerPanel">
+                <div class="empty">No tables yet.</div>
+              </div>
+            </details>
+          </div>
+          <div class="table-preview-pane" id="tablePreview">
+            <div class="empty">Select a table to preview crops and VLM parse.</div>
+          </div>
+        </div>
+        <div class="panel-body stack" id="tabImages" hidden>
+          <div class="asset-list" id="imageList">
+            <div class="empty">No figures yet.</div>
+          </div>
+          <div id="imagePreview"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+(function (global) {
+  'use strict';
+  function escapeHtml(value) {
+    return String(value ?? '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+  function sanitizeUrl(raw) {
+    const url = String(raw || '').trim();
+    if (!url) return '';
+    if (/^(https?:|mailto:|#)/i.test(url)) return url;
+    return '';
+  }
+  function renderInline(text) {
+    let out = text;
+    out = out.replace(/`([^`\n]+)`/g, '<code>$1</code>');
+    out = out.replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>');
+    out = out.replace(/\*([^*\n]+)\*/g, '<em>$1</em>');
+    out = out.replace(/\[([^\]]+)\]\(([^)\n]+)\)/g, (_, label, href) => {
+      const safe = sanitizeUrl(href);
+      if (!safe) return label;
+      return `<a href="${safe}" target="_blank" rel="noopener noreferrer">${label}</a>`;
+    });
+    return out;
+  }
+  function isTableRow(line) {
+    const trimmed = line.trim();
+    return trimmed.startsWith('|') && trimmed.endsWith('|') && trimmed.includes('|');
+  }
+  function splitTableRow(line) {
+    return line.trim().replace(/^\|/, '').replace(/\|$/, '').split('|').map((cell) => cell.trim());
+  }
+  function isTableSeparator(line) {
+    return /^\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?$/.test(line.trim());
+  }
+  function renderTable(lines) {
+    const header = splitTableRow(lines[0]);
+    const bodyRows = lines.slice(2).map(splitTableRow);
+    const headHtml = header.map((cell) => `<th>${renderInline(cell)}</th>`).join('');
+    const bodyHtml = bodyRows.map((row) =>
+      `<tr>${row.map((cell) => `<td>${renderInline(cell)}</td>`).join('')}</tr>`,
+    ).join('');
+    return `<div class="md-table-wrap"><table><thead><tr>${headHtml}</tr></thead><tbody>${bodyHtml}</tbody></table></div>`;
+  }
+  function renderMarkdownHtml(text) {
+    const source = escapeHtml(String(text ?? '')).replace(/\r\n/g, '\n');
+    if (!source.trim()) return '';
+    const lines = source.split('\n');
+    const blocks = [];
+    let index = 0;
+    while (index < lines.length) {
+      const line = lines[index];
+      if (!line.trim()) { index += 1; continue; }
+      if (/^(-{3,}|\*{3,}|_{3,})$/.test(line.trim())) {
+        blocks.push('<hr />');
+        index += 1;
+        continue;
+      }
+      const heading = line.match(/^(#{1,6})\s+(.+)$/);
+      if (heading) {
+        blocks.push(`<h${heading[1].length}>${renderInline(heading[2])}</h${heading[1].length}>`);
+        index += 1;
+        continue;
+      }
+      if (isTableRow(line) && index + 1 < lines.length && isTableSeparator(lines[index + 1])) {
+        const tableLines = [line, lines[index + 1]];
+        index += 2;
+        while (index < lines.length && isTableRow(lines[index])) {
+          tableLines.push(lines[index]);
+          index += 1;
+        }
+        blocks.push(renderTable(tableLines));
+        continue;
+      }
+      if (/^>\s?/.test(line)) {
+        const quoteLines = [];
+        while (index < lines.length && /^>\s?/.test(lines[index])) {
+          quoteLines.push(lines[index].replace(/^>\s?/, ''));
+          index += 1;
+        }
+        blocks.push(`<blockquote><p>${renderInline(quoteLines.join(' '))}</p></blockquote>`);
+        continue;
+      }
+      if (/^```/.test(line.trim())) {
+        const codeLines = [];
+        index += 1;
+        while (index < lines.length && !/^```/.test(lines[index].trim())) {
+          codeLines.push(lines[index]);
+          index += 1;
+        }
+        if (index < lines.length) index += 1;
+        blocks.push(`<pre><code>${codeLines.join('\n')}</code></pre>`);
+        continue;
+      }
+      const unordered = line.match(/^[-*•]\s+(.+)$/);
+      const ordered = line.match(/^\d+\.\s+(.+)$/);
+      if (unordered || ordered) {
+        const listTag = ordered ? 'ol' : 'ul';
+        const items = [];
+        while (index < lines.length) {
+          const bullet = lines[index].match(/^[-*•]\s+(.+)$/);
+          const number = lines[index].match(/^\d+\.\s+(.+)$/);
+          const match = ordered ? number : bullet;
+          if (!match) break;
+          items.push(`<li>${renderInline(match[1])}</li>`);
+          index += 1;
+        }
+        blocks.push(`<${listTag}>${items.join('')}</${listTag}>`);
+        continue;
+      }
+      const paragraph = [];
+      while (
+        index < lines.length
+        && lines[index].trim()
+        && !/^(#{1,6})\s/.test(lines[index])
+        && !/^(-{3,}|\*{3,}|_{3,})$/.test(lines[index].trim())
+        && !/^[-*•]\s/.test(lines[index])
+        && !/^\d+\.\s/.test(lines[index])
+        && !/^>\s?/.test(lines[index])
+        && !/^```/.test(lines[index].trim())
+        && !(isTableRow(lines[index]) && index + 1 < lines.length && isTableSeparator(lines[index + 1]))
+      ) {
+        paragraph.push(lines[index].trim());
+        index += 1;
+      }
+      if (paragraph.length) blocks.push(`<p>${renderInline(paragraph.join(' '))}</p>`);
+    }
+    return blocks.join('\n');
+  }
+  global.renderMarkdownHtml = renderMarkdownHtml;
+})(window);
+  </script>
+  <script>
+    const state = {
+      fileId: null,
+      files: [],
+      chunks: [],
+      tables: [],
+      tableParses: [],
+      vlmParseRunning: false,
+      uploadInProgress: false,
+      vlmParsePollTimer: null,
+      images: [],
+      selectedChunkId: null,
+      expandedChunkIds: new Set(),
+      selectedTableId: null,
+      selectedImageId: null,
+      activeTab: 'tables',
+      pollTimer: null,
+      cropBust: Date.now(),
+      chunkSignature: '',
+      tableSignature: '',
+    };
+
+    const $ = (id) => document.getElementById(id);
+
+    const RIGHT_COL_MIN = 420;
+    const RIGHT_COL_MAX = 1200;
+
+    function setupRightColumnResize() {
+      const saved = Number(localStorage.getItem('chunkStudioRightCol'));
+      if (saved) {
+        document.documentElement.style.setProperty(
+          '--right-col',
+          `${Math.max(RIGHT_COL_MIN, Math.min(RIGHT_COL_MAX, saved))}px`,
+        );
+      }
+
+      const handle = $('rightResizer');
+      if (!handle) return;
+
+      let startX = 0;
+      let startWidth = 0;
+
+      function rightColMax() {
+        const rail = Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--doc-rail')) || 14;
+        return Math.min(RIGHT_COL_MAX, window.innerWidth - rail - 480);
+      }
+
+      function onMove(event) {
+        const nextWidth = Math.max(
+          RIGHT_COL_MIN,
+          Math.min(rightColMax(), startWidth - (event.clientX - startX)),
+        );
+        document.documentElement.style.setProperty('--right-col', `${nextWidth}px`);
+        localStorage.setItem('chunkStudioRightCol', String(Math.round(nextWidth)));
+      }
+
+      function onUp() {
+        document.body.classList.remove('resizing');
+        window.removeEventListener('pointermove', onMove);
+        window.removeEventListener('pointerup', onUp);
+      }
+
+      handle.addEventListener('pointerdown', (event) => {
+        event.preventDefault();
+        startX = event.clientX;
+        const current = getComputedStyle(document.documentElement).getPropertyValue('--right-col').trim();
+        startWidth = Number.parseFloat(current) || 760;
+        document.body.classList.add('resizing');
+        window.addEventListener('pointermove', onMove);
+        window.addEventListener('pointerup', onUp);
+      });
+    }
+
+    function setStatus(text, kind = '') {
+      const el = $('status');
+      el.textContent = text;
+      el.className = `status ${kind}`.trim();
+    }
+
+    function setBusy(isBusy) {
+      state.uploadInProgress = isBusy;
+      $('uploadBtn').disabled = isBusy;
+      $('processBtn').disabled = isBusy || !state.fileId;
+      const file = currentFile();
+      const hasAssets = file?.has_assets || (countsFrom(file).tables > 0);
+      $('runVlmParseBtn').disabled = isBusy || !state.fileId || !hasAssets || state.vlmParseRunning;
+    }
+
+    function isProcessing(file) {
+      return ['processing', 'sectioning', 'extracting_assets', 'building_chunks'].includes(file?.status);
+    }
+
+    function sectioningDone(file) {
+      if (!file) return false;
+      const events = file.process_events || [];
+      if (events.some((event) => event.step === 'sectioning' && event.state === 'done')) return true;
+      if ((file.counts?.chunks || 0) > 0) return true;
+      return ['extracting_assets', 'building_chunks', 'building_vectors', 'ready'].includes(file.status);
+    }
+
+    function treeOpenDepth(query) {
+      return query ? 999 : 6;
+    }
+
+    function chunksSignature(chunks) {
+      if (!chunks.length) return '0';
+      const first = chunks[0];
+      const last = chunks[chunks.length - 1];
+      return `${chunks.length}:${first.chunk_id}:${last.chunk_id}:${first.text?.length ?? 0}:${last.text?.length ?? 0}`;
+    }
+
+    function tablesSignature(tables) {
+      if (!tables.length) return '0';
+      return `${tables.length}:${tables[0].table_id}:${tables[tables.length - 1].table_id}`;
+    }
+
+    function fmtPath(path) {
+      return (path || []).filter(Boolean).join(' > ') || 'Untitled section';
+    }
+
+    function tableDisplayTitle(table) {
+      const path = table.header_path || [];
+      const section = path.slice(-1)[0] || 'Table';
+      const page = table.page_start ?? '?';
+      const pageEnd = table.page_end && table.page_end !== table.page_start ? `-${table.page_end}` : '';
+      const rows = table.row_count ?? (table.raw_rows || []).length;
+      if (rows) return `${section} · p${page}${pageEnd} · ${rows} rows`;
+      return `${section} · p${page}${pageEnd}`;
+    }
+
+    function chunkLeafSubtitle(chunk) {
+      const refs = chunk.table_refs || [];
+      const parts = (chunk.text || '').split('\n\n');
+      const body = parts.length > 1 ? parts.slice(1).join('\n\n') : '';
+      const bodyWithoutMarkers = body.replace(/\[\[TABLE:[^\]]+\]\]/g, '').trim();
+      if (refs.length && !bodyWithoutMarkers) {
+        return `${refs.length} linked table${refs.length === 1 ? '' : 's'}`;
+      }
+      const preview = (body || chunk.text || '').replace(/\[\[TABLE:[^\]]+\]\]/g, '[table]').trim();
+      return preview.slice(0, 180);
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    function renderTableRefPill(tableId) {
+      return `<button type="button" class="pill blue table-ref" data-table-ref="${escapeHtml(tableId)}" title="Open table parse">${escapeHtml(tableId)}</button>`;
+    }
+
+    function parseForTable(tableId) {
+      const fromParses = state.tableParses.find((parse) => parse.table_id === tableId);
+      const fromTable = state.tables.find((table) => table.table_id === tableId);
+      const vlm = fromTable?.vlm_parse || null;
+      if (!fromParses && !vlm) return null;
+      return {
+        table_id: tableId,
+        status: fromParses?.status || vlm?.status || 'missing',
+        summary: fromParses?.summary ?? vlm?.summary,
+        markdown: fromParses?.markdown ?? vlm?.markdown,
+        image_path: fromParses?.image_path ?? vlm?.image_path,
+        parsed_at: fromParses?.parsed_at ?? vlm?.parsed_at,
+        latency_ms: fromParses?.latency_ms ?? vlm?.latency_ms,
+        model: fromParses?.model ?? vlm?.model,
+        error: fromParses?.error ?? vlm?.error ?? vlm?.raw_response,
+      };
+    }
+
+    function tableHasVlmParse(parse) {
+      if (!parse) return false;
+      const hasContent = Boolean(
+        parse.summary
+        || parse.markdown
+        || parse.error
+        || parse.image_path
+      );
+      if (!hasContent) return false;
+      return parse.status !== 'missing' && parse.status !== 'not_parsed';
+    }
+
+    function parseStatusLabel(status) {
+      if (status === 'success') return 'parsed';
+      if (status === 'missing') return 'not parsed';
+      return status || 'unknown';
+    }
+
+    function renderChunkPreviewText(text) {
+      if (!text) return '';
+      return text.split(/(\[\[TABLE:[^\]]+\]\])/g).map((part) => {
+        const match = part.match(/^\[\[TABLE:([^\]]+)\]\]$/);
+        if (match) return renderTableRefPill(match[1]);
+        return escapeHtml(part);
+      }).join('');
+    }
+
+    function resolveTableId(refId) {
+      if (state.tables.some((table) => table.table_id === refId)) {
+        return { previewId: refId, requestedId: refId };
+      }
+      const aliased = state.tables.find((table) => (table.source_table_ids || []).includes(refId));
+      if (aliased) return { previewId: aliased.table_id, requestedId: refId };
+      return { previewId: refId, requestedId: refId };
+    }
+
+    async function selectTable(refId) {
+      if (!state.fileId || !refId) return;
+      state.activeTab = 'tables';
+      renderActiveTab();
+
+      let { previewId, requestedId } = resolveTableId(refId);
+      let table = state.tables.find((row) => row.table_id === previewId);
+      if (!table) {
+        const res = await fetch(`/api/files/${encodeURIComponent(state.fileId)}/tables/${encodeURIComponent(refId)}`);
+        if (res.ok) {
+          const payload = await res.json();
+          table = payload.table;
+          previewId = table.table_id;
+        }
+      }
+
+      if (!table) return;
+
+      state.selectedTableId = previewId;
+      state.cropBust = Date.now();
+      renderTables();
+
+      const preview = $('tablePreview');
+      preview?.classList.add('highlight');
+      preview?.scrollTo?.({ top: 0, behavior: 'smooth' });
+      window.setTimeout(() => preview?.classList.remove('highlight'), 1400);
+    }
+
+    function countsFrom(file) {
+      return file?.counts || {};
+    }
+
+    function renderStats(file) {
+      const counts = countsFrom(file);
+      $('statSections').textContent = counts.sections ?? '-';
+      $('statSubs').textContent = counts.subsections ?? '-';
+      $('statChunks').textContent = counts.chunks ?? '-';
+      $('statTables').textContent = counts.tables ?? '-';
+      $('statImages').textContent = counts.images ?? '-';
+    }
+
+    function currentFile() {
+      return state.files.find((file) => file.file_id === state.fileId);
+    }
+
+    function upsertFile(file) {
+      const idx = state.files.findIndex((item) => item.file_id === file.file_id);
+      if (idx === -1) state.files.unshift(file);
+      else state.files[idx] = file;
+    }
+
+    function renderProcessLog(file) {
+      const log = $('processLog');
+      const events = file?.process_events || [];
+      if (!events.length) {
+        log.innerHTML = '<div class="empty">Processing steps will appear here.</div>';
+        return;
+      }
+      log.innerHTML = events.slice().reverse().map((event) => {
+        const duration = event.duration_sec ? ` · ${event.duration_sec}s` : '';
+        return `
+          <div class="event ${escapeHtml(event.state || '')}">
+            <div class="dot"></div>
+            <div>
+              <div class="event-title">${escapeHtml(event.step || 'step')} · ${escapeHtml(event.state || '')}${duration}</div>
+              <div class="event-msg">${escapeHtml(event.message || '')}</div>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    function eventStateByStep(file) {
+      const byStep = {};
+      for (const event of file?.process_events || []) {
+        byStep[event.step] = event.state;
+      }
+      return byStep;
+    }
+
+    function renderActivity(file) {
+      const plan = file?.process_plan || [
+        { key: 'sectioning', label: 'Reading structure', description: 'Parse TOC, sections, and subsections.' },
+        { key: 'extracting_assets', label: 'Finding assets', description: 'Extract tables and figures.' },
+        { key: 'building_chunks', label: 'Writing chunks', description: 'Create RAG chunks and refs.' },
+      ];
+      const pct = Math.max(0, Math.min(100, Number(file?.progress_pct || 0)));
+      const current = file?.current_step || '';
+      const states = eventStateByStep(file);
+      $('activityLabel').textContent = file?.current_step_label || (file ? 'Ready to process' : 'Idle');
+      $('activityMessage').textContent = file?.current_message || (file ? 'Click Process to start the pipeline.' : 'Upload a PDF, then click Process.');
+      $('activityPct').textContent = `${pct}%`;
+      $('progressBar').style.width = `${pct}%`;
+      $('stepper').innerHTML = plan.map((step, index) => {
+        let state = states[step.key] || '';
+        if (file?.status === 'ready' && !state) state = 'done';
+        if (step.key === current && isProcessing(file)) state = 'active';
+        const mark = state === 'done' ? '✓' : state === 'error' ? '!' : state === 'skipped' ? '-' : index + 1;
+        const cls = state === 'active' || state === 'running' ? 'active' : state;
+        return `
+          <div class="step ${escapeHtml(cls)}">
+            <div class="step-mark">${escapeHtml(mark)}</div>
+            <div>
+              <div class="step-name">${escapeHtml(step.label)}</div>
+              <div class="step-desc">${escapeHtml(step.description)}</div>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    function renderSelectedFileState() {
+      const file = currentFile();
+      renderFiles();
+      renderStats(file);
+      renderActivity(file);
+      renderProcessLog(file);
+      const busy = isProcessing(file);
+      $('uploadBtn').disabled = !!state.uploadInProgress;
+      $('processBtn').disabled = busy || !state.fileId;
+      const hasAssets = file?.has_assets || (countsFrom(file).tables > 0);
+      $('runVlmParseBtn').disabled = busy || !state.fileId || !hasAssets || state.vlmParseRunning;
+      if (file?.status === 'error') {
+        setStatus(file.last_error || 'Processing failed.', 'bad');
+      } else if (busy) {
+        setStatus(`Processing: ${file.current_step || file.status}...`);
+      }
+    }
+
+    function indexStatusLabel(file, kind) {
+      const ready = kind === 'text' ? file.has_vector_index : file.has_table_vector_index;
+      const rows = kind === 'text' ? file.vector_index_rows : file.table_vector_index_rows;
+      const issue = kind === 'text' ? file.vector_index_issue : file.table_vector_index_issue;
+      const metaStatus = kind === 'text' ? file.vector_status : file.table_vector_status;
+      if (ready) return `${kind} index ready (${rows || 0})`;
+      if (issue === 'stale_source_file') return `${kind} index stale — re-run Process with Build embeddings`;
+      if (issue === 'empty') return `${kind} index empty — re-run Process with Build embeddings`;
+      if (issue === 'missing') return `no ${kind} index`;
+      return metaStatus ? `${kind}: ${metaStatus}` : `no ${kind} index`;
+    }
+
+    function renderFiles() {
+      const list = $('fileList');
+      if (!state.files.length) {
+        list.innerHTML = '<div class="empty">No uploaded files yet.</div>';
+        return;
+      }
+      list.innerHTML = state.files.map((file) => {
+        const active = file.file_id === state.fileId ? ' active' : '';
+        const counts = countsFrom(file);
+        const indexLabel = indexStatusLabel(file, 'text');
+        const tableIndexLabel = indexStatusLabel(file, 'table');
+        const parsedLabel = file.counts?.vlm_tables_parsed != null ? `${file.counts.vlm_tables_parsed} parsed` : '';
+        const status = `${file.status || 'uploaded'} · ${indexLabel} · ${tableIndexLabel}${parsedLabel ? ` · ${parsedLabel}` : ''}`;
+        const agentLink = file.agent_ready
+          ? `<div class="meta"><a href="/agent" style="color:var(--accent);font-weight:650;">Open Agent Q&amp;A</a></div>`
+          : '';
+        return `
+          <div class="file-card${active}" data-file-id="${escapeHtml(file.file_id)}">
+            <div class="name">${escapeHtml(file.original_filename || file.file_id)}</div>
+            <div class="meta">${escapeHtml(status)}</div>
+            <div class="meta">${counts.chunks ?? 0} chunks · ${counts.tables ?? 0} tables · ${counts.images ?? 0} figures</div>
+            ${agentLink}
+          </div>`;
+      }).join('');
+
+      list.querySelectorAll('.file-card').forEach((card) => {
+        card.addEventListener('click', () => selectFile(card.dataset.fileId));
+      });
+    }
+
+    function normalizePath(path) {
+      const cleaned = (path || []).filter(Boolean);
+      return cleaned.length ? cleaned : ['Unsectioned'];
+    }
+
+    function buildTree(items, pathFn) {
+      const root = { children: new Map(), items: [], order: 0 };
+      let nextOrder = 0;
+      for (const item of items) {
+        let node = root;
+        for (const label of normalizePath(pathFn(item))) {
+          if (!node.children.has(label)) {
+            node.children.set(label, { label, children: new Map(), items: [], order: nextOrder++ });
+          }
+          node = node.children.get(label);
+        }
+        node.items.push(item);
+      }
+      return root;
+    }
+
+    function treeCount(node) {
+      let count = node.items.length;
+      for (const child of node.children.values()) count += treeCount(child);
+      return count;
+    }
+
+    function compareTreeSortKeys(ka, kb) {
+      for (let i = 0; i < Math.max(ka.length, kb.length); i += 1) {
+        const av = ka[i] ?? 0;
+        const bv = kb[i] ?? 0;
+        if (av < bv) return -1;
+        if (av > bv) return 1;
+      }
+      return 0;
+    }
+
+    function treeLabelSortKey(label) {
+      const part = (label || '').match(/^Part\s+(I|II|III|IV|V|VI|VII|VIII|IX|X)$/i);
+      if (part) {
+        const roman = { I: 1, II: 2, III: 3, IV: 4, V: 5, VI: 6, VII: 7, VIII: 8, IX: 9, X: 10 };
+        return [2, roman[part[1].toUpperCase()] || 99];
+      }
+      const item = (label || '').match(/^Item\s+(\d+)([A-Z]*)$/i);
+      if (item) {
+        return [3, parseInt(item[1], 10), (item[2] || ' ').charCodeAt(0)];
+      }
+      return [1, (label || '').toLowerCase()];
+    }
+
+    function sortedTreeChildren(node) {
+      return Array.from(node.children.values()).sort((a, b) => {
+        const ka = treeLabelSortKey(a.label);
+        const kb = treeLabelSortKey(b.label);
+        // Part / Item levels keep numeric ordering.
+        if (ka[0] >= 2 || kb[0] >= 2) {
+          return compareTreeSortKeys(ka, kb);
+        }
+        // Subsections and deeper: preserve document order from chunk iteration.
+        if (a.order != null && b.order != null && a.order !== b.order) {
+          return a.order - b.order;
+        }
+        return compareTreeSortKeys(ka, kb);
+      });
+    }
+
+    function renderTreeNode(node, options, depth = 0) {
+      const childHtml = sortedTreeChildren(node).map((child) => renderTreeNode(child, options, depth + 1)).join('');
+      const leafHtml = node.items.length
+        ? `<div class="leaf-list">${node.items.map(options.renderLeaf).join('')}</div>`
+        : '';
+      const open = options.query || depth < options.openDepth ? 'open' : '';
+      return `
+        <details ${open}>
+          <summary style="--tree-sticky-top:${6 + depth * 38}px;--tree-z:${30 - depth};"><span>${escapeHtml(node.label)}</span><span class="tree-count">${treeCount(node)} ${escapeHtml(options.countLabel)}</span></summary>
+          ${childHtml}${leafHtml}
+        </details>`;
+    }
+
+    function renderTree(items, pathFn, options) {
+      const root = buildTree(items, pathFn);
+      return `<div class="tree">${sortedTreeChildren(root).map((node) => renderTreeNode(node, options)).join('')}</div>`;
+    }
+
+    function renderInlineChunkDetail(chunk) {
+      const imagePills = (chunk.image_refs || [])
+        .map((id) => `<span class="pill blue">${escapeHtml(id)}</span>`)
+        .join('');
+      const pillsRow = imagePills
+        ? `<div class="pills">${imagePills}</div>`
+        : '';
+      return `
+        <div class="leaf-detail">
+        <div class="meta">${escapeHtml(chunk.text_unit_kind || '')} · ${chunk.token_count ?? '?'} tokens · ${escapeHtml(chunk.chunk_id)}</div>
+        <div class="preview">${renderChunkPreviewText(chunk.text || '')}</div>
+        ${pillsRow}
+        </div>`;
+    }
+
+    function renderChunkLeaf(chunk) {
+      const expanded = state.expandedChunkIds.has(chunk.chunk_id);
+      return `
+        <div class="leaf ${expanded ? 'active' : ''}" data-chunk-id="${escapeHtml(chunk.chunk_id)}">
+          <div class="leaf-title"><span>${escapeHtml(chunk.chunk_id)}</span><span>${chunk.token_count ?? '?'} tok</span></div>
+          <div class="leaf-sub">${escapeHtml(chunkLeafSubtitle(chunk))}</div>
+          <button class="secondary chunk-toggle" type="button" data-chunk-toggle="${escapeHtml(chunk.chunk_id)}">
+            ${expanded ? 'Hide chunk text' : 'Show chunk text'}
+          </button>
+          ${expanded ? renderInlineChunkDetail(chunk) : ''}
+        </div>`;
+    }
+
+    function renderChunks() {
+      const query = $('chunkSearch').value.trim().toLowerCase();
+      const chunks = state.chunks.filter((chunk) => {
+        if (!query) return true;
+        const haystack = [
+          chunk.chunk_id,
+          fmtPath(chunk.header_path),
+          chunk.text,
+          ...(chunk.table_refs || []),
+          ...(chunk.image_refs || []),
+        ].join(' ').toLowerCase();
+        return haystack.includes(query);
+      });
+
+      const list = $('chunkList');
+      if (!chunks.length) {
+        const file = currentFile();
+        if (file && isProcessing(file) && !sectioningDone(file)) {
+          list.innerHTML = '<div class="empty">Reading document structure...</div>';
+        } else if (file && sectioningDone(file) && !state.chunks.length) {
+          list.innerHTML = '<div class="empty">Structure parsed. Loading chunks...</div>';
+        } else {
+          list.innerHTML = '<div class="empty">No matching chunks.</div>';
+        }
+        return;
+      }
+
+      if (!state.selectedChunkId || !chunks.some((chunk) => chunk.chunk_id === state.selectedChunkId)) {
+        state.selectedChunkId = chunks[0].chunk_id;
+      }
+
+      list.innerHTML = renderTree(chunks, (chunk) => chunk.header_path || [], {
+        query,
+        openDepth: treeOpenDepth(query),
+        countLabel: 'chunks',
+        renderLeaf: renderChunkLeaf,
+      });
+
+      list.querySelectorAll('[data-chunk-toggle]').forEach((button) => {
+        button.addEventListener('click', (event) => {
+          event.stopPropagation();
+          const chunkId = button.dataset.chunkToggle;
+          state.selectedChunkId = chunkId;
+          const leaf = button.closest('.leaf');
+          const chunk = state.chunks.find((row) => row.chunk_id === chunkId);
+          if (!leaf || !chunk) return;
+
+          const existing = leaf.querySelector('.leaf-detail');
+          if (existing) {
+            existing.remove();
+            leaf.classList.remove('active');
+            button.textContent = 'Show chunk text';
+            state.expandedChunkIds.delete(chunkId);
+            return;
+          }
+
+          leaf.classList.add('active');
+          button.textContent = 'Hide chunk text';
+          button.insertAdjacentHTML('afterend', renderInlineChunkDetail(chunk));
+          state.expandedChunkIds.add(chunkId);
+        });
+      });
+    }
+
+    function tableMatchesQuery(table, query) {
+      if (!query) return true;
+      const parse = parseForTable(table.table_id);
+      return [table.table_id, fmtPath(table.header_path), table.page_start, table.page_end, parse?.summary, parse?.status]
+        .join(' ')
+        .toLowerCase()
+        .includes(query);
+    }
+
+    function renderTablePickerSummary(table) {
+      const summary = $('tablePickerSummary');
+      if (!summary) return;
+      if (!table) {
+        summary.innerHTML = '<span class="table-picker-placeholder">Select a table…</span>';
+        return;
+      }
+      const parse = parseForTable(table.table_id);
+      const parseBadge = parse
+        ? `<span class="parse-status ${escapeHtml(parse.status || 'missing')}">${escapeHtml(parseStatusLabel(parse.status))}</span>`
+        : '';
+      summary.innerHTML = `
+        <span class="table-picker-title">${escapeHtml(tableDisplayTitle(table))} · p${table.page_start}${table.page_end && table.page_end !== table.page_start ? `–${table.page_end}` : ''} ${parseBadge}</span>
+        <span class="table-picker-sub">${escapeHtml(fmtPath(table.header_path))} · ${escapeHtml(table.table_id)}</span>`;
+    }
+
+    function renderTables() {
+      const query = $('assetSearch').value.trim().toLowerCase();
+      const filtered = state.tables.filter((table) => tableMatchesQuery(table, query));
+      const panel = $('tablePickerPanel');
+      const pickerOpen = $('tablePicker')?.open;
+
+      if (!state.tables.length) {
+        renderTablePickerSummary(null);
+        if (panel) panel.innerHTML = '<div class="empty">No tables yet.</div>';
+        $('tablePreview').innerHTML = '<div class="empty">Process a document to see tables.</div>';
+        return;
+      }
+
+      let selected = state.tables.find((table) => table.table_id === state.selectedTableId);
+      if (!selected || (query && !tableMatchesQuery(selected, query))) {
+        state.selectedTableId = (filtered[0] || state.tables[0]).table_id;
+        selected = state.tables.find((table) => table.table_id === state.selectedTableId);
+      }
+
+      renderTablePickerSummary(selected);
+
+      if (!filtered.length) {
+        if (panel) panel.innerHTML = '<div class="empty">No matching tables.</div>';
+        $('tablePreview').innerHTML = '<div class="empty">No matching tables.</div>';
+        return;
+      }
+
+      if (panel) {
+        panel.innerHTML = renderTree(filtered, (table) => table.header_path || [], {
+          query,
+          openDepth: pickerOpen ? (query ? treeOpenDepth(query) : 2) : 0,
+          countLabel: 'tables',
+          renderLeaf: (table) => {
+            const parse = parseForTable(table.table_id);
+            const parseBadge = parse
+              ? `<span class="parse-status ${escapeHtml(parse.status || 'missing')}">${escapeHtml(parseStatusLabel(parse.status))}</span>`
+              : '';
+            return `
+            <div class="leaf ${table.table_id === state.selectedTableId ? 'active' : ''}" role="button" tabindex="0" data-table-id="${escapeHtml(table.table_id)}">
+              <div class="leaf-title">
+                <span>${escapeHtml(tableDisplayTitle(table))}</span>
+                <span>p${table.page_start}${table.page_end && table.page_end !== table.page_start ? `–${table.page_end}` : ''}${parseBadge || ''}</span>
+              </div>
+              <div class="leaf-sub">${escapeHtml(table.table_id)}</div>
+            </div>`;
+          },
+        });
+
+        panel.querySelectorAll('.leaf[data-table-id]').forEach((leaf) => {
+          leaf.addEventListener('click', (event) => {
+            event.preventDefault();
+            state.selectedTableId = leaf.dataset.tableId;
+            const picker = $('tablePicker');
+            if (picker) picker.open = false;
+            renderTables();
+          });
+        });
+      }
+
+      renderTablePreview(selected);
+    }
+
+    function parseSignature(parses) {
+      return (parses || []).map((parse) => {
+        const md = parse.markdown || '';
+        return `${parse.table_id}:${parse.status}:${parse.parsed_at || ''}:${parse.image_path || ''}:${md.length}:${md.slice(0, 40)}`;
+      }).join('|');
+    }
+
+    function renderParseSectionHtml(tableId, parse, table) {
+      if (!parse) {
+        return '';
+      }
+      const hasParseContent = Boolean(
+        parse.summary
+        || parse.markdown
+        || parse.error
+        || parse.image_path
+      );
+      if ((parse.status === 'missing' || parse.status === 'not_parsed') && !hasParseContent) {
+        return '';
+      }
+      const imageVersion = encodeURIComponent(parse.parsed_at || parse.image_path || tableId || '0');
+      const hasImage = !!(tableId && parse.image_path);
+      const cropCount = table?.crops?.length || 0;
+      const imageTitle = table && (table.asset_type === 'table_group' || cropCount > 1)
+        ? 'Merged stitch'
+        : 'Input image';
+      const pageLabel = table?.page_start
+        ? ` · p${table.page_start}${table.page_end && table.page_end !== table.page_start ? `–${table.page_end}` : ''}`
+        : '';
+      const imageHtml = hasImage
+        ? `<div class="parse-block parse-block-merged"><h4>${escapeHtml(imageTitle)}${escapeHtml(pageLabel)}</h4><div class="parse-image-wrap"><img class="parse-image" alt="${escapeHtml(tableId)} merged stitch" src="/api/files/${encodeURIComponent(state.fileId)}/tables/${encodeURIComponent(tableId)}/parse-image.png?v=${imageVersion}" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'), {className:'parse-image-fallback', textContent:'Parse image not available yet.'}))" /></div></div>`
+        : '';
+      const markdownSource = String(parse.markdown || '');
+      const markdownHtml = markdownSource
+        ? (typeof renderMarkdownHtml === 'function' ? renderMarkdownHtml(markdownSource) : '')
+        : '';
+      const parsedTableHtml = markdownSource
+        ? `<div class="parse-block"><h4>Parsed table</h4><div class="parse-markdown md-content parse-table-scroll">${markdownHtml || `<pre>${escapeHtml(markdownSource)}</pre>`}</div></div>`
+        : '';
+      const overviewHtml = imageHtml || parsedTableHtml
+        ? `<div class="parse-overview">${parsedTableHtml}${imageHtml}</div>`
+        : '';
+      return `
+        <div class="parse-detail" id="tableParseSection">
+          ${parse.summary ? `<div class="parse-block"><h4>Summary</h4><div>${escapeHtml(parse.summary)}</div></div>` : ''}
+          ${overviewHtml}
+          ${parse.error ? `<div class="parse-block"><h4>Error</h4><pre class="parse-markdown">${escapeHtml(String(parse.error).slice(0, 4000))}</pre></div>` : ''}
+          ${parse.parsed_at ? `<div class="meta">${escapeHtml(parse.model || 'vlm')} · ${escapeHtml(parse.parsed_at)}${parse.latency_ms ? ` · ${parse.latency_ms} ms` : ''}</div>` : ''}
+        </div>`;
+    }
+
+    function switchPreviewPanel(root, panelName) {
+      if (!root) return;
+      const tabs = root.querySelectorAll('.preview-section-tab');
+      const panels = root.querySelectorAll('.preview-panel-section');
+      tabs.forEach((btn) => {
+        const enabled = !btn.disabled;
+        btn.classList.toggle('active', enabled && btn.dataset.previewPanel === panelName);
+      });
+      panels.forEach((panel) => {
+        panel.hidden = panel.dataset.previewPanel !== panelName;
+      });
+    }
+
+    function setupPreviewSectionTabs(root) {
+      if (!root) return;
+      const tabs = root.querySelectorAll('.preview-section-tab');
+      tabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          if (tab.disabled) return;
+          switchPreviewPanel(root, tab.dataset.previewPanel);
+        });
+      });
+    }
+
+    function renderTablePreview(table, linkedRef) {
+      const preview = $('tablePreview');
+      if (!table) {
+        preview.innerHTML = '<div class="empty">Select a table to preview crops and VLM parse.</div>';
+        return;
+      }
+      const parse = parseForTable(table.table_id);
+      const rawCrops = table.crops || [{ crop_idx: 0, page: table.page_start }];
+      const crops = rawCrops.map((crop, idx) => {
+        let label = `page ${crop.page ?? table.page_start}`;
+        if (table.asset_type === 'table_group' && rawCrops.length > 1) {
+          if (idx === 0) label += ' · header';
+          else if (idx === rawCrops.length - 1) label += ' · data';
+        }
+        return { ...crop, label };
+      });
+      const cropBust = state.cropBust || Date.now();
+      const cropTableId = table.table_id;
+      const title = linkedRef && linkedRef !== cropTableId
+        ? `${tableDisplayTitle(table)} (${linkedRef})`
+        : tableDisplayTitle(table);
+      const parseHtml = renderParseSectionHtml(cropTableId, parse, table);
+      const hasParse = tableHasVlmParse(parse) && Boolean(parseHtml.trim());
+      const statusBadge = parse
+        ? `<span class="parse-status ${escapeHtml(parse.status || 'missing')}">${escapeHtml(parseStatusLabel(parse.status))}</span>`
+        : '<span class="parse-status missing">Not parsed</span>';
+      const defaultPanel = hasParse ? 'parse' : 'crop';
+      const parseTabLabel = hasParse ? 'Parsed table' : 'VLM parse';
+      preview.innerHTML = `
+        <header class="preview-header">
+          <div class="preview-header-top">
+            <h3 class="preview-title">${escapeHtml(title)}</h3>
+            <div class="preview-badges">${statusBadge}<span class="pill">p${table.page_start}${table.page_end && table.page_end !== table.page_start ? `–${table.page_end}` : ''}</span><span class="pill">${table.row_count || '?'} rows</span></div>
+          </div>
+          <p class="preview-path">${escapeHtml(fmtPath(table.header_path))}</p>
+          <div class="preview-id">${escapeHtml(table.table_id)}</div>
+          <div class="preview-section-tabs" role="tablist">
+            <button type="button" class="preview-section-tab ${defaultPanel === 'crop' ? 'active' : ''}" data-preview-panel="crop" role="tab">PDF crop</button>
+            <button type="button" class="preview-section-tab ${defaultPanel === 'parse' ? 'active' : ''}" data-preview-panel="parse" role="tab" ${hasParse ? '' : 'disabled'}>${parseTabLabel}</button>
+          </div>
+        </header>
+        <section class="preview-panel-section" data-preview-panel="crop" role="tabpanel" ${defaultPanel === 'crop' ? '' : 'hidden'}>
+          <div class="table-crop-list">
+            ${crops.length > 1 ? '<div class="meta" style="margin:4px 2px 0">PDF page crops</div>' : ''}
+            ${crops.map((crop) => `
+              <div class="table-crop">
+                <div class="meta">${escapeHtml(crop.label)}</div>
+                <img alt="${escapeHtml(cropTableId)} crop ${crop.crop_idx ?? 0}" src="/api/files/${encodeURIComponent(state.fileId)}/tables/${encodeURIComponent(cropTableId)}/crops/${encodeURIComponent(crop.crop_idx ?? 0)}.png?v=${cropBust}" />
+              </div>
+            `).join('')}
+          </div>
+        </section>
+        <section class="preview-panel-section" data-preview-panel="parse" role="tabpanel" ${defaultPanel === 'parse' ? '' : 'hidden'}>
+          ${hasParse ? parseHtml : '<div class="empty">Run Parse all tables (VLM) to fill this panel.</div>'}
+        </section>
+      `;
+      setupPreviewSectionTabs(preview);
+      setupTableCropDragScroll(preview);
+    }
+
+    function setupTableCropDragScroll(root) {
+      root.querySelectorAll('.table-crop').forEach((wrap) => {
+        let active = false;
+        let startX = 0;
+        let startY = 0;
+        let startLeft = 0;
+        let startTop = 0;
+        wrap.addEventListener('pointerdown', (event) => {
+          if (event.target.closest('button, a, input, summary')) return;
+          active = true;
+          startX = event.clientX;
+          startY = event.clientY;
+          startLeft = wrap.scrollLeft;
+          startTop = wrap.scrollTop;
+          wrap.classList.add('dragging');
+          wrap.setPointerCapture?.(event.pointerId);
+        });
+        wrap.addEventListener('pointermove', (event) => {
+          if (!active) return;
+          wrap.scrollLeft = startLeft - (event.clientX - startX);
+          wrap.scrollTop = startTop - (event.clientY - startY);
+        });
+        function endDrag(event) {
+          active = false;
+          wrap.classList.remove('dragging');
+          wrap.releasePointerCapture?.(event.pointerId);
+        }
+        wrap.addEventListener('pointerup', endDrag);
+        wrap.addEventListener('pointercancel', endDrag);
+        wrap.addEventListener('mouseleave', () => {
+          active = false;
+          wrap.classList.remove('dragging');
+        });
+      });
+    }
+
+    function setupTableDragScroll() {
+      const wrap = document.querySelector('.table-wrap');
+      if (!wrap) return;
+      let active = false;
+      let startX = 0;
+      let startLeft = 0;
+      wrap.addEventListener('pointerdown', (event) => {
+        active = true;
+        startX = event.clientX;
+        startLeft = wrap.scrollLeft;
+        wrap.classList.add('dragging');
+        wrap.setPointerCapture?.(event.pointerId);
+      });
+      wrap.addEventListener('pointermove', (event) => {
+        if (!active) return;
+        wrap.scrollLeft = startLeft - (event.clientX - startX);
+      });
+      function endDrag(event) {
+        active = false;
+        wrap.classList.remove('dragging');
+        wrap.releasePointerCapture?.(event.pointerId);
+      }
+      wrap.addEventListener('pointerup', endDrag);
+      wrap.addEventListener('pointercancel', endDrag);
+      wrap.addEventListener('mouseleave', () => {
+        active = false;
+        wrap.classList.remove('dragging');
+      });
+    }
+
+    function renderImages() {
+      const list = $('imageList');
+      if (!state.images.length) {
+        list.innerHTML = '<div class="empty">No figures detected.</div>';
+        $('imagePreview').innerHTML = '';
+        return;
+      }
+      if (!state.selectedImageId) state.selectedImageId = state.images[0].image_id;
+
+      list.innerHTML = renderTree(state.images, (image) => image.header_path || [], {
+        query: '',
+        openDepth: 1,
+        countLabel: 'figures',
+        renderLeaf: (image) => `
+          <div class="leaf ${image.image_id === state.selectedImageId ? 'active' : ''}" role="button" tabindex="0" data-image-id="${escapeHtml(image.image_id)}">
+            <div class="leaf-title"><span>${escapeHtml(image.image_id)}</span><span>page ${image.page}</span></div>
+            <div class="leaf-sub">${Math.round(image.width || 0)} x ${Math.round(image.height || 0)}</div>
+          </div>`,
+      });
+
+      list.querySelectorAll('.leaf[data-image-id]').forEach((leaf) => {
+        leaf.addEventListener('click', () => {
+          state.selectedImageId = leaf.dataset.imageId;
+          renderImages();
+        });
+      });
+
+      const selected = state.images.find((image) => image.image_id === state.selectedImageId);
+      if (!selected) {
+        $('imagePreview').innerHTML = '';
+        return;
+      }
+      $('imagePreview').innerHTML = `
+        <div class="meta">${escapeHtml(selected.image_id)} · ${escapeHtml(fmtPath(selected.header_path))}</div>
+        <img class="figure" alt="${escapeHtml(selected.image_id)}" src="/api/files/${encodeURIComponent(state.fileId)}/images/${encodeURIComponent(selected.image_id)}.png" />
+      `;
+    }
+
+    function renderActiveTab() {
+      document.querySelectorAll('.tab').forEach((tab) => tab.classList.toggle('active', tab.dataset.tab === state.activeTab));
+      $('tabTables').hidden = state.activeTab !== 'tables';
+      $('tabImages').hidden = state.activeTab !== 'images';
+    }
+
+    async function loadFiles() {
+      const res = await fetch('/api/files');
+      const data = await res.json();
+      state.files = data.files || [];
+      if (!state.fileId && state.files.length) state.fileId = state.files[0].file_id;
+      renderSelectedFileState();
+      if (state.fileId) await loadArtifacts(state.fileId, false);
+      if (isProcessing(currentFile())) startPolling();
+    }
+
+    async function refreshCurrentFile() {
+      if (!state.fileId) return null;
+      const res = await fetch(`/api/files/${encodeURIComponent(state.fileId)}`);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || 'Failed to refresh file status.');
+      upsertFile(data.file);
+      renderSelectedFileState();
+      return data.file;
+    }
+
+    function stopPolling() {
+      if (state.pollTimer) clearInterval(state.pollTimer);
+      state.pollTimer = null;
+    }
+
+    function startPolling() {
+      if (state.pollTimer || !state.fileId) return;
+      state.pollTimer = setInterval(async () => {
+        try {
+          const file = await refreshCurrentFile();
+          if (sectioningDone(file)) {
+            await loadArtifacts(state.fileId, false);
+          }
+          if (!isProcessing(file)) {
+            stopPolling();
+            await loadFiles();
+            await loadArtifacts(state.fileId, false);
+            if (file.status === 'ready') {
+              setStatus('Done. Chunk result is ready to inspect.', 'good');
+            } else if (file.status === 'error') {
+              setStatus(file.last_error || 'Processing failed.', 'bad');
+            }
+          }
+        } catch (err) {
+          stopPolling();
+          setStatus(err.message, 'bad');
+        }
+      }, 1000);
+    }
+
+    async function loadChunksArtifact(fileId, file, wasEmpty) {
+      const res = await fetch(`/api/files/${encodeURIComponent(fileId)}/chunks`);
+      if (res.ok) {
+        const chunksData = await res.json();
+        const nextChunks = chunksData.chunks || [];
+        const nextSignature = chunksSignature(nextChunks);
+        const changed = nextSignature !== state.chunkSignature;
+        state.chunkSignature = nextSignature;
+        state.chunks = nextChunks;
+        if (!state.selectedChunkId || !state.chunks.some((chunk) => chunk.chunk_id === state.selectedChunkId)) {
+          state.selectedChunkId = state.chunks[0]?.chunk_id || null;
+        }
+        if (changed || wasEmpty) renderChunks();
+        if (wasEmpty && state.chunks.length && isProcessing(file)) {
+          const previewNote = chunksData.preview ? ' (preview)' : '';
+          setStatus(`Structure ready: ${state.chunks.length} text chunks${previewNote}. Tables and figures still loading...`, 'good');
+        }
+        return;
+      }
+      if (res.status === 404) {
+        state.chunks = [];
+        state.chunkSignature = '0';
+        renderChunks();
+        if (isProcessing(file) && !sectioningDone(file)) {
+          setStatus('Reading document structure...', 'warn');
+        }
+        return;
+      }
+      throw new Error('Failed to load chunks.');
+    }
+
+    function renderVlmParseStatus(data) {
+      const box = $('vlmParseStatus');
+      const wrap = $('vlmProgressWrap');
+      const bar = $('vlmProgressBar');
+      if (!box) return;
+
+      const running = state.vlmParseRunning || data?.running;
+      const progress = data?.progress;
+      const counts = data?.counts || {};
+      const file = currentFile();
+
+      if (running) {
+        wrap.hidden = false;
+        const pct = data?.progress_pct ?? file?.progress_pct ?? (
+          progress?.total ? Math.round((progress.index / progress.total) * 100) : 0
+        );
+        bar.style.width = `${Math.max(4, Math.min(100, pct))}%`;
+        const idx = progress?.index ?? 0;
+        const total = progress?.total ?? counts.tables ?? '?';
+        const tid = progress?.table_id ? ` · ${progress.table_id}` : '';
+        box.textContent = data?.current_message || file?.current_message || `Parsing ${idx}/${total}${tid}`;
+        $('activityLabel').textContent = 'VLM table parse';
+        $('activityMessage').textContent = box.textContent;
+        $('activityPct').textContent = `${pct}%`;
+        $('progressBar').style.width = `${pct}%`;
+        return;
+      }
+
+      wrap.hidden = true;
+      bar.style.width = '0%';
+      if (!counts.tables) {
+        box.textContent = 'Run Process first.';
+        return;
+      }
+      const parts = [`${counts.parsed || 0}/${counts.tables} parsed`];
+      if (data?.has_table_vector_index) parts.push(`table embeddings ready (${data.table_vector_index_rows || 0})`);
+      else if (data?.table_vector_index_issue === 'stale_source_file') parts.push('table embeddings stale — re-run Parse with Build table embeddings');
+      else if ($('buildTableVectors')?.checked) parts.push('table embeddings not built yet');
+      box.textContent = parts.join(' · ');
+      if (file && !isProcessing(file)) {
+        renderActivity(file);
+      }
+    }
+
+    async function loadTableParsesArtifact(fileId, { quiet = false } = {}) {
+      const res = await fetch(`/api/files/${encodeURIComponent(fileId)}/table-parses`);
+      if (res.ok) {
+        const data = await res.json();
+        const nextParses = data.parses || [];
+        const parseChanged = parseSignature(nextParses) !== parseSignature(state.tableParses);
+        state.tableParses = nextParses;
+        state.vlmParseRunning = !!data.running;
+        renderVlmParseStatus(data);
+        if (parseChanged) {
+          renderTables();
+        } else if (state.selectedTableId) {
+          const selected = state.tables.find((table) => table.table_id === state.selectedTableId);
+          if (selected) renderTablePreview(selected);
+        }
+        if (state.vlmParseRunning && !state.vlmParsePollTimer) {
+          startVlmParsePolling();
+        }
+        if (!state.vlmParseRunning) stopVlmParsePolling();
+        return;
+      }
+      if (res.status === 404) {
+        state.tableParses = [];
+        renderVlmParseStatus(null);
+        renderTables();
+      } else if (!quiet) {
+        throw new Error('Failed to load table parses.');
+      }
+    }
+
+    function stopVlmParsePolling() {
+      if (state.vlmParsePollTimer) {
+        clearInterval(state.vlmParsePollTimer);
+        state.vlmParsePollTimer = null;
+      }
+    }
+
+    function startVlmParsePolling() {
+      stopVlmParsePolling();
+      state.vlmParsePollTimer = setInterval(async () => {
+        if (!state.fileId) return;
+        try {
+          await loadTableParsesArtifact(state.fileId, { quiet: true });
+          await refreshCurrentFile();
+          renderSelectedFileState();
+          if (!state.vlmParseRunning) {
+            stopVlmParsePolling();
+            setStatus('VLM table parse finished.', 'good');
+            await loadArtifacts(state.fileId, false);
+          }
+        } catch (_) {}
+      }, 2000);
+    }
+
+    async function runVlmParse() {
+      if (!state.fileId || state.vlmParseRunning) return;
+      const buildTableVectors = $('buildTableVectors').checked;
+      $('runVlmParseBtn').disabled = true;
+      $('vlmParseStatus').textContent = 'Starting VLM table parse...';
+      $('vlmProgressWrap').hidden = false;
+      $('vlmProgressBar').style.width = '4%';
+      setStatus('Starting VLM table parse...');
+      try {
+        const params = new URLSearchParams({
+          build_table_vectors: buildTableVectors ? 'true' : 'false',
+        });
+        const res = await fetch(
+          `/api/files/${encodeURIComponent(state.fileId)}/table-parses/run?${params}`,
+          { method: 'POST' },
+        );
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || `Failed to start VLM parse (HTTP ${res.status}).`);
+        state.vlmParseRunning = true;
+        setStatus(data.message || 'VLM table parse running...', 'good');
+        startVlmParsePolling();
+      } catch (err) {
+        $('vlmProgressWrap').hidden = true;
+        $('vlmParseStatus').textContent = err.message;
+        setStatus(err.message, 'bad');
+      } finally {
+        renderSelectedFileState();
+      }
+    }
+
+    async function loadAssetsArtifact(fileId, showErrors) {
+      const res = await fetch(`/api/files/${encodeURIComponent(fileId)}/assets`);
+      if (res.ok) {
+        const assetsData = await res.json();
+        const nextTables = assetsData.tables || [];
+        const nextImages = assetsData.images || [];
+        const nextSignature = tablesSignature(nextTables);
+        const changed = nextSignature !== state.tableSignature;
+        state.tableSignature = nextSignature;
+        if (changed) state.cropBust = Date.now();
+        state.tables = nextTables;
+        state.images = nextImages;
+        if (!state.selectedTableId || !state.tables.some((table) => table.table_id === state.selectedTableId)) {
+          state.selectedTableId = state.tables[0]?.table_id || null;
+        }
+        if (!state.selectedImageId || !state.images.some((image) => image.image_id === state.selectedImageId)) {
+          state.selectedImageId = state.images[0]?.image_id || null;
+        }
+        if (changed || !$('tablePickerPanel')?.querySelector('.leaf[data-table-id]')) {
+          renderTables();
+          renderImages();
+        } else {
+          const selected = state.tables.find((table) => table.table_id === state.selectedTableId);
+          renderTablePreview(selected);
+        }
+        return;
+      }
+      if (res.status === 404) {
+        state.tables = [];
+        state.images = [];
+        state.tableSignature = '0';
+        renderTables();
+        renderImages();
+        return;
+      }
+      if (showErrors) throw new Error('Failed to load assets.');
+    }
+
+    async function loadArtifacts(fileId, showErrors = true) {
+      try {
+        const file = currentFile();
+        const wasEmpty = state.chunks.length === 0;
+        const chunksTask = loadChunksArtifact(fileId, file, wasEmpty);
+        const assetsTask = loadAssetsArtifact(fileId, showErrors);
+        const parsesTask = loadTableParsesArtifact(fileId);
+        const results = await Promise.allSettled([chunksTask, assetsTask, parsesTask]);
+        const failed = results.find((result) => result.status === 'rejected');
+        if (failed && showErrors) throw failed.reason;
+        if (currentFile()?.status === 'ready') {
+          setStatus(`Ready: ${state.chunks.length} chunks, ${state.tables.length} tables, ${state.images.length} figures.`, 'good');
+        }
+      } catch (err) {
+        if (showErrors) setStatus(err.message, 'bad');
+      }
+    }
+
+    async function selectFile(fileId) {
+      stopPolling();
+      stopVlmParsePolling();
+      state.fileId = fileId;
+      state.chunks = [];
+      state.tables = [];
+      state.tableParses = [];
+      state.vlmParseRunning = false;
+      state.images = [];
+      state.selectedChunkId = null;
+      state.selectedTableId = null;
+      state.selectedImageId = null;
+      state.chunkSignature = '';
+      state.tableSignature = '';
+      renderSelectedFileState();
+      renderChunks();
+      renderTables();
+      renderImages();
+      await loadArtifacts(fileId);
+      if (isProcessing(currentFile())) startPolling();
+    }
+
+    async function upload() {
+      const file = $('fileInput').files[0];
+      if (!file) {
+        setStatus('Pick a PDF first.', 'warn');
+        return;
+      }
+      setBusy(true);
+      setStatus('Uploading...');
+      try {
+        const form = new FormData();
+        form.append('file', file);
+        const res = await fetch('/api/files', { method: 'POST', body: form });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Upload failed.');
+        state.fileId = data.file.file_id;
+        $('fileInput').value = '';
+        await loadFiles();
+        await selectFile(data.file.file_id);
+        setStatus('Uploaded. Click Process to generate chunks.', 'good');
+      } catch (err) {
+        setStatus(err.message, 'bad');
+      } finally {
+        setBusy(false);
+      }
+    }
+
+    async function processCurrent() {
+      if (!state.fileId) return;
+      setStatus('Starting processing job...');
+      try {
+        const buildVectors = $('buildVectors').checked;
+        const res = await fetch(
+          `/api/files/${encodeURIComponent(state.fileId)}/process?build_vectors=${buildVectors ? 'true' : 'false'}`,
+          { method: 'POST' },
+        );
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Processing failed.');
+        upsertFile(data.file);
+        renderSelectedFileState();
+        setStatus(data.started ? 'Processing started. Live steps are shown below.' : 'Processing is already running.');
+        startPolling();
+      } catch (err) {
+        setStatus(err.message, 'bad');
+      } finally {
+        renderSelectedFileState();
+      }
+    }
+
+    $('uploadBtn').addEventListener('click', upload);
+    $('processBtn').addEventListener('click', processCurrent);
+    $('refreshBtn').addEventListener('click', loadFiles);
+    $('chunkSearch').addEventListener('input', renderChunks);
+    $('chunkList').addEventListener('click', (event) => {
+      const button = event.target.closest('.table-ref');
+      if (!button) return;
+      event.preventDefault();
+      event.stopPropagation();
+      selectTable(button.dataset.tableRef);
+    });
+    $('assetSearch').addEventListener('input', renderTables);
+    $('tablePicker')?.addEventListener('toggle', () => {
+      if ($('tablePicker').open) renderTables();
+    });
+    $('runVlmParseBtn').addEventListener('click', runVlmParse);
+    document.querySelectorAll('.tab').forEach((tab) => {
+      tab.addEventListener('click', () => {
+        state.activeTab = tab.dataset.tab;
+        renderActiveTab();
+      });
+    });
+
+    renderActiveTab();
+    setupRightColumnResize();
+    loadFiles().catch((err) => setStatus(err.message, 'bad'));
+  </script>
+</body>
+</html>

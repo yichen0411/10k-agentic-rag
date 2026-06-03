@@ -1,0 +1,610 @@
+{
+  "summary": {
+    "model": "claude-haiku-4-5-20251001",
+    "n": 19,
+    "passed": 13,
+    "pass_rate": 0.684,
+    "mean_score": 88.4
+  },
+  "results": [
+    {
+      "id": "direct_sql_current_ratio",
+      "expected_action": "tool",
+      "actual_action": "tool",
+      "expected_calls": [
+        {
+          "tool": "sql",
+          "args": {
+            "question_contains": [
+              "current ratio",
+              "current assets",
+              "current liabilities"
+            ]
+          }
+        }
+      ],
+      "actual_calls": [
+        {
+          "tool": "sql",
+          "args": {
+            "question": "What are the total current assets and total current liabilities for Apple, Microsoft, and Alphabet in FY2025?"
+          }
+        }
+      ],
+      "answer_excerpt": "I need to find the current ratio for each company (Apple, Microsoft, Alphabet) in the most recent fiscal year (FY2025).\n\nCurrent ratio = Total Current Assets / Total Current Liabilities\n\nThis requires structured financial data from the bala",
+      "passed": false,
+      "score": 60,
+      "failures": [
+        "sql args mismatch: [\"question missing ['current ratio']\"]"
+      ],
+      "latency_sec": 2.269,
+      "stop_reason": "tool_use"
+    },
+    {
+      "id": "direct_sql_services_vs_iphone_growth",
+      "expected_action": "tool",
+      "actual_action": "tool",
+      "expected_calls": [
+        {
+          "tool": "sql",
+          "args": {
+            "question_contains": [
+              "Apple",
+              "Services",
+              "iPhone",
+              "FY2023",
+              "FY2024",
+              "FY2025"
+            ]
+          }
+        }
+      ],
+      "actual_calls": [
+        {
+          "tool": "sql",
+          "args": {
+            "question": "What was Apple's Services and iPhone segment revenue for FY2023, FY2024, and FY2025?"
+          }
+        }
+      ],
+      "answer_excerpt": "I need to retrieve structured revenue data for Apple's Services and iPhone segments across multiple fiscal years to calculate growth rates and make the comparison.\n\n**Next action: Call sql** to get:\n1. Apple Services revenue for FY2023, FY2",
+      "passed": true,
+      "score": 100.0,
+      "failures": [],
+      "latency_sec": 2.105,
+      "stop_reason": "tool_use"
+    },
+    {
+      "id": "direct_sql_cross_company_margin",
+      "expected_action": "tool",
+      "actual_action": "tool",
+      "expected_calls": [
+        {
+          "tool": "sql",
+          "args": {
+            "question_contains": [
+              "Apple",
+              "Microsoft",
+              "operating",
+              "margin",
+              "FY2025"
+            ]
+          }
+        }
+      ],
+      "actual_calls": [
+        {
+          "tool": "sql",
+          "args": {
+            "question": "What were the operating income and revenue for Apple and Microsoft in FY2025?"
+          }
+        }
+      ],
+      "answer_excerpt": "I need to retrieve the operating margin data for both Apple and Microsoft in FY2025. Since this requires structured financial metrics (operating income and revenue to calculate margins), I'll start with a SQL query.",
+      "passed": false,
+      "score": 60,
+      "failures": [
+        "sql args mismatch: [\"question missing ['margin']\"]"
+      ],
+      "latency_sec": 1.887,
+      "stop_reason": "tool_use"
+    },
+    {
+      "id": "direct_rag_services_components",
+      "expected_action": "tool",
+      "actual_action": "tool",
+      "expected_calls": [
+        {
+          "tool": "rag",
+          "args": {
+            "question_contains": [
+              "Services",
+              "include"
+            ],
+            "ticker": "AAPL",
+            "fiscal_year": "FY2025"
+          }
+        }
+      ],
+      "actual_calls": [
+        {
+          "tool": "rag",
+          "args": {
+            "ticker": "AAPL",
+            "fiscal_year": "FY2025",
+            "question": "What does Services segment include?"
+          }
+        }
+      ],
+      "answer_excerpt": "The user is asking what Apple's FY2025 10-K filing says about what Services includes—this is a narrative/disclosure question from the filing itself.\n\n**Next action: Call rag** to search Apple's FY2025 10-K for the definition or description ",
+      "passed": true,
+      "score": 100.0,
+      "failures": [],
+      "latency_sec": 1.885,
+      "stop_reason": "tool_use"
+    },
+    {
+      "id": "direct_rag_services_growth_drivers",
+      "expected_action": "tool",
+      "actual_action": "tool",
+      "expected_calls": [
+        {
+          "tool": "rag",
+          "args": {
+            "question_contains": [
+              "Services",
+              "net sales",
+              "growth"
+            ],
+            "ticker": "AAPL",
+            "fiscal_year": "FY2025"
+          }
+        }
+      ],
+      "actual_calls": [
+        {
+          "tool": "rag",
+          "args": {
+            "ticker": "AAPL",
+            "fiscal_year": "FY2025",
+            "question": "What drivers did management cite for Services net sales growth?"
+          }
+        }
+      ],
+      "answer_excerpt": "The user is asking for narrative content from Apple's FY2025 10-K filing about what drove Services net sales growth. This requires retrieving management commentary and explanations from the filing itself.\n\n**Next action:** Call the `rag` to",
+      "passed": true,
+      "score": 100.0,
+      "failures": [],
+      "latency_sec": 3.287,
+      "stop_reason": "tool_use"
+    },
+    {
+      "id": "direct_rag_risk_factor",
+      "expected_action": "tool",
+      "actual_action": "tool",
+      "expected_calls": [
+        {
+          "tool": "rag",
+          "args": {
+            "question_contains": [
+              "cybersecurity",
+              "risk"
+            ],
+            "ticker": "MSFT",
+            "fiscal_year": "FY2025"
+          }
+        }
+      ],
+      "actual_calls": [
+        {
+          "tool": "rag",
+          "args": {
+            "ticker": "MSFT",
+            "fiscal_year": "FY2025",
+            "question": "What cybersecurity risks did Microsoft discuss?"
+          }
+        }
+      ],
+      "answer_excerpt": "The user is asking about cybersecurity risks that Microsoft disclosed in its FY2025 10-K filing. This is a narrative/qualitative question about what management said and disclosed in the filing.\n\n**Next best action: Call the RAG tool.**\n\nThi",
+      "passed": true,
+      "score": 100.0,
+      "failures": [],
+      "latency_sec": 3.139,
+      "stop_reason": "tool_use"
+    },
+    {
+      "id": "hybrid_q025_turn1_sql_first",
+      "expected_action": "tool",
+      "actual_action": "tool",
+      "expected_calls": [
+        {
+          "tool": "sql",
+          "args": {
+            "question_contains": [
+              "Apple",
+              "Services",
+              "iPhone",
+              "FY2023",
+              "FY2024",
+              "FY2025"
+            ]
+          }
+        }
+      ],
+      "actual_calls": [
+        {
+          "tool": "sql",
+          "args": {
+            "question": "What was Apple's Services revenue and iPhone revenue for FY2024 and FY2025?"
+          }
+        }
+      ],
+      "answer_excerpt": "I need to take multiple steps to answer this question:\n\n1. **First**, I need to get the Services and iPhone revenue data for the last two fiscal years from the database to calculate growth rates and compare them.\n2. **Then**, I need to sear",
+      "passed": false,
+      "score": 60,
+      "failures": [
+        "sql args mismatch: [\"question missing ['FY2023']\"]"
+      ],
+      "latency_sec": 1.803,
+      "stop_reason": "tool_use"
+    },
+    {
+      "id": "hybrid_q025_turn2_rag_after_sql",
+      "expected_action": "tool",
+      "actual_action": "tool",
+      "expected_calls": [
+        {
+          "tool": "rag",
+          "args": {
+            "question_contains_any": [
+              [
+                "Services",
+                "includes"
+              ],
+              [
+                "Services",
+                "growth"
+              ],
+              [
+                "Services",
+                "gross margin"
+              ]
+            ],
+            "ticker": "AAPL",
+            "fiscal_year": "FY2025"
+          }
+        }
+      ],
+      "actual_calls": [
+        {
+          "tool": "rag",
+          "args": {
+            "ticker": "AAPL",
+            "fiscal_year": "FY2025",
+            "question": "What does Apple say about the strategic importance of Services to the company?"
+          }
+        }
+      ],
+      "answer_excerpt": "The SQL observation provides the numeric growth rates and share data needed. Now I need to retrieve Apple's 10-K narrative on the strategic importance of Services.\n\n**Next action:** Call RAG to find what Apple's 10-K says about Services' st",
+      "passed": false,
+      "score": 60,
+      "failures": [
+        "rag args mismatch: [\"question matched none of [['Services', 'includes'], ['Services', 'growth'], ['Services', 'gross margin']]\"]"
+      ],
+      "latency_sec": 1.881,
+      "stop_reason": "tool_use"
+    },
+    {
+      "id": "hybrid_q025_turn3_stop",
+      "expected_action": "answer",
+      "actual_action": "answer",
+      "expected_calls": [],
+      "actual_calls": [],
+      "answer_excerpt": "The existing observations are sufficient to answer the user's question completely:\n\n1. **Services revenue growth rates** (from sql): 12.9% (prior year) and 13.5% (most recent year)\n2. **iPhone revenue growth rates** (from sql): 0.3% (prior ",
+      "passed": true,
+      "score": 100,
+      "failures": [],
+      "latency_sec": 3.432,
+      "stop_reason": "end_turn"
+    },
+    {
+      "id": "hybrid_region_turn1_sql_first",
+      "expected_action": "tool",
+      "actual_action": "tool",
+      "expected_calls": [
+        {
+          "tool": "sql",
+          "args": {
+            "question_contains": [
+              "Apple",
+              "geographic",
+              "region",
+              "FY2025",
+              "growth"
+            ]
+          }
+        }
+      ],
+      "actual_calls": [
+        {
+          "tool": "sql",
+          "args": {
+            "question": "What was Apple's revenue by geographic region in FY2024 and FY2025, and which region had the highest growth rate?"
+          }
+        }
+      ],
+      "answer_excerpt": "I need to take two sequential steps to answer this question:\n\n1. **First, call sql** to identify which Apple geographic region had the fastest growth in FY2025 (by comparing FY2024 and FY2025 revenue data).\n2. **Then, call rag** to retrieve",
+      "passed": true,
+      "score": 100.0,
+      "failures": [],
+      "latency_sec": 2.05,
+      "stop_reason": "tool_use"
+    },
+    {
+      "id": "hybrid_region_turn2_rag_after_sql",
+      "expected_action": "tool",
+      "actual_action": "tool",
+      "expected_calls": [
+        {
+          "tool": "rag",
+          "args": {
+            "question_contains": [
+              "Rest of Asia Pacific",
+              "sales"
+            ],
+            "ticker": "AAPL",
+            "fiscal_year": "FY2025"
+          }
+        }
+      ],
+      "actual_calls": [
+        {
+          "tool": "rag",
+          "args": {
+            "ticker": "AAPL",
+            "fiscal_year": "FY2025",
+            "question": "What did management say about Rest of Asia Pacific region sales performance and growth?"
+          }
+        }
+      ],
+      "answer_excerpt": "The existing SQL observation identifies that **Rest of Asia Pacific** grew fastest in FY2025, but the user's question has two parts:\n\n1. ✓ Which region grew fastest — **answered** (Rest of Asia Pacific)\n2. ✗ What did the 10-K say about that",
+      "passed": true,
+      "score": 100.0,
+      "failures": [],
+      "latency_sec": 2.377,
+      "stop_reason": "tool_use"
+    },
+    {
+      "id": "guidance_vs_actual_turn1_rag_first",
+      "expected_action": "tool",
+      "actual_action": "tool",
+      "expected_calls": [
+        {
+          "tool": "rag",
+          "args": {
+            "question_contains": [
+              "Intelligent Cloud",
+              "guidance",
+              "growth"
+            ],
+            "ticker": "MSFT",
+            "fiscal_year": "FY2025"
+          }
+        }
+      ],
+      "actual_calls": [
+        {
+          "tool": "sql",
+          "args": {
+            "question": "What was Microsoft Intelligent Cloud segment revenue in FY2024 and FY2025?"
+          }
+        },
+        {
+          "tool": "rag",
+          "args": {
+            "ticker": "MSFT",
+            "fiscal_year": "FY2025",
+            "question": "What guidance or outlook did management provide for Intelligent Cloud growth in FY2025?"
+          }
+        }
+      ],
+      "answer_excerpt": "I need to take the next necessary step to answer this question about Microsoft's Intelligent Cloud segment.\n\nThe user is asking for a comparison between:\n1. Management guidance (forward-looking statements) for Intelligent Cloud growth in FY",
+      "passed": false,
+      "score": 80.0,
+      "failures": [
+        "expected 1 call(s), got 2"
+      ],
+      "latency_sec": 2.977,
+      "stop_reason": "tool_use"
+    },
+    {
+      "id": "guidance_vs_actual_turn2_sql_after_rag",
+      "expected_action": "tool",
+      "actual_action": "tool",
+      "expected_calls": [
+        {
+          "tool": "sql",
+          "args": {
+            "question_contains": [
+              "Intelligent Cloud",
+              "revenue",
+              "growth",
+              "FY2024",
+              "FY2025"
+            ]
+          }
+        }
+      ],
+      "actual_calls": [
+        {
+          "tool": "sql",
+          "args": {
+            "question": "What was Microsoft Intelligent Cloud segment revenue in FY2024 and FY2025?"
+          }
+        }
+      ],
+      "answer_excerpt": "I need to take the next step to complete this comparison. The existing observation provides management's **guidance** (18-19% growth), but I still need the **actual** Intelligent Cloud growth in FY2025 to make the comparison.\n\nThe best next",
+      "passed": false,
+      "score": 60,
+      "failures": [
+        "sql args mismatch: [\"question missing ['growth']\"]"
+      ],
+      "latency_sec": 2.263,
+      "stop_reason": "tool_use"
+    },
+    {
+      "id": "guidance_vs_actual_turn3_stop",
+      "expected_action": "answer",
+      "actual_action": "answer",
+      "expected_calls": [],
+      "actual_calls": [],
+      "answer_excerpt": "The existing tool observations are **sufficient** to answer the user's question directly. Both pieces of evidence are already in hand:\n\n1. **Management guidance** (from RAG): 18–19% growth\n2. **Actual growth** (from SQL): 21% YoY\n\n**Answer:",
+      "passed": true,
+      "score": 100,
+      "failures": [],
+      "latency_sec": 1.988,
+      "stop_reason": "end_turn"
+    },
+    {
+      "id": "compare_rag_decompose_two_tickers",
+      "expected_action": "tool",
+      "actual_action": "tool",
+      "expected_calls": [
+        {
+          "tool": "rag",
+          "args": {
+            "question_contains": [
+              "AI",
+              "risk"
+            ],
+            "ticker": "MSFT",
+            "fiscal_year": "FY2025"
+          }
+        },
+        {
+          "tool": "rag",
+          "args": {
+            "question_contains": [
+              "AI",
+              "risk"
+            ],
+            "ticker": "GOOGL",
+            "fiscal_year": "FY2025"
+          }
+        }
+      ],
+      "actual_calls": [
+        {
+          "tool": "rag",
+          "args": {
+            "ticker": "MSFT",
+            "fiscal_year": "FY2025",
+            "question": "What AI risks and risk factors does Microsoft disclose?"
+          }
+        },
+        {
+          "tool": "rag",
+          "args": {
+            "ticker": "GOOGL",
+            "fiscal_year": "FY2025",
+            "question": "What AI risks and risk factors does Alphabet disclose?"
+          }
+        }
+      ],
+      "answer_excerpt": "I need to retrieve AI risk disclosures from both Microsoft and Alphabet's FY2025 10-K filings. Since this is a comparison question across two companies, I'll make two independent RAG calls—one for each ticker—to search their risk factor sec",
+      "passed": true,
+      "score": 100.0,
+      "failures": [],
+      "latency_sec": 2.707,
+      "stop_reason": "tool_use"
+    },
+    {
+      "id": "sql_observation_stop",
+      "expected_action": "answer",
+      "actual_action": "answer",
+      "expected_calls": [],
+      "actual_calls": [],
+      "answer_excerpt": "The existing tool observation is sufficient to answer the user's question directly.\n\n**Apple's FY2025 revenue was $416.161 billion.**\n\nNo additional tool calls are needed.",
+      "passed": true,
+      "score": 100,
+      "failures": [],
+      "latency_sec": 1.54,
+      "stop_reason": "end_turn"
+    },
+    {
+      "id": "rag_observation_stop",
+      "expected_action": "answer",
+      "actual_action": "answer",
+      "expected_calls": [],
+      "actual_calls": [],
+      "answer_excerpt": "The existing RAG observation is sufficient to answer the user's question directly. It provides a clear, specific list of what Apple Services includes according to the FY2025 10-K filing.\n\n**Answer:**\n\nAccording to Apple's FY2025 10-K filing",
+      "passed": true,
+      "score": 100,
+      "failures": [],
+      "latency_sec": 1.451,
+      "stop_reason": "end_turn"
+    },
+    {
+      "id": "rag_failure_fallback_concrete_terms",
+      "expected_action": "tool",
+      "actual_action": "tool",
+      "expected_calls": [
+        {
+          "tool": "rag",
+          "args": {
+            "question_contains_any": [
+              [
+                "Services",
+                "includes"
+              ],
+              [
+                "Services",
+                "growth"
+              ],
+              [
+                "Services",
+                "gross margin"
+              ],
+              [
+                "App Store",
+                "cloud",
+                "advertising"
+              ]
+            ],
+            "ticker": "AAPL",
+            "fiscal_year": "FY2025"
+          }
+        }
+      ],
+      "actual_calls": [
+        {
+          "tool": "rag",
+          "args": {
+            "ticker": "AAPL",
+            "fiscal_year": "FY2025",
+            "question": "What does management say about Services revenue growth, strategy, and role in Apple's business?"
+          }
+        }
+      ],
+      "answer_excerpt": "The existing RAG observation indicates that the initial search did not retrieve content matching \"strategic importance of Services\" exactly. However, this does not mean the information is unavailable—it may require a reformulated question t",
+      "passed": true,
+      "score": 100.0,
+      "failures": [],
+      "latency_sec": 3.063,
+      "stop_reason": "tool_use"
+    },
+    {
+      "id": "direct_answer_out_of_scope",
+      "expected_action": "answer",
+      "actual_action": "answer",
+      "expected_calls": [],
+      "actual_calls": [],
+      "answer_excerpt": "The user is asking about Tesla's FY2025 revenue. However, **Tesla is not covered by the available tools**.\n\nThe financial database and 10-K filings in this system only cover:\n- **Apple (AAPL)**\n- **Microsoft (MSFT)**\n- **Alphabet (GOOGL)**\n",
+      "passed": true,
+      "score": 100,
+      "failures": [],
+      "latency_sec": 1.836,
+      "stop_reason": "end_turn"
+    }
+  ]
+}

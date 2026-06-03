@@ -1,0 +1,185 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#334155" />
+    </marker>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#2563eb" />
+    </marker>
+    <style>
+      .title { font: 700 34px Arial, Helvetica, sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 17px Arial, Helvetica, sans-serif; fill: #475569; }
+      .section { font: 700 18px Arial, Helvetica, sans-serif; fill: #0f172a; }
+      .label { font: 700 16px Arial, Helvetica, sans-serif; fill: #0f172a; }
+      .small { font: 400 13px Arial, Helvetica, sans-serif; fill: #475569; }
+      .tiny { font: 400 12px Arial, Helvetica, sans-serif; fill: #64748b; }
+      .box { fill: #ffffff; stroke: #cbd5e1; stroke-width: 2; rx: 14; }
+      .blue { fill: #eff6ff; stroke: #60a5fa; stroke-width: 2; rx: 14; }
+      .green { fill: #ecfdf5; stroke: #34d399; stroke-width: 2; rx: 14; }
+      .amber { fill: #fffbeb; stroke: #f59e0b; stroke-width: 2; rx: 14; }
+      .purple { fill: #f5f3ff; stroke: #a78bfa; stroke-width: 2; rx: 14; }
+      .rose { fill: #fff1f2; stroke: #fb7185; stroke-width: 2; rx: 14; }
+      .group { fill: #f8fafc; stroke: #e2e8f0; stroke-width: 2; rx: 22; }
+      .dash { fill: none; stroke: #94a3b8; stroke-width: 2; stroke-dasharray: 7 6; }
+      .arrow { fill: none; stroke: #334155; stroke-width: 2.4; marker-end: url(#arrow); }
+      .arrowBlue { fill: none; stroke: #2563eb; stroke-width: 2.8; marker-end: url(#arrowBlue); }
+      .note { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.5; rx: 12; }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="1600" height="1000" fill="#ffffff" />
+
+  <text x="60" y="58" class="title">Inference Flow: Agent Tool Calling + Dual-Path RAG</text>
+  <text x="60" y="88" class="subtitle">The agent routes the user question to SQL and/or RAG tools; RAG retrieves text and tables through separate paths, then assembles grounded context.</text>
+
+  <!-- Top-level agent flow -->
+  <rect x="60" y="125" width="210" height="82" class="blue" />
+  <text x="165" y="157" text-anchor="middle" class="label">User Question</text>
+  <text x="165" y="181" text-anchor="middle" class="small">numbers, filing text, tables,</text>
+  <text x="165" y="199" text-anchor="middle" class="small">hybrid, or follow-up</text>
+
+  <rect x="330" y="125" width="260" height="82" class="purple" />
+  <text x="460" y="157" text-anchor="middle" class="label">Function-Calling Agent</text>
+  <text x="460" y="181" text-anchor="middle" class="small">system prompt + tool schema</text>
+  <text x="460" y="199" text-anchor="middle" class="small">chat history + memory</text>
+
+  <rect x="650" y="125" width="230" height="82" class="amber" />
+  <text x="765" y="157" text-anchor="middle" class="label">Tool Routing</text>
+  <text x="765" y="181" text-anchor="middle" class="small">SQL, RAG, SQL � RAG,</text>
+  <text x="765" y="199" text-anchor="middle" class="small">or answer directly</text>
+
+  <path d="M270 166 L330 166" class="arrow" />
+  <path d="M590 166 L650 166" class="arrow" />
+
+  <!-- SQL group -->
+  <rect x="60" y="255" width="520" height="330" class="group" />
+  <text x="90" y="292" class="section">SQL Tool Path</text>
+  <text x="90" y="316" class="small">Best for exact structured numbers, ratios, margins, growth, rankings, and database facts.</text>
+
+  <rect x="95" y="345" width="190" height="70" class="green" />
+  <text x="190" y="375" text-anchor="middle" class="label">Natural-Language</text>
+  <text x="190" y="397" text-anchor="middle" class="small">SQL question</text>
+
+  <rect x="345" y="345" width="190" height="70" class="green" />
+  <text x="440" y="375" text-anchor="middle" class="label">Text-to-SQL</text>
+  <text x="440" y="397" text-anchor="middle" class="small">SQLite SELECT only</text>
+
+  <rect x="95" y="455" width="190" height="72" class="green" />
+  <text x="190" y="484" text-anchor="middle" class="label">Validate + Execute</text>
+  <text x="190" y="506" text-anchor="middle" class="small">read-only SQLite</text>
+
+  <rect x="345" y="455" width="190" height="72" class="green" />
+  <text x="440" y="484" text-anchor="middle" class="label">SQL Observation</text>
+  <text x="440" y="506" text-anchor="middle" class="small">rows, status, SQL, latency</text>
+
+  <path d="M285 380 L345 380" class="arrow" />
+  <path d="M440 415 C440 438, 190 432, 190 455" class="arrow" />
+  <path d="M285 491 L345 491" class="arrow" />
+
+  <rect x="95" y="540" width="440" height="30" class="note" />
+  <text x="315" y="560" text-anchor="middle" class="tiny">Fallback: validation errors / execution failures trigger correction retries, then safe JSON status.</text>
+
+  <path d="M735 207 C735 230, 320 228, 320 255" class="arrow" />
+
+  <!-- RAG group -->
+  <rect x="650" y="255" width="890" height="565" class="group" />
+  <text x="680" y="292" class="section">RAG Tool Path</text>
+  <text x="680" y="316" class="small">Best for filing narrative, MD&amp;A explanations, risk factors, and table evidence from 10-K PDFs.</text>
+
+  <rect x="690" y="345" width="185" height="68" class="blue" />
+  <text x="782" y="374" text-anchor="middle" class="label">RAG Input</text>
+  <text x="782" y="395" text-anchor="middle" class="small">question + ticker/year</text>
+
+  <rect x="925" y="345" width="185" height="68" class="blue" />
+  <text x="1018" y="374" text-anchor="middle" class="label">Scope Filter</text>
+  <text x="1018" y="395" text-anchor="middle" class="small">metadata hard filter</text>
+
+  <rect x="1160" y="345" width="185" height="68" class="blue" />
+  <text x="1253" y="374" text-anchor="middle" class="label">Query Embedding</text>
+  <text x="1253" y="395" text-anchor="middle" class="small">computed once</text>
+
+  <path d="M875 379 L925 379" class="arrow" />
+  <path d="M1110 379 L1160 379" class="arrow" />
+
+  <text x="680" y="458" class="section">Parallel Retrieval</text>
+
+  <rect x="690" y="485" width="190" height="70" class="box" />
+  <text x="785" y="515" text-anchor="middle" class="label">Text Vector</text>
+  <text x="785" y="537" text-anchor="middle" class="small">semantic top K</text>
+
+  <rect x="935" y="485" width="190" height="70" class="box" />
+  <text x="1030" y="515" text-anchor="middle" class="label">BM25</text>
+  <text x="1030" y="537" text-anchor="middle" class="small">exact filing terms</text>
+
+  <rect x="1180" y="485" width="215" height="70" class="rose" />
+  <text x="1288" y="515" text-anchor="middle" class="label">Table Summary Vector</text>
+  <text x="1288" y="537" text-anchor="middle" class="small">VLM summary top K</text>
+
+  <path d="M1253 413 C1253 445, 785 450, 785 485" class="arrow" />
+  <path d="M1253 413 C1253 445, 1030 450, 1030 485" class="arrow" />
+  <path d="M1253 413 C1253 445, 1288 450, 1288 485" class="arrow" />
+
+  <!-- Text path -->
+  <rect x="690" y="600" width="435" height="145" class="note" />
+  <text x="712" y="630" class="section">Text Path</text>
+  <rect x="725" y="650" width="165" height="58" class="box" />
+  <text x="807" y="674" text-anchor="middle" class="label">Merge Hits</text>
+  <text x="807" y="694" text-anchor="middle" class="small">vector + BM25</text>
+  <rect x="925" y="650" width="165" height="58" class="box" />
+  <text x="1007" y="674" text-anchor="middle" class="label">Text Rerank</text>
+  <text x="1007" y="694" text-anchor="middle" class="small">top text anchors</text>
+  <path d="M785 555 C785 588, 807 618, 807 650" class="arrow" />
+  <path d="M1030 555 C1030 588, 807 618, 807 650" class="arrow" />
+  <path d="M890 679 L925 679" class="arrow" />
+
+  <!-- Table path -->
+  <rect x="1180" y="600" width="315" height="145" class="note" />
+  <text x="1202" y="630" class="section">Table Path</text>
+  <rect x="1215" y="650" width="115" height="58" class="rose" />
+  <text x="1272" y="674" text-anchor="middle" class="label">Threshold</text>
+  <text x="1272" y="694" text-anchor="middle" class="small">similarity</text>
+  <rect x="1360" y="650" width="105" height="58" class="rose" />
+  <text x="1412" y="674" text-anchor="middle" class="label">Tables</text>
+  <text x="1412" y="694" text-anchor="middle" class="small">markdown</text>
+  <path d="M1288 555 L1288 650" class="arrow" />
+  <path d="M1330 679 L1360 679" class="arrow" />
+
+  <!-- Context assembly -->
+  <rect x="820" y="780" width="500" height="122" class="purple" />
+  <text x="1070" y="812" text-anchor="middle" class="label">Context Assembly</text>
+  <text x="1070" y="838" text-anchor="middle" class="small">selected text chunks + section preamble + same text-unit neighbors</text>
+  <text x="1070" y="858" text-anchor="middle" class="small">same-section neighbors only; no cross-section expansion</text>
+  <text x="1070" y="878" text-anchor="middle" class="small">table markdown from table hits and text chunk table_refs, deduplicated</text>
+
+  <path d="M1007 708 C1007 745, 1035 752, 1035 780" class="arrowBlue" />
+  <path d="M1412 708 C1412 756, 1190 750, 1190 780" class="arrowBlue" />
+
+  <rect x="1370" y="780" width="130" height="122" class="blue" />
+  <text x="1435" y="823" text-anchor="middle" class="label">Answer</text>
+  <text x="1435" y="846" text-anchor="middle" class="label">Model</text>
+  <text x="1435" y="872" text-anchor="middle" class="small">context only</text>
+
+  <path d="M1320 841 L1370 841" class="arrow" />
+
+  <rect x="680" y="835" width="360" height="48" class="amber" />
+  <text x="860" y="857" text-anchor="middle" class="tiny">Important: table summaries do NOT enter the text rerank pool.</text>
+  <text x="860" y="874" text-anchor="middle" class="tiny">They are selected by table-vector similarity threshold, then injected as markdown.</text>
+
+  <path d="M765 207 C765 230, 1095 228, 1095 255" class="arrow" />
+
+  <!-- Final synthesis -->
+  <rect x="600" y="885" width="300" height="72" class="purple" />
+  <text x="750" y="914" text-anchor="middle" class="label">Agent Synthesis</text>
+  <text x="750" y="936" text-anchor="middle" class="small">combine SQL observation + RAG observation</text>
+
+  <rect x="980" y="885" width="260" height="72" class="blue" />
+  <text x="1110" y="914" text-anchor="middle" class="label">Final Grounded Answer</text>
+  <text x="1110" y="936" text-anchor="middle" class="small">SQL-calculated vs filing-disclosed</text>
+
+  <path d="M440 527 C440 905, 565 921, 600 921" class="arrow" />
+  <path d="M1435 902 C1435 952, 1255 921, 1240 921" class="arrow" />
+  <path d="M900 921 L980 921" class="arrowBlue" />
+
+  <!-- Footer notes -->
+  <text x="60" y="970" class="tiny">Slide note: show SQL and RAG as separate tools. Inside RAG, emphasize dual retrieval paths: text candidates are reranked; table summaries are thresholded and injected separately.</text>
+</svg>

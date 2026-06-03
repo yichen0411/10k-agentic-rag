@@ -1,0 +1,14 @@
+.env
+.env.*
+!.env.example
+
+.git
+.venv
+__pycache__
+*.py[cod]
+.DS_Store
+
+.codeatlas
+benchmarks/**/.venv*
+benchmarks/**/.deps
+scripts/output

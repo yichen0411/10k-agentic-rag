@@ -1,0 +1,117 @@
+{
+  "source_file": "MSFT_FY2025_10-K.pdf",
+  "file_id": "1779921176-msft-fy2025-10-k-8d505c867d",
+  "description": "10 table-focused questions grounded in the first 10 VLM-parsed MSFT FY2025 Item 7 tables (pages 33-40). Use to test text+table-summary retrieval and answer quality.",
+  "questions": [
+    {
+      "id": "msft_tbl_q01",
+      "question": "What cash dividend per share did Microsoft declare in the dividend table shown in its fiscal year 2025 10-K MD&A?",
+      "gold_answer": "$0.83 per share",
+      "gold_answer_numeric": 0.83,
+      "expected_table_ids": ["table_005"],
+      "evaluation": "fuzzy_numeric",
+      "required_modalities": ["pdf", "table"],
+      "difficulty": "easy",
+      "notes": "Dividend declaration table on page 33."
+    },
+    {
+      "id": "msft_tbl_q02",
+      "question": "What was the total dividend amount (in millions) associated with that Microsoft dividend declaration?",
+      "gold_answer": "$6,170 million",
+      "gold_answer_numeric": 6170,
+      "expected_table_ids": ["table_005"],
+      "evaluation": "fuzzy_numeric",
+      "required_modalities": ["pdf", "table"],
+      "difficulty": "easy",
+      "notes": "Same dividend table; tests retrieval of the amount column."
+    },
+    {
+      "id": "msft_tbl_q03",
+      "question": "What was Microsoft's total revenue in fiscal year 2025 according to the MD&A summary results table?",
+      "gold_answer": "$281.7 billion ($281,724 million)",
+      "gold_answer_numeric": 281724000000,
+      "expected_table_ids": ["table_006_merged", "table_013_merged", "table_015_merged"],
+      "evaluation": "fuzzy_numeric",
+      "required_modalities": ["pdf", "table"],
+      "difficulty": "easy",
+      "notes": "Company-wide revenue row."
+    },
+    {
+      "id": "msft_tbl_q04",
+      "question": "What was Microsoft's diluted earnings per share in fiscal year 2025?",
+      "gold_answer": "$13.64",
+      "gold_answer_numeric": 13.64,
+      "expected_table_ids": ["table_006_merged"],
+      "evaluation": "fuzzy_numeric",
+      "required_modalities": ["pdf", "table"],
+      "difficulty": "easy",
+      "notes": "EPS row in the FY2025 vs FY2024 summary table."
+    },
+    {
+      "id": "msft_tbl_q05",
+      "question": "What was Intelligent Cloud revenue in fiscal year 2025?",
+      "gold_answer": "$106.3 billion ($106,265 million)",
+      "gold_answer_numeric": 106265000000,
+      "expected_table_ids": ["table_009_merged", "table_011_merged", "table_013_merged"],
+      "evaluation": "fuzzy_numeric",
+      "required_modalities": ["pdf", "table"],
+      "difficulty": "medium",
+      "notes": "Segment table; multiple merged tables contain this row."
+    },
+    {
+      "id": "msft_tbl_q06",
+      "question": "Which Microsoft reporting segment had the highest revenue percentage growth from fiscal year 2024 to fiscal year 2025, and what was that growth rate?",
+      "gold_answer": "Intelligent Cloud, 21%",
+      "gold_answer_numeric": 21.0,
+      "expected_table_ids": ["table_009_merged", "table_011_merged"],
+      "evaluation": "exact_match_entity",
+      "required_modalities": ["pdf", "table"],
+      "difficulty": "medium",
+      "notes": "Compare PBP 13%, Intelligent Cloud 21%, MPC 7%."
+    },
+    {
+      "id": "msft_tbl_q07",
+      "question": "What was More Personal Computing operating income in fiscal year 2025?",
+      "gold_answer": "$14,166 million",
+      "gold_answer_numeric": 14166000000,
+      "expected_table_ids": ["table_013_merged", "table_015_merged"],
+      "evaluation": "fuzzy_numeric",
+      "required_modalities": ["pdf", "table"],
+      "difficulty": "medium",
+      "notes": "Segment operating income at bottom of segment tables."
+    },
+    {
+      "id": "msft_tbl_q08",
+      "question": "How much did Microsoft spend on research and development in fiscal year 2025, and what percentage of revenue did R&D represent?",
+      "gold_answer": "$32,488 million; 12% of revenue",
+      "gold_answer_numeric": 32488000000,
+      "expected_table_ids": ["table_017"],
+      "evaluation": "fuzzy_numeric",
+      "required_modalities": ["pdf", "table"],
+      "difficulty": "easy",
+      "notes": "Dedicated R&D expense table."
+    },
+    {
+      "id": "msft_tbl_q09",
+      "question": "What were Microsoft's sales and marketing expenses in fiscal year 2025, and what percent of revenue did they represent?",
+      "gold_answer": "$25,654 million; 9% of revenue",
+      "gold_answer_numeric": 25654000000,
+      "expected_table_ids": ["table_018"],
+      "evaluation": "fuzzy_numeric",
+      "required_modalities": ["pdf", "table"],
+      "difficulty": "easy",
+      "notes": "Sales & marketing expense table."
+    },
+    {
+      "id": "msft_tbl_q10",
+      "question": "What was the total other income (expense), net for Microsoft in fiscal year 2025?",
+      "gold_answer": "$(4,901) million",
+      "gold_answer_numeric": -4901000000,
+      "expected_table_ids": ["table_020_merged"],
+      "evaluation": "fuzzy_numeric",
+      "required_modalities": ["pdf", "table"],
+      "difficulty": "medium",
+      "notes": "Other income/expense components table; negative total."
+    }
+  ]
+}

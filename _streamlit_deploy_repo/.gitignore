@@ -1,0 +1,17 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.py[cod]
+*.log
+*.jsonl
+.codeatlas/
+scripts/output/
+dev_answers.json
+inference_flow_diagram.svg
+main/**/*.json
+benchmarks/**/results/
+benchmarks/**/.venv*/
+benchmarks/**/.deps/
