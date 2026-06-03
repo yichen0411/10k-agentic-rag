@@ -8,7 +8,7 @@ import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
-CHUNKING = REPO / "0525_redo" / "chunking"
+CHUNKING = REPO / "main" / "chunking"
 sys.path.insert(0, str(CHUNKING))
 
 WORKSPACE = REPO / "data" / "chunk_studio" / "1779921176-msft-fy2025-10-k-8d505c867d"

@@ -23,12 +23,12 @@ from pydantic import BaseModel, Field
 
 APP_DIR = Path(__file__).resolve().parent
 ROOT = APP_DIR.parent
-AGENT_DIR = ROOT / "0525_redo" / "agent"
-CHUNKING_DIR = ROOT / "0525_redo" / "chunking"
+AGENT_DIR = ROOT / "main" / "agent"
+CHUNKING_DIR = ROOT / "main" / "chunking"
 
 
 def _load_agent_memory_module() -> Any:
-    """Import 0525_redo/agent/agent_memory.py."""
+    """Import main/agent/agent_memory.py."""
     agent_path = str(AGENT_DIR)
     if agent_path not in sys.path:
         sys.path.insert(0, agent_path)

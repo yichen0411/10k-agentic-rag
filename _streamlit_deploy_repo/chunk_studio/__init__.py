@@ -1,1 +1,0 @@
-"""Chunk Studio web app."""

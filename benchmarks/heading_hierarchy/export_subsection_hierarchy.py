@@ -11,7 +11,7 @@ from typing import Any
 
 BENCH_ROOT = Path(__file__).resolve().parent
 REPO_ROOT = BENCH_ROOT.parents[1]
-CHUNKING_DIR = REPO_ROOT / "0525_redo" / "chunking"
+CHUNKING_DIR = REPO_ROOT / "main" / "chunking"
 sys.path.insert(0, str(CHUNKING_DIR))
 
 from toc_guided_section_probe import build_subsection_path, subsection_level  # noqa: E402

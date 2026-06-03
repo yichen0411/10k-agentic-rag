@@ -10,9 +10,9 @@
 
 - `chunk_studio/server.py` — FastAPI 后端、视觉表格检测器、裁剪渲染
 - `chunk_studio/static/index.html` — 单页 UI
-- `0525_redo/chunking/` — 原有分节、资产提取、分块构建流水线，由 Chunk Studio 复用
+- `main/chunking/` — 原有分节、资产提取、分块构建流水线，由 Chunk Studio 复用
 
-更广泛的 RAG 分块与推理设计，请参阅 `0525_redo/CHUNKING_AND_INFERENCE_DESIGN.md`。
+更广泛的 RAG 分块与推理设计，请参阅 `main/CHUNKING_AND_INFERENCE_DESIGN.md`。
 
 ---
 
@@ -35,14 +35,14 @@ UI
   -> optional Q&A
 ```
 
-Chunk Studio 是在现有 `0525_redo` 流水线之上的轻量产品层：
+Chunk Studio 是在现有 `main` 流水线之上的轻量产品层：
 
 1. **分节（Sectioning）** — 目录引导的 TOC + 正文标题检测（`toc_guided_section_probe.py`）
 2. **资产提取（Asset extraction）** — PyMuPDF `find_tables()` + 图像提取（`section_asset_extractor.py`）
 3. **分块构建（Chunk building）** — 仅文本的 RAG 分块，含表格/图像引用（`rag_chunk_builder.py`）
 4. **视觉表格服务（Visual table serving）** — API 调用时的列对齐检测器（`chunk_studio/server.py`）
-5. **离线 VLM 表格解析（Offline VLM table parse）** — 表格裁剪 → markdown + 摘要（`0525_redo/chunking/vlm_table_parse.py`）
-6. **问答推理（Q&A inference）** — 文本 + 表格摘要双路径检索（`0525_redo/inference/text_vector_rag_inference.py`）
+5. **离线 VLM 表格解析（Offline VLM table parse）** — 表格裁剪 → markdown + 摘要（`main/chunking/vlm_table_parse.py`）
+6. **问答推理（Q&A inference）** — 文本 + 表格摘要双路径检索（`main/inference/text_vector_rag_inference.py`）
 
 重要分工：
 
@@ -437,7 +437,7 @@ y1 = bbox.bottom + 76/96pt padding
 - 重新加载后图像 URL 含 cache-bust 查询参数
 - 无自定义滚动滑条；仅原生/触控板滚动
 
-问答使用 `0525_redo/CHUNKING_AND_INFERENCE_DESIGN.md` 中记录的双路径推理流水线：
+问答使用 `main/CHUNKING_AND_INFERENCE_DESIGN.md` 中记录的双路径推理流水线：
 
 ```text
 text path:   top10 -> text rerank top3 -> expand preamble/neighbors/refs
@@ -487,8 +487,8 @@ Chunk Studio `/api/files/{id}/ask` 参数包括：
 
 脚本：
 
-- `0525_redo/chunking/vlm_table_parse.py`
-- `0525_redo/chunking/build_table_vector_db.py`
+- `main/chunking/vlm_table_parse.py`
+- `main/chunking/build_table_vector_db.py`
 
 各阶段多模态模型的推荐使用：
 
@@ -742,8 +742,8 @@ continuation body crop
 
 评估产物：
 
-- `0525_redo/inference/msft_fy2025_table_test_eval_v2.json`
-- `0525_redo/inference/msft_fy2025_table_test_eval_v2.jsonl`
+- `main/inference/msft_fy2025_table_test_eval_v2.json`
+- `main/inference/msft_fy2025_table_test_eval_v2.jsonl`
 
 视觉表格由 `/api/files/{file_id}/assets` 实时提供，无需重新处理。VLM 解析结果位于 `assets.json`。
 
@@ -753,7 +753,7 @@ continuation body crop
 
 独立页面：**http://127.0.0.1:8010/agent**（Chunk Studio 顶栏与文件卡片也有入口）。
 
-基于 LangChain（`0525_redo/agent/langchain_agent.py`），工具：
+基于 LangChain（`main/agent/langchain_agent.py`），工具：
 
 | 工具 | 作用 |
 |------|------|
@@ -764,7 +764,7 @@ continuation body crop
 ### API
 
 - 流式：`POST /api/files/{file_id}/agent/trace/stream`（NDJSON），经 `agent_bridge.py`。
-- Agent / Memory 流水线：`0525_redo/agent/README.md`、`MEMORY_DESIGN.zh.md`。
+- Agent / Memory 流水线：`main/agent/README.md`、`MEMORY_DESIGN.zh.md`。
 
 ### 前置条件
 
@@ -785,11 +785,11 @@ SMTP_USE_TLS=true
 - **App password**（应用专用密码）≠ 登录密码 ≠ Passkey。
 - `SMTP_FROM` / `SMTP_USER` 填同一个 Gmail。
 
-详见 `0525_redo/agent/README.md`（路由逻辑、SQL/RAG 无结果时的行为）。
+详见 `main/agent/README.md`（路由逻辑、SQL/RAG 无结果时的行为）。
 
 ### 路由说明
 
-每一步由模型根据工具说明和上一步 observation 决定（见 `0525_redo/agent/README.md`）。
+每一步由模型根据工具说明和上一步 observation 决定（见 `main/agent/README.md`）。
 
 ---
 
@@ -823,7 +823,7 @@ http://127.0.0.1:8010/agent     # Agent 问答
 
 若继续本产品，最有价值的跟进项：
 
-1. 将列对齐检测器从 `server.py` 移到 `0525_redo/chunking/visual_table_detector.py`
+1. 将列对齐检测器从 `server.py` 移到 `main/chunking/visual_table_detector.py`
 2. 处理时持久化 `visual_regions.json`，而非在 API 时计算
 3. 通过重叠/页/section 将视觉区域关联到 chunks，而非解析碎片引用
 4. 在 UI 增加调试叠加模式，显示检测到的行 anchor 与区域 bbox

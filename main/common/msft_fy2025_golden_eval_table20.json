@@ -1,0 +1,296 @@
+{
+  "source_file": "MSFT_FY2025_10-K.pdf",
+  "file_id": "1779921176-msft-fy2025-10-k-8d505c867d",
+  "description": "20-question MSFT FY2025 table-only golden eval set.",
+  "generation": {
+    "seed": 3025,
+    "table_n": 20,
+    "text_db_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/index/vectors.db",
+    "assets_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/assets.json",
+    "table_db_path": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/data/chunk_studio/1779921176-msft-fy2025-10-k-8d505c867d/index/table_vectors.db",
+    "excluded_from": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/main/common/msft_fy2025_golden_eval_50.json",
+    "chat_model": "claude-haiku-4-5-20251001"
+  },
+  "questions": [
+    {
+      "question_type": "table",
+      "ground_truth_chunk_id": "table_group_055",
+      "ground_truth_text_chunk_id": "text_00209",
+      "ground_truth_chunk_content": "Item 8 > Financial Statements and Supplementary Data > Activity for All Stock Plans · Stock awards activity reconciliation showing nonvested shares and weighted average grant-date fair values for fiscal year 2025 Shares (In millions) **Stock Awards** Nonvested balance beginning of year Granted⁽ᵃ⁾ Vested Forfeited **Nonvested balance end of year**",
+      "question": "What was the weighted average grant-date fair value of stock awards that vested during the fiscal year?",
+      "expected_answer": "$293.25",
+      "paraphrase_of_chunk": false,
+      "gold_answer_numeric": 293.25,
+      "expected_table_ids": [
+        "table_group_055"
+      ],
+      "question_id": "tq001"
+    },
+    {
+      "question_type": "table",
+      "ground_truth_chunk_id": "table_group_003",
+      "ground_truth_text_chunk_id": "text_00097",
+      "ground_truth_chunk_content": "Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > SUMMARY RESULTS OF OPERATIONS · Consolidated summary results of operations with revenue, gross margin, operating income, net income, and diluted EPS for FY2025 vs FY2024 Revenue Gross margin Operating income Net income Diluted earnings per share",
+      "question": "What was the company's gross margin in 2025?",
+      "expected_answer": "$193,893 million",
+      "paraphrase_of_chunk": false,
+      "gold_answer_numeric": 193893000000.0,
+      "expected_table_ids": [
+        "table_group_003"
+      ],
+      "question_id": "tq002"
+    },
+    {
+      "question_type": "table",
+      "ground_truth_chunk_id": "table_group_059",
+      "ground_truth_text_chunk_id": "text_00084",
+      "ground_truth_chunk_content": "Item 5 > Market for Registrant’s Common Equity, Related Stockholder Matters, and Issuer Purchases of Equity Securities > SHARE REPURCHASES AND DIVIDENDS · Quarterly dividend declaration for Q4 fiscal year 2025 with payment dates and per-share amounts Declaration Date June",
+      "question": "What was the total amount paid out in dividends according to the most recent declaration in 2025?",
+      "expected_answer": "$6,170 million",
+      "paraphrase_of_chunk": false,
+      "gold_answer_numeric": 6170.0,
+      "expected_table_ids": [
+        "table_group_059"
+      ],
+      "question_id": "tq003"
+    },
+    {
+      "question_type": "table",
+      "ground_truth_chunk_id": "table_group_001",
+      "ground_truth_text_chunk_id": "text_00079",
+      "ground_truth_chunk_content": "Item 2 > Properties · Real estate properties portfolio by location and ownership type, totaling 97 million square feet across U.S. and international facilities U.S. International **Total**",
+      "question": "How many million square feet of leased properties does the company operate internationally?",
+      "expected_answer": "27 million square feet",
+      "paraphrase_of_chunk": false,
+      "gold_answer_numeric": 27.0,
+      "expected_table_ids": [
+        "table_group_001"
+      ],
+      "question_id": "tq004"
+    },
+    {
+      "question_type": "table",
+      "ground_truth_chunk_id": "table_group_009",
+      "ground_truth_text_chunk_id": null,
+      "ground_truth_chunk_content": "Item 7A > Quantitative and Qualitative Disclosures About Market Risk > Equity · Consolidated income statement with revenue, cost of revenue, operating expenses, and operating income for fiscal years 2025, 2024, and 2023 Year Ended June **Revenue:** Product Service and other **Total revenue** **Cost of revenue:** **Total cost of revenue** **Gross margin** Research and development Sales and marketing",
+      "question": "What was the research and development expense for the fiscal year ended June 30, 2025?",
+      "expected_answer": "$32,488 million",
+      "paraphrase_of_chunk": false,
+      "gold_answer_numeric": 32488.0,
+      "expected_table_ids": [
+        "table_group_009"
+      ],
+      "question_id": "tq005"
+    },
+    {
+      "question_type": "table",
+      "ground_truth_chunk_id": "table_group_039",
+      "ground_truth_text_chunk_id": "text_00194",
+      "ground_truth_chunk_content": "Item 8 > Financial Statements and Supplementary Data > Effective Tax Rate · Effective tax rate reconciliation from U.S. federal statutory rate to actual effective rate, FY2025 vs FY2024 vs FY2023 Year Ended June Federal statutory rate Effect of: Foreign earnings taxed at lower rates Foreign-derived intangible income deduction State income taxes net of federal benefit Research and development credit Excess tax benefits relating to stock-based compensation Interest net Other reconciling items net",
+      "question": "What was the company's effective tax rate for the fiscal year ended June 30, 2025?",
+      "expected_answer": "17.6%",
+      "paraphrase_of_chunk": false,
+      "gold_answer_numeric": 17.6,
+      "expected_table_ids": [
+        "table_group_039"
+      ],
+      "question_id": "tq006"
+    },
+    {
+      "question_type": "table",
+      "ground_truth_chunk_id": "table_group_005",
+      "ground_truth_text_chunk_id": "text_00109",
+      "ground_truth_chunk_content": "Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > OTHER INCOME (EXPENSE), NET · Other income (expense), net components including interest, investment losses, derivatives, and foreign currency impacts for fiscal years 2025 and 2024 Interest and dividends income Interest expense Net recognized losses on investments Net losses on derivatives Net gains (losses) on foreign currency remeasurements Other net **Total**",
+      "question": "What was the net recognized loss on investments for the fiscal year ended June 30, 2025?",
+      "expected_answer": "$349 million",
+      "paraphrase_of_chunk": false,
+      "gold_answer_numeric": 349.0,
+      "expected_table_ids": [
+        "table_group_005"
+      ],
+      "question_id": "tq007"
+    },
+    {
+      "question_type": "table",
+      "ground_truth_chunk_id": "table_group_002",
+      "ground_truth_text_chunk_id": "text_00084",
+      "ground_truth_chunk_content": "Item 5 > Market for Registrant’s Common Equity, Related Stockholder Matters, and Issuer Purchases of Equity Securities > SHARE REPURCHASES AND DIVIDENDS · Monthly share repurchases for Q4 fiscal year 2025, including shares purchased, average prices, and remaining authorization under the program Period April – April May – May June – June **Total**",
+      "question": "What was the average price paid per share during the May 2025 repurchase period?",
+      "expected_answer": "$448.01",
+      "paraphrase_of_chunk": false,
+      "gold_answer_numeric": 448.01,
+      "expected_table_ids": [
+        "table_group_002"
+      ],
+      "question_id": "tq008"
+    },
+    {
+      "question_type": "table",
+      "ground_truth_chunk_id": "table_group_062",
+      "ground_truth_text_chunk_id": "text_00184",
+      "ground_truth_chunk_content": "Item 8 > Financial Statements and Supplementary Data > Credit-Risk-Related Contingent Features · Derivative instruments portfolio including foreign exchange, interest rate, equity, and other contracts designated as hedging instruments, June 30, 2025 vs 2024 **Designated as Hedging Instruments** Foreign exchange contracts purchased Interest rate contracts purchased **Foreign exchange contracts purchased** **Foreign exchange contracts sold** **Equity contracts purchased** **Equity contracts sold** **Other contracts purchased** **Other contracts sold**",
+      "question": "What was the notional value of foreign exchange contracts sold as of June 30, 2025?",
+      "expected_answer": "$43,307 million",
+      "paraphrase_of_chunk": false,
+      "gold_answer_numeric": 43307000000.0,
+      "expected_table_ids": [
+        "table_group_062"
+      ],
+      "question_id": "tq009"
+    },
+    {
+      "question_type": "table",
+      "ground_truth_chunk_id": "table_group_007",
+      "ground_truth_text_chunk_id": "text_00119",
+      "ground_truth_chunk_content": "Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > Contractual Obligations · Consolidated contractual obligations and cash requirements by fiscal year through 2026 and thereafter, including debt, leases, construction, and purchase commitments **Long-term debt:** Principal payments Interest payments Construction commitments Operating and finance leases including imputed interest Purchase commitments **Total**",
+      "question": "What are the total purchase commitments the company has for 2026?",
+      "expected_answer": "$103,940 million",
+      "paraphrase_of_chunk": false,
+      "gold_answer_numeric": 103940.0,
+      "expected_table_ids": [
+        "table_group_007"
+      ],
+      "question_id": "tq010"
+    },
+    {
+      "question_type": "table",
+      "ground_truth_chunk_id": "table_154",
+      "ground_truth_text_chunk_id": "text_00185",
+      "ground_truth_chunk_content": "Item 8 > Financial Statements and Supplementary Data > Fair Values of Derivative Instruments · Gains (losses) on foreign exchange derivative instruments designated as cash flow hedges, net of tax, for fiscal years 2025, 2024, and 2023 **Designated as Cash Flow Hedging Instruments** **Foreign exchange contracts** Included in effectiveness assessment",
+      "question": "What was the fair value of foreign exchange contracts included in the effectiveness assessment for cash flow hedging instruments in 2025?",
+      "expected_answer": "$77 million",
+      "paraphrase_of_chunk": false,
+      "gold_answer_numeric": 77.0,
+      "expected_table_ids": [
+        "table_154"
+      ],
+      "question_id": "tq011"
+    },
+    {
+      "question_type": "table",
+      "ground_truth_chunk_id": "table_group_004",
+      "ground_truth_text_chunk_id": "text_00099",
+      "ground_truth_chunk_content": "Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > SEGMENT RESULTS OF OPERATIONS · Segment results of operations by business division showing revenue, cost of revenue, operating expenses, and operating income for FY2025 vs FY2024 **Productivity and Business Processes** Revenue Cost of revenue Operating expenses Operating Income **Intelligent Cloud** **More Personal Computing** **Total**",
+      "question": "What was the operating income for the Intelligent Cloud segment in fiscal year 2025?",
+      "expected_answer": "$44,589 million",
+      "paraphrase_of_chunk": false,
+      "gold_answer_numeric": 44589000000.0,
+      "expected_table_ids": [
+        "table_group_004"
+      ],
+      "question_id": "tq012"
+    },
+    {
+      "question_type": "table",
+      "ground_truth_chunk_id": "table_group_058",
+      "ground_truth_text_chunk_id": "text_00215",
+      "ground_truth_chunk_content": "Item 8 > Financial Statements and Supplementary Data > More Personal Computing · Revenue by significant product and service offerings across major business segments, FY2025 vs FY2024 vs FY2023 Server products and cloud services Microsoft Commercial products and cloud services Gaming LinkedIn Windows and Devices Search and news advertising Dynamics products and cloud services Enterprise and partner services Microsoft Consumer products and cloud services Other",
+      "question": "What were the total revenues from Server products and cloud services in fiscal year 2025?",
+      "expected_answer": "$98,435 million",
+      "paraphrase_of_chunk": false,
+      "gold_answer_numeric": 98435000000.0,
+      "expected_table_ids": [
+        "table_group_058"
+      ],
+      "question_id": "tq013"
+    },
+    {
+      "question_type": "table",
+      "ground_truth_chunk_id": "table_019",
+      "ground_truth_text_chunk_id": "text_00107",
+      "ground_truth_chunk_content": "Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > General and Administrative · General and administrative expenses and percent of revenue comparison, FY2025 vs FY2024 General and administrative As a percent of revenue",
+      "question": "What were the general and administrative expenses in 2025?",
+      "expected_answer": "$7,223 million",
+      "paraphrase_of_chunk": false,
+      "gold_answer_numeric": 7223000000.0,
+      "expected_table_ids": [
+        "table_019"
+      ],
+      "question_id": "tq014"
+    },
+    {
+      "question_type": "table",
+      "ground_truth_chunk_id": "table_group_048",
+      "ground_truth_text_chunk_id": "text_00197",
+      "ground_truth_chunk_content": "Item 8 > Financial Statements and Supplementary Data > NOTE 13 — LEASES · Lease liability maturities schedule by operating and finance leases, fiscal years 2026-2030 and thereafter, as of June 30, 2025 Weighted Average Discount Rate Operating leases Finance leases Year Ending June Thereafter **Total lease payments** Less imputed interest **Total**",
+      "question": "What is the total amount of finance lease payments due in the year ending June 30, 2026?",
+      "expected_answer": "$5,008 million",
+      "paraphrase_of_chunk": false,
+      "gold_answer_numeric": 5008.0,
+      "expected_table_ids": [
+        "table_group_048"
+      ],
+      "question_id": "tq015"
+    },
+    {
+      "question_type": "table",
+      "ground_truth_chunk_id": "table_group_060",
+      "ground_truth_text_chunk_id": "text_00118",
+      "ground_truth_chunk_content": "Item 7 > Management’s Discussion and Analysis of Financial Condition and Results of Operations > Unearned Revenue · Expected future recognition of unearned revenue by quarter through June 2026 and thereafter as of June 30, 2025 Three Months Ending September December March June Thereafter **Total**",
+      "question": "What is the total amount of unearned revenue expected to be recognized in the future across all periods?",
+      "expected_answer": "$67,265 million",
+      "paraphrase_of_chunk": false,
+      "gold_answer_numeric": 67265000000.0,
+      "expected_table_ids": [
+        "table_group_060"
+      ],
+      "question_id": "tq016"
+    },
+    {
+      "question_type": "table",
+      "ground_truth_chunk_id": "table_group_013",
+      "ground_truth_text_chunk_id": "text_00143",
+      "ground_truth_chunk_content": "Item 8 > Financial Statements and Supplementary Data > CASH FLOWS STATEMENTS · Consolidated cash flows statement showing operating, financing, and investing activities for fiscal years 2025, 2024, and 2023 **Operations** Net income Adjustments to reconcile net income to net cash from operations: Depreciation amortization and other Stock-based compensation expense Net recognized losses on investments and derivatives Deferred income taxes Changes in operating assets and liabilities: Accounts receivable Inventories",
+      "question": "What was the total amount of cash generated from operating activities in fiscal year 2025?",
+      "expected_answer": "$136,162 million",
+      "paraphrase_of_chunk": false,
+      "gold_answer_numeric": 136162000000.0,
+      "expected_table_ids": [
+        "table_group_013"
+      ],
+      "question_id": "tq017"
+    },
+    {
+      "question_type": "table",
+      "ground_truth_chunk_id": "table_group_029",
+      "ground_truth_text_chunk_id": "text_00187",
+      "ground_truth_chunk_content": "Item 8 > Financial Statements and Supplementary Data > NOTE 7 — BUSINESS COMBINATIONS · Intangible assets allocation and pro forma consolidated financial results for Activision Blizzard acquisition, FY2024 vs FY2023 Marketing-related Technology-based Customer-related **Fair value of intangible assets acquired** Revenue Net income",
+      "question": "What was the fair value of marketing-related intangible assets acquired in the business combination?",
+      "expected_answer": "$11,619 million",
+      "paraphrase_of_chunk": false,
+      "gold_answer_numeric": 11619000000.0,
+      "expected_table_ids": [
+        "table_group_029"
+      ],
+      "question_id": "tq018"
+    },
+    {
+      "question_type": "table",
+      "ground_truth_chunk_id": "table_group_017",
+      "ground_truth_text_chunk_id": "text_00175",
+      "ground_truth_chunk_content": "Item 8 > Financial Statements and Supplementary Data > Net Recognized Gains (Losses) on Investments · Net recognized gains (losses) on equity investments by component: realized gains, unrealized gains, and impairments for fiscal years 2025, 2024, and 2023 Year Ended June Net realized gains on investments sold Net unrealized gains on investments still held Impairments of investments **Total**",
+      "question": "What was the total net recognized loss on investments for the fiscal year ended June 30, 2025?",
+      "expected_answer": "$(332) million",
+      "paraphrase_of_chunk": false,
+      "gold_answer_numeric": -332.0,
+      "expected_table_ids": [
+        "table_group_017"
+      ],
+      "question_id": "tq019"
+    },
+    {
+      "question_type": "table",
+      "ground_truth_chunk_id": "table_group_051",
+      "ground_truth_text_chunk_id": "text_00202",
+      "ground_truth_chunk_content": "Item 8 > Financial Statements and Supplementary Data > Dividends · Quarterly dividend declarations with per-share amounts and total cash disbursements for fiscal years 2025 and 2024 Declaration Date **Fiscal Year ** September December March June **Total** November",
+      "question": "What was the total dividend amount paid to shareholders during fiscal year 2025?",
+      "expected_answer": "$24,678 million",
+      "paraphrase_of_chunk": false,
+      "gold_answer_numeric": 24678000000.0,
+      "expected_table_ids": [
+        "table_group_051"
+      ],
+      "question_id": "tq020"
+    }
+  ]
+}

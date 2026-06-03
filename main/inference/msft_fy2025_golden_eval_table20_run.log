@@ -1,0 +1,202 @@
+[1/20] tq001 table
+[2/20] tq002 table
+[3/20] tq003 table
+[4/20] tq004 table
+[5/20] tq005 table
+[6/20] tq006 table
+[7/20] tq007 table
+[8/20] tq008 table
+[9/20] tq009 table
+[10/20] tq010 table
+[11/20] tq011 table
+[12/20] tq012 table
+[13/20] tq013 table
+[14/20] tq014 table
+[15/20] tq015 table
+[16/20] tq016 table
+[17/20] tq017 table
+[18/20] tq018 table
+[19/20] tq019 table
+[20/20] tq020 table
+{
+  "n": 20,
+  "retrieval": {
+    "recall_ks": [
+      1,
+      3,
+      5,
+      10,
+      15
+    ],
+    "eval_top_k": 15,
+    "text_questions": {
+      "n": 0,
+      "vector": {
+        "recall_at_1": null,
+        "recall_at_3": null,
+        "recall_at_5": null,
+        "recall_at_10": null,
+        "recall_at_15": null
+      },
+      "bm25": {
+        "recall_at_1": null,
+        "recall_at_3": null,
+        "recall_at_5": null,
+        "recall_at_10": null,
+        "recall_at_15": null
+      },
+      "merged": {
+        "recall_at_1": null,
+        "recall_at_3": null,
+        "recall_at_5": null,
+        "recall_at_10": null,
+        "recall_at_15": null
+      },
+      "best_of_vector_bm25": {
+        "recall_at_1": null,
+        "recall_at_3": null,
+        "recall_at_5": null,
+        "recall_at_10": null,
+        "recall_at_15": null
+      }
+    },
+    "table_questions": {
+      "n": 20,
+      "table_vector": {
+        "recall_at_1": 0.55,
+        "recall_at_3": 0.85,
+        "recall_at_5": 0.95,
+        "recall_at_10": 1.0,
+        "recall_at_15": 1.0
+      }
+    },
+    "fusion_gain_at_k": {
+      "at_1": 0.0,
+      "at_3": -0.1,
+      "at_5": -0.05,
+      "at_10": -0.1,
+      "at_15": -0.05
+    }
+  },
+  "text_merged_recall_at_1": null,
+  "table_vector_recall_at_1": 0.55,
+  "text_merged_recall_at_3": null,
+  "table_vector_recall_at_3": 0.85,
+  "text_merged_recall_at_5": null,
+  "table_vector_recall_at_5": 0.95,
+  "text_merged_recall_at_10": null,
+  "table_vector_recall_at_10": 1.0,
+  "text_merged_recall_at_15": null,
+  "table_vector_recall_at_15": 1.0,
+  "rerank": {
+    "rerank_top_n": 3,
+    "overall": {
+      "in_merged_pool_rate": 0.65,
+      "in_rerank_top3_rate": 0.6,
+      "kick_out_rate": 0.05,
+      "position_improvement_mean": 2.1667,
+      "post_rerank_recall": {
+        "recall_at_1": 0.35,
+        "recall_at_3": 0.6,
+        "recall_at_5": 0.6,
+        "recall_at_10": 0.6,
+        "recall_at_15": 0.6
+      }
+    },
+    "text_questions": null
+  },
+  "ragas": {
+    "overall": {
+      "faithfulness": 4.65,
+      "answer_relevancy": 4.8,
+      "context_precision": 4.6,
+      "reference_coverage": 4.6,
+      "llm_judge_score": 4.85
+    },
+    "text_questions": null
+  },
+  "rerank_kick_out_rate": 0.05,
+  "rerank_position_improvement_mean": 2.1667,
+  "mean_faithfulness": 4.65,
+  "mean_answer_relevancy": 4.8,
+  "mean_context_precision": 4.6,
+  "mean_reference_coverage": 4.6,
+  "mean_llm_judge_score": 4.85,
+  "by_question_type": {
+    "table": {
+      "n": 20,
+      "retrieval": {
+        "vector": {
+          "recall_at_1": 0.2,
+          "recall_at_3": 0.4,
+          "recall_at_5": 0.5,
+          "recall_at_10": 0.55,
+          "recall_at_15": 0.6
+        },
+        "bm25": {
+          "recall_at_1": 0.2,
+          "recall_at_3": 0.3,
+          "recall_at_5": 0.4,
+          "recall_at_10": 0.55,
+          "recall_at_15": 0.55
+        },
+        "merged": {
+          "recall_at_1": 0.2,
+          "recall_at_3": 0.4,
+          "recall_at_5": 0.5,
+          "recall_at_10": 0.55,
+          "recall_at_15": 0.6
+        },
+        "best_of_vector_bm25": null,
+        "table_vector": {
+          "recall_at_1": 0.55,
+          "recall_at_3": 0.85,
+          "recall_at_5": 0.95,
+          "recall_at_10": 1.0,
+          "recall_at_15": 1.0
+        }
+      },
+      "rerank": {
+        "in_merged_pool_rate": 0.65,
+        "in_rerank_top3_rate": 0.6,
+        "kick_out_rate": 0.05,
+        "position_improvement_mean": 2.1667,
+        "post_rerank_recall": {
+          "recall_at_1": 0.35,
+          "recall_at_3": 0.6,
+          "recall_at_5": 0.6,
+          "recall_at_10": 0.6,
+          "recall_at_15": 0.6
+        }
+      },
+      "ragas": {
+        "faithfulness": 4.65,
+        "answer_relevancy": 4.8,
+        "context_precision": 4.6,
+        "reference_coverage": 4.6,
+        "llm_judge_score": 4.85
+      }
+    }
+  },
+  "latency": {
+    "mean_load_sec": 0.0595,
+    "mean_vector_search_sec": 0.5312,
+    "mean_rerank_sec": 0.5478,
+    "mean_context_expansion_sec": 0.0015,
+    "mean_answer_sec": 3.2853,
+    "mean_judge_sec": 4.5247,
+    "mean_total_sec": 10.0418
+  },
+  "latency_by_question_type": {
+    "table": {
+      "mean_load_sec": 0.0595,
+      "mean_vector_search_sec": 0.5312,
+      "mean_rerank_sec": 0.5478,
+      "mean_context_expansion_sec": 0.0015,
+      "mean_answer_sec": 3.2853,
+      "mean_judge_sec": 4.5247,
+      "mean_total_sec": 10.0418
+    }
+  }
+}
+wrote main/inference/msft_fy2025_golden_eval_table20_results.json

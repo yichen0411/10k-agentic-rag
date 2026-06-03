@@ -14,7 +14,7 @@ from typing import Any
 
 BENCH_ROOT = Path(__file__).resolve().parent
 REPO_ROOT = BENCH_ROOT.parents[1]
-CHUNKING_DIR = REPO_ROOT / "0525_redo" / "chunking"
+CHUNKING_DIR = REPO_ROOT / "main" / "chunking"
 DEFAULT_PDF = REPO_ROOT / "data" / "chunk_studio" / "1779921176-msft-fy2025-10-k-8d505c867d" / "source.pdf"
 DEFAULT_SECTIONS = DEFAULT_PDF.parent / "sections.json"
 

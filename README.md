@@ -1,4 +1,4 @@
-# 10-K Agentic RAG (0525_redo + Chunk Studio)
+# 10-K Agentic RAG (main + Chunk Studio)
 
 Local stack for Apple / Microsoft / Alphabet: **Chunk Studio** (PDF chunking + UI) and **LangChain agent** (SQL + 10-K RAG + email).
 
@@ -6,10 +6,10 @@ Local stack for Apple / Microsoft / Alphabet: **Chunk Studio** (PDF chunking + U
 
 | Path | Role |
 |------|------|
-| `0525_redo/agent/` | LangChain agent, tools, prompts, **session memory** |
-| `0525_redo/chunking/` | Sectioning, assets, RAG chunk build (used by Chunk Studio) |
-| `0525_redo/inference/` | Vector RAG answer pipeline |
-| `0525_redo/sql/` | Text-to-SQL over `data/financials.db` |
+| `main/agent/` | LangChain agent, tools, prompts, **session memory** |
+| `main/chunking/` | Sectioning, assets, RAG chunk build (used by Chunk Studio) |
+| `main/inference/` | Vector RAG answer pipeline |
+| `main/sql/` | Text-to-SQL over `data/financials.db` |
 | `chunk_studio/` | Web UI: chunk browser + `/agent` Q&A |
 | `data/` | SQLite DB, PDFs, chunk_studio workspaces |
 
@@ -38,52 +38,19 @@ python -m uvicorn chunk_studio.server:app --host 127.0.0.1 --port 8010
 ## CLI (no UI)
 
 ```bash
-python 0525_redo/agent/agent.py "Which segment grew closest to MSFT revenue growth?"
-python 0525_redo/agent/agent.py "..." --json --max-steps 6
+python main/agent/agent.py "Which segment grew closest to MSFT revenue growth?"
+python main/agent/agent.py "..." --json --max-steps 6
 ```
-
-## MCP Server
-
-Expose the same financial research capabilities to MCP clients such as Cursor or
-Claude Desktop:
-
-```bash
-/usr/local/bin/python3.10 -m venv .venv-mcp
-.venv-mcp/bin/python -m pip install -r starter/requirements.txt
-.venv-mcp/bin/python financial_research_mcp.py
-```
-
-Example local MCP config:
-
-```json
-{
-  "mcpServers": {
-    "financial-research-agent": {
-      "command": "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/.venv-mcp/bin/python",
-      "args": [
-        "/Users/xinyichen/Downloads/fireworks_takehome/agentic-rag-takehome-fw/financial_research_mcp.py"
-      ]
-    }
-  }
-}
-```
-
-Tools exposed:
-
-- `list_available_filings` — show indexed filings and RAG index health.
-- `ask_financial_db` — query the local financial SQLite database.
-- `ask_10k_rag` — retrieve 10-K filing evidence with optional ticker/year filters.
-- `run_financial_research_agent` — run the full SQL + RAG agent and return trace steps.
 
 ## Docs
 
-- `0525_redo/agent/README.md` — routing, tools, memory, SMTP
-- `0525_redo/CHUNKING_AND_INFERENCE_DESIGN.md` — chunking + RAG pipeline
+- `main/agent/README.md` — routing, tools, memory, SMTP
+- `main/CHUNKING_AND_INFERENCE_DESIGN.md` — chunking + RAG pipeline
 - `chunk_studio/DESIGN.md` — Chunk Studio + agent API
-- `0525_redo/agent/MEMORY_DESIGN.zh.md` — session memory architecture
+- `main/agent/MEMORY_DESIGN.zh.md` — session memory architecture
 
 ## Tests
 
 ```bash
-python3 0525_redo/agent/test_memory_multiturn.py
+python3 main/agent/test_memory_multiturn.py
 ```
