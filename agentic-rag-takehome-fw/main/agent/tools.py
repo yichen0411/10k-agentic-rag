@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import inspect
+import re
 import sys
 import time
 from pathlib import Path
@@ -20,6 +21,13 @@ for path in [str(SQL_DIR), str(INFERENCE_DIR), str(CHUNKING_DIR), str(PROJECT_RO
 
 from text_to_sql import answer_sql_question  # noqa: E402
 from filing_metadata import normalize_filter_values  # noqa: E402
+from filing_scope import (  # noqa: E402
+    comparative_table_retrieval_query,
+    discover_indexed_filing_years,
+    extract_metric_years,
+    resolve_filing_year_filter,
+    should_retry_with_newer_filing,
+)
 from text_vector_rag_inference import (  # noqa: E402
     DEFAULT_ASSETS,
     DEFAULT_CHAT_MODEL,
@@ -59,7 +67,23 @@ INSUFFICIENT_ANSWER_MARKERS = (
     "insufficient context",
     "cannot determine",
     "unable to determine",
+    "not broken down",
+    "does not break down",
+    "does not allocate",
+    "what's not available",
 )
+
+
+def _normalize_single_filing_year(value: str | list[str] | None) -> str | None:
+    cleaned = normalize_filter_values(_coerce_scope_filter(value), kind="fiscal_year")
+    if isinstance(cleaned, list):
+        return cleaned[0] if len(cleaned) == 1 else None
+    return cleaned
+
+
+def _available_filing_years(db_path: Path | None) -> list[str]:
+    return discover_indexed_filing_years(db_path)
+
 
 def _looks_insufficient_answer(answer: str | None) -> bool:
     text = (answer or "").lower()
@@ -334,12 +358,21 @@ def run_rag_tool(
     """Answer a filing/PDF question through vector RAG inference."""
     start = time.perf_counter()
     ticker_filter = normalize_filter_values(_coerce_scope_filter(ticker), kind="ticker")
-    fiscal_year_filter = normalize_filter_values(_coerce_scope_filter(fiscal_year), kind="fiscal_year")
+    available_filing_years = _available_filing_years(db_path)
+    requested_filing_year = _normalize_single_filing_year(fiscal_year)
+    resolved_filing_year, filing_resolution = resolve_filing_year_filter(
+        question,
+        requested_filing_year,
+        available_filing_years=available_filing_years,
+    )
+    fiscal_year_filter = [resolved_filing_year] if resolved_filing_year else None
     tool_input = {
         "question": question,
         "ticker": ticker_filter,
         "fiscal_year": fiscal_year_filter,
     }
+    if filing_resolution:
+        tool_input["filing_year_resolved"] = filing_resolution
     if _is_multi_filter(ticker_filter) or _is_multi_filter(fiscal_year_filter):
         return {
             "tool": "rag",
@@ -354,8 +387,20 @@ def run_rag_tool(
             ),
         }
     try:
+        initial_retrieval_query = None
+        if (
+            filing_resolution
+            and filing_resolution.get("reason")
+            in {"metric_year_not_indexed_as_filing", "metric_year_older_than_filing_scope"}
+            and _supports_retrieval_query()
+        ):
+            initial_retrieval_query = comparative_table_retrieval_query(
+                question,
+                extract_metric_years(question),
+            )
         result = _run_rag_pipeline(
             question,
+            retrieval_query=initial_retrieval_query,
             db_path=db_path,
             assets_path=assets_path,
             table_db_path=table_db_path,
@@ -369,6 +414,8 @@ def run_rag_tool(
             fiscal_year_filter=fiscal_year_filter,
         )
         fallback_trace: list[dict[str, Any]] = list(result.get("fallback_trace") or [])
+        if filing_resolution:
+            fallback_trace.insert(0, filing_resolution)
         sufficiency_check = result.get("sufficiency_check")
         if isinstance(sufficiency_check, dict) and sufficiency_check.get("sufficient") is False:
             status = "insufficient_context"
@@ -410,6 +457,51 @@ def run_rag_tool(
                 status = "fallback_success"
             else:
                 status = "insufficient_context"
+        if (
+            _looks_insufficient_answer(result.get("answer"))
+            and _supports_retrieval_query()
+        ):
+            current_filing = fiscal_year_filter[0] if fiscal_year_filter else None
+            retry_filing, bump_to = should_retry_with_newer_filing(
+                result.get("answer"),
+                current_filing,
+                question,
+                available_filing_years=available_filing_years,
+            )
+            if retry_filing and bump_to:
+                metric_years = extract_metric_years(question)
+                retry_result = _run_rag_pipeline(
+                    question,
+                    retrieval_query=comparative_table_retrieval_query(question, metric_years),
+                    db_path=db_path,
+                    assets_path=assets_path,
+                    table_db_path=table_db_path,
+                    vector_top_k=vector_top_k,
+                    rerank_top_n=rerank_top_n,
+                    max_context_chunks=max_context_chunks,
+                    chat_model=chat_model,
+                    table_vector_top_k=table_vector_top_k,
+                    table_similarity_threshold=table_similarity_threshold,
+                    ticker_filter=ticker_filter,
+                    fiscal_year_filter=[bump_to],
+                )
+                fallback_trace.append(
+                    {
+                        "reason": "newer_filing_after_insufficient",
+                        "metric_years": metric_years,
+                        "requested_filing_year": current_filing,
+                        "resolved_filing_year": bump_to,
+                    }
+                )
+                if not _looks_insufficient_answer(retry_result.get("answer")) or _has_substantive_evidence(retry_result.get("answer")):
+                    result = retry_result
+                    fiscal_year_filter = [bump_to]
+                    tool_input["fiscal_year"] = fiscal_year_filter
+                    sufficiency_check = result.get("sufficiency_check")
+                    fallback_trace.extend(result.get("fallback_trace") or [])
+                    status = "fallback_success"
+                elif status != "fallback_success":
+                    status = "insufficient_context"
         return {
             "tool": "rag",
             "input": tool_input,

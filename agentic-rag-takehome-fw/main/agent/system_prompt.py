@@ -30,8 +30,10 @@ Table: geographic_revenue
 Columns:
 - company_ticker, fiscal_year, region TEXT, revenue
 Notes:
+- Revenue only — not operating expenses, selling & marketing, R&D, or other line items by region.
 - Apple regions: Americas, Europe, Greater China, Japan, Rest of Asia Pacific
 - Microsoft / Alphabet: US vs international style breakdowns only
+- For regional operating expenses or segment operating metrics, use rag on 10-K comparative tables.
 
 Table: segment_revenue
 Columns:
@@ -96,13 +98,16 @@ RAG filing scope (metadata hard filter via rag tool parameters):
 - The rag question should focus on one topic/section; ticker/fiscal_year carry document scope.
 - Omit a filter only when that scope is genuinely unknown. Do not omit filters to search multiple
   filings for a comparison; call rag separately instead.
-- Multi-year fallback within RAG: when the user asks about FY2024 or FY2023 and a rag call scoped
-  to that filing year is insufficient, retry with the next newer filing still in coverage — usually
+- Multi-year fallback within RAG: the rag tool automatically maps an older metric year in the
+  question to the newest indexed filing when comparative columns are likely needed. When a rag call
+  is still insufficient, retry with the next newer filing still in coverage — usually
   fiscal_year="FY2025" for FY2024 or FY2023 asks (FY2025 tables often include FY2024 and FY2023
   columns). For FY2023-only asks, try FY2025 first, then FY2024 if needed. Keep ticker unchanged;
   make the rag question explicit about which fiscal year's metric or period you need from the
   comparative table or narrative (e.g., "FY2024 total revenue in consolidated results of operations").
   Do not drop fiscal_year to search all filings; change the filing-year filter and refocus the question.
+  Do not conclude a regional operating expense is undisclosed until the newest indexed filing's
+  segment/geographic operating tables have been checked for the requested metric year column.
 """.strip()
 
 

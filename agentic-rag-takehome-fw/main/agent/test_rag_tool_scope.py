@@ -14,6 +14,7 @@ for path in [str(AGENT_DIR), str(MAIN_ROOT / "chunking"), str(MAIN_ROOT / "infer
         sys.path.insert(0, path)
 
 from tools import _coerce_scope_filter, run_rag_tool  # noqa: E402
+from filing_scope import resolve_filing_year_filter  # noqa: E402
 
 
 def test_coerce_scope_filter_splits_tickers() -> None:
@@ -138,10 +139,60 @@ def test_run_rag_tool_no_fallback_when_answer_supported() -> None:
     assert result["fallback_trace"] == []
 
 
+def test_run_rag_tool_resolves_older_metric_year_to_newest_filing() -> None:
+    captured: dict = {}
+
+    def fake_pipeline(question: str, **kwargs):
+        captured.update(kwargs)
+        return {
+            "answer": "$827 million in Japan for FY2023.",
+            "latency": {},
+            "reranked_top": [],
+            "expanded_context": [],
+            "table_contexts": [],
+            "settings": {
+                "ticker_filter": ["AAPL"],
+                "fiscal_year_filter": ["FY2025"],
+            },
+        }
+
+    with patch("tools.run_pipeline", side_effect=fake_pipeline):
+        with patch("tools.discover_indexed_filing_years", return_value=["FY2024", "FY2025"]):
+            result = run_rag_tool(
+                "What was Apple selling and marketing expense in Japan in FY2023?",
+                ticker="AAPL",
+                fiscal_year="FY2024",
+            )
+
+    assert captured["fiscal_year_filter"] == ["FY2025"]
+    assert captured["retrieval_query"] is not None
+    assert "segment/geographic operating tables" in captured["retrieval_query"]
+    assert result["input"]["fiscal_year"] == ["FY2025"]
+    assert result["input"]["filing_year_resolved"]["reason"] in {
+        "metric_year_not_indexed_as_filing",
+        "metric_year_older_than_filing_scope",
+    }
+
+
+def test_resolve_filing_year_filter_unit() -> None:
+    resolved, meta = resolve_filing_year_filter(
+        "Operating expense in Japan FY2023",
+        "FY2024",
+        available_filing_years=["FY2024", "FY2025"],
+    )
+    assert resolved == "FY2025"
+    assert meta and meta["reason"] in {
+        "metric_year_not_indexed_as_filing",
+        "metric_year_older_than_filing_scope",
+    }
+
+
 if __name__ == "__main__":
     test_coerce_scope_filter_splits_tickers()
     test_run_rag_tool_passes_scope_filters()
     test_run_rag_tool_rejects_multi_scope()
     test_run_rag_tool_insufficient_fallback_retries_once()
     test_run_rag_tool_no_fallback_when_answer_supported()
+    test_run_rag_tool_resolves_older_metric_year_to_newest_filing()
+    test_resolve_filing_year_filter_unit()
     print("ok")
