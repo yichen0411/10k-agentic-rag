@@ -1019,6 +1019,8 @@ def answer_query(query: str, context_chunks: list[dict[str, Any]], table_context
 Table-specific rules:
 - Table contexts are the highest-priority evidence for numeric/table-value questions.
 - Flattened tables may omit visual column headers; use row labels, nearby labels, row order, and repeated numeric patterns to infer the requested value.
+- Many filing tables show two or three fiscal years side by side; match the question's metric year to the correct column, not only the filing year on the document cover.
+- For segment or geographic operating schedules, read the row for the requested expense/income line and the column for the requested region and fiscal year.
 - If the question asks for percentages or ratios and the table provides the numerator and denominator, calculate the percentage or ratio directly and show the formula.
 - Before saying context is insufficient, inspect every provided table context and indexed row.
 - If a table contains a row label and the requested value/column can be inferred, answer directly.
