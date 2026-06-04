@@ -35,3 +35,46 @@ agentic-rag-takehome-fw/data/chunk_studio/
 agentic-rag-takehome-fw/**/*.log
 agentic-rag-takehome-fw/**/agent_log.jsonl
 agentic-rag-takehome-fw/**/sql_log.jsonl
+
+# ---------------------------------------------------------------------------
+# Local-only workspace (keep on disk, do not publish to GitHub)
+# ---------------------------------------------------------------------------
+agentic-rag-takehome-fw/PRESENTATION_FRAMEWORK.zh.md
+agentic-rag-takehome-fw/ARCHITECTURE_MAPS.zh.md
+agentic-rag-takehome-fw/FLOWCHARTS.zh.md
+agentic-rag-takehome-fw/inference_flow_diagram.svg
+agentic-rag-takehome-fw/dev_answers.json
+agentic-rag-takehome-fw/benchmarks/
+agentic-rag-takehome-fw/questions/
+agentic-rag-takehome-fw/main/common/
+agentic-rag-takehome-fw/main/CHUNKING_AND_INFERENCE_DESIGN.md
+agentic-rag-takehome-fw/main/CHUNKING_AND_INFERENCE_DESIGN.zh.md
+agentic-rag-takehome-fw/main/agent/MEMORY_DESIGN.zh.md
+agentic-rag-takehome-fw/main/agent/README.md
+agentic-rag-takehome-fw/main/agent/eval_tool_policy.py
+agentic-rag-takehome-fw/main/agent/eval_tool_policy_100.py
+agentic-rag-takehome-fw/main/agent/tool_policy_eval*.json
+agentic-rag-takehome-fw/chunk_studio/DESIGN.md
+agentic-rag-takehome-fw/chunk_studio/DESIGN.zh.md
+agentic-rag-takehome-fw/data/README.md
+agentic-rag-takehome-fw/scripts/README.md
+agentic-rag-takehome-fw/starter/README.md
+agentic-rag-takehome-fw/main/chunking/eval_*.py
+agentic-rag-takehome-fw/main/chunking/AAPL_FY2025_*.json
+agentic-rag-takehome-fw/main/chunking/profile_extract_assets.py
+agentic-rag-takehome-fw/main/chunking/patch_workspace_source_files.py
+agentic-rag-takehome-fw/main/inference/eval_*.py
+agentic-rag-takehome-fw/main/inference/generate_*.py
+agentic-rag-takehome-fw/main/inference/analyze_*.py
+agentic-rag-takehome-fw/main/inference/rejudge_*.py
+agentic-rag-takehome-fw/main/inference/run_mixed_*.py
+agentic-rag-takehome-fw/main/inference/upload_*.py
+agentic-rag-takehome-fw/main/inference/fix_*.py
+agentic-rag-takehome-fw/main/inference/golden_eval_utils.py
+agentic-rag-takehome-fw/main/inference/langsmith_eval_logging.py
+agentic-rag-takehome-fw/main/inference/dev_questions_*.json
+agentic-rag-takehome-fw/main/inference/msft_*
+agentic-rag-takehome-fw/scripts/debug_*.py
+agentic-rag-takehome-fw/scripts/explore_*.py
+agentic-rag-takehome-fw/scripts/relink_*.py
+agentic-rag-takehome-fw/scripts/requirements-image-table-extract.txt
