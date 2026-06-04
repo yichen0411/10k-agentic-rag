@@ -1,4 +1,4 @@
-"""Agent memory: storage, compression, retrieval, cleanup (see MEMORY_DESIGN.zh.md)."""
+"""Agent memory: storage, compression, retrieval, cleanup."""
 
 from __future__ import annotations
 

@@ -30,3 +30,8 @@ agentic-rag-takehome-fw/benchmarks/**/.deps/
 # Runtime / regenerable local state
 agentic-rag-takehome-fw/data/agent_memory.db
 agentic-rag-takehome-fw/data/chunk_studio/
+
+# Local logs and eval artifacts
+agentic-rag-takehome-fw/**/*.log
+agentic-rag-takehome-fw/**/agent_log.jsonl
+agentic-rag-takehome-fw/**/sql_log.jsonl
