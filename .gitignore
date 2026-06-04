@@ -1,0 +1,57 @@
+# Environment
+.env
+.env.*
+!.env.example
+.venv/
+.venv*/
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Runtime / local state
+data/agent_memory.db
+data/chunk_studio/
+**/*.log
+**/agent_log.jsonl
+**/sql_log.jsonl
+
+# Local-only docs, benchmarks, and eval artifacts (not published)
+PRESENTATION_FRAMEWORK.zh.md
+ARCHITECTURE_MAPS.zh.md
+FLOWCHARTS.zh.md
+inference_flow_diagram.svg
+dev_answers.json
+benchmarks/
+questions/
+main/common/
+main/CHUNKING_AND_INFERENCE_DESIGN.md
+main/CHUNKING_AND_INFERENCE_DESIGN.zh.md
+main/agent/MEMORY_DESIGN.zh.md
+main/agent/README.md
+main/agent/eval_tool_policy.py
+main/agent/eval_tool_policy_100.py
+main/agent/tool_policy_eval*.json
+chunk_studio/DESIGN.md
+chunk_studio/DESIGN.zh.md
+main/chunking/eval_*.py
+main/chunking/AAPL_FY2025_*.json
+main/chunking/profile_extract_assets.py
+main/chunking/patch_workspace_source_files.py
+main/inference/eval_*.py
+main/inference/generate_*.py
+main/inference/analyze_*.py
+main/inference/rejudge_*.py
+main/inference/run_mixed_*.py
+main/inference/upload_*.py
+main/inference/fix_*.py
+main/inference/golden_eval_utils.py
+main/inference/langsmith_eval_logging.py
+main/inference/dev_questions_*.json
+main/inference/msft_*
+scripts/debug_*.py
+scripts/explore_*.py
+scripts/relink_*.py
+scripts/requirements-image-table-extract.txt
+financial_research_mcp.py
+_streamlit_deploy_repo/
