@@ -1174,6 +1174,17 @@ async def agent_index_status() -> dict[str, Any]:
     return global_index_status()
 
 
+@app.get("/api/agent/rag-pipeline-profile")
+async def agent_rag_pipeline_profile() -> dict[str, Any]:
+    """Studio RAG inference defaults (shared with offline golden eval)."""
+    inference_dir = str(ROOT / "main" / "inference")
+    if inference_dir not in sys.path:
+        sys.path.insert(0, inference_dir)
+    from rag_pipeline_config import STUDIO_PIPELINE_PROFILE  # noqa: E402
+
+    return STUDIO_PIPELINE_PROFILE
+
+
 @app.post("/api/agent/trace/stream")
 def agent_trace_stream_global(body: AgentTraceBody) -> StreamingResponse:
     """Stream agent steps against the merged all-filings RAG index."""

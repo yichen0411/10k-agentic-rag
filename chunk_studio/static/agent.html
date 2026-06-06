@@ -945,6 +945,24 @@
       letter-spacing: 0.04em;
       margin-right: 4px;
     }
+    .pipeline-profile {
+      border: 1px solid #e9d5ff;
+      border-radius: 10px;
+      background: #faf5ff;
+      padding: 8px 10px;
+      margin-bottom: 10px;
+      font-size: 0.68rem;
+      color: #5b21b6;
+      line-height: 1.45;
+    }
+    .pipeline-profile strong {
+      display: block;
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #7c3aed;
+      margin-bottom: 4px;
+    }
     .pipeline-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
@@ -1063,7 +1081,7 @@
       <div>
         <h1>Agent Q&amp;A</h1>
         <p class="subtitle">Multi-turn chat — follow up with “shorter”, or ask to email results. Steps update live on the right.</p>
-        <span class="version-badge">Markdown answers · SQL · RAG</span>
+        <span class="version-badge">Dual-path RAG · rerank top-3 · table cap 3 · sentence expansion</span>
       </div>
       <div style="display:flex;gap:10px;align-items:center;">
         <button type="button" class="secondary" id="newChatBtn" style="background:white;color:var(--text);border:1px solid var(--line-strong);border-radius:999px;padding:0.5rem 0.9rem;font-size:0.8rem;font-weight:650;cursor:pointer;">New chat</button>
@@ -1109,6 +1127,10 @@
           <div class="tab-panel-head">
             <span class="tab-panel-note">Live agent scratchpad — each LLM turn picks a tool</span>
             <span class="trace-status" id="statusLine">Waiting</span>
+          </div>
+          <div class="pipeline-profile" id="pipelineProfile" hidden>
+            <strong>RAG pipeline (studio)</strong>
+            <span id="pipelineProfileText">Loading…</span>
           </div>
           <div id="traceFlow" class="trace-flow-wrap" hidden>
             <div class="trace-flow-title">Execution path</div>
@@ -2001,14 +2023,79 @@
       return `<div class="param-chips">${chips.join('')}</div>`;
     }
 
+    function formatPipelineValue(key, val, scope) {
+      if (val == null || val === '') return null;
+      if (key === 'context_expansion_mode') {
+        const n = scope?.expansion_adjacent_sentences;
+        return n != null ? `${val} (±${n} sentences)` : String(val);
+      }
+      if (key === 'table_similarity_threshold' && Number.isFinite(Number(val))) {
+        return `≥${Number(val).toFixed(2)}`;
+      }
+      if (key === 'max_table_contexts') {
+        return `top ${val}`;
+      }
+      if (Array.isArray(val)) return val.join(', ');
+      return String(val);
+    }
+
+    function renderPipelineConfig(scope) {
+      if (!scope || typeof scope !== 'object') return '';
+      const rows = [
+        ['context_expansion_mode', 'Text expansion'],
+        ['vector_top_k', 'Vector top-k'],
+        ['bm25_top_k', 'BM25 top-k'],
+        ['rerank_top_n', 'Rerank top-n'],
+        ['max_context_chunks', 'Max text chunks'],
+        ['table_vector_top_k', 'Table vector top-k'],
+        ['table_similarity_threshold', 'Table threshold'],
+        ['max_table_contexts', 'Table cap'],
+        ['rerank_backend', 'Rerank backend'],
+        ['chat_provider', 'LLM provider'],
+        ['answer_model', 'Answer model'],
+      ];
+      const chips = [];
+      rows.forEach(([key, label]) => {
+        const formatted = formatPipelineValue(key, scope[key], scope);
+        if (formatted == null) return;
+        chips.push(`<span class="param-chip"><strong>${esc(label)}</strong>${esc(formatted)}</span>`);
+      });
+      if (!chips.length) return '';
+      return `<div class="io-label" style="margin-top:8px">Pipeline config (this call)</div><div class="param-chips">${chips.join('')}</div>`;
+    }
+
+    function renderFinalContext(out, scope) {
+      const textN = out.expanded_context?.length ?? 0;
+      const tableN = out.table_contexts?.length ?? 0;
+      const cap = scope?.max_table_contexts;
+      const capNote = cap != null ? ` · table cap ${cap}` : '';
+      return `<div class="meta-line" style="margin-top:6px">Final context sent to LLM: ${textN} text · ${tableN} table${capNote}</div>`;
+    }
+
     function renderPipelineLatency(latency) {
       if (!latency || typeof latency !== 'object' || !Object.keys(latency).length) return '';
-      const cells = Object.entries(latency).map(([key, val]) => {
+      const order = [
+        'load_sec',
+        'vector_search_sec',
+        'rerank_sec',
+        'context_expansion_sec',
+        'retrieval_rewrite_sec',
+        'answer_sec',
+        'inference_sec',
+        'total_sec',
+      ];
+      const entries = order
+        .filter((key) => latency[key] != null)
+        .map((key) => [key, latency[key]]);
+      Object.entries(latency).forEach(([key, val]) => {
+        if (!order.includes(key)) entries.push([key, val]);
+      });
+      const cells = entries.map(([key, val]) => {
         const num = Number(val);
         const display = Number.isFinite(num) ? `${num.toFixed(2)}s` : esc(String(val));
         return `<div class="pipeline-cell"><span>${esc(key.replace(/_/g, ' '))}</span><em>${display}</em></div>`;
       });
-      return `<div class="io-label" style="margin-top:8px">RAG pipeline timing</div><div class="pipeline-grid">${cells.join('')}</div>`;
+      return `<div class="io-label" style="margin-top:8px">Inference latency</div><div class="pipeline-grid">${cells.join('')}</div>`;
     }
 
     function renderScopeFilters(scope) {
@@ -2016,10 +2103,26 @@
       const parts = [];
       if (scope.ticker_filter) parts.push(`ticker=${scope.ticker_filter}`);
       if (scope.fiscal_year_filter) parts.push(`FY=${scope.fiscal_year_filter}`);
-      if (scope.filtered_chunk_count != null) parts.push(`${scope.filtered_chunk_count} text chunks`);
-      if (scope.filtered_table_chunk_count != null) parts.push(`${scope.filtered_table_chunk_count} table chunks`);
-      if (!parts.length) return '<div class="meta-line" style="margin-top:6px">No hard filter — searched all filings</div>';
+      if (scope.filtered_chunk_count != null) parts.push(`${scope.filtered_chunk_count} indexed text chunks`);
+      if (scope.filtered_table_chunk_count != null) parts.push(`${scope.filtered_table_chunk_count} indexed table summaries`);
+      if (!parts.length) return '<div class="meta-line" style="margin-top:6px">Index scope: all filings</div>';
       return `<div class="meta-line" style="margin-top:6px">Index scope: ${esc(parts.join(' · '))}</div>`;
+    }
+
+    async function loadPipelineProfile() {
+      const box = $('pipelineProfile');
+      const text = $('pipelineProfileText');
+      if (!box || !text) return;
+      try {
+        const res = await fetch('/api/agent/rag-pipeline-profile');
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const profile = await res.json();
+        text.textContent = profile.profile_summary || 'Dual-path RAG profile loaded.';
+        box.hidden = false;
+      } catch (err) {
+        text.textContent = 'Text rerank top-3 + sentence expansion; table vector top-8 @ 0.60, cap 3.';
+        box.hidden = false;
+      }
     }
 
     function renderFlowTimeline() {
@@ -2073,8 +2176,10 @@
         return html;
       }
       if (out.tool === 'rag') {
-        let html = `<div class="meta-line">${out.ok ? 'Retrieved' : 'Failed'} · ${esc(out.latency_sec)}s total</div>`;
+        let html = `<div class="meta-line">${out.ok ? 'Retrieved' : 'Failed'} · ${esc(out.latency_sec)}s agent step</div>`;
         html += renderScopeFilters(out.scope_filters);
+        html += renderPipelineConfig(out.scope_filters);
+        html += renderFinalContext(out, out.scope_filters);
         html += renderPipelineLatency(out.pipeline_latency);
         if (out.answer) {
           html += `<div class="io-label" style="margin-top:8px">10-K excerpt</div><div class="block prose">${esc(out.answer)}</div>`;
@@ -2348,6 +2453,7 @@
       $('fileMeta').textContent = e.message;
       $('fileMeta').className = 'file-meta bad';
     });
+    loadPipelineProfile();
     renderExampleQueries();
   </script>
 </body>
