@@ -74,6 +74,10 @@ agentic-rag-takehome-fw/main/inference/golden_eval_utils.py
 agentic-rag-takehome-fw/main/inference/langsmith_eval_logging.py
 agentic-rag-takehome-fw/main/inference/dev_questions_*.json
 agentic-rag-takehome-fw/main/inference/msft_*
+agentic-rag-takehome-fw/main/inference/aapl_*
+agentic-rag-takehome-fw/main/inference/*_results.json
+agentic-rag-takehome-fw/main/inference/*_step_report.md
+agentic-rag-takehome-fw/main/inference/export_eval_step_report.py
 agentic-rag-takehome-fw/scripts/debug_*.py
 agentic-rag-takehome-fw/scripts/explore_*.py
 agentic-rag-takehome-fw/scripts/relink_*.py

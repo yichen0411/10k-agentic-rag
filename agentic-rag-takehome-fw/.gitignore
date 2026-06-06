@@ -49,6 +49,10 @@ main/inference/golden_eval_utils.py
 main/inference/langsmith_eval_logging.py
 main/inference/dev_questions_*.json
 main/inference/msft_*
+main/inference/aapl_*
+main/inference/*_results.json
+main/inference/*_step_report.md
+main/inference/export_eval_step_report.py
 scripts/debug_*.py
 scripts/explore_*.py
 scripts/relink_*.py

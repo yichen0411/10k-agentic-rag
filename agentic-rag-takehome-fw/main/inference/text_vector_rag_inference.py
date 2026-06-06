@@ -33,6 +33,11 @@ from cross_encoder_rerank import (
 )
 from cross_encoder_rerank import resolve_rerank_model as resolve_cross_encoder_rerank_model
 from filing_metadata import normalize_filter_values
+from rag_pipeline_config import (
+    STUDIO_CONTEXT_EXPANSION_MODE,
+    STUDIO_EXPANSION_ADJACENT_SENTENCES,
+    STUDIO_MAX_TABLE_CONTEXTS,
+)
 from vlm_table_parse import compose_table_summary, section_ref_label, table_summary_topic
 
 DEFAULT_DB = ROOT / "data" / "index" / "text_chunks" / "vectors.db"
@@ -43,8 +48,9 @@ DEFAULT_CHAT_MODEL = "claude-haiku-4-5-20251001"
 DEFAULT_ANTHROPIC_RERANK_MODEL = "claude-haiku-4-5-20251001"
 DEFAULT_ANTHROPIC_ANSWER_MODEL = "claude-sonnet-4-20250514"
 DEFAULT_FIREWORKS_CHAT_MODEL = "accounts/fireworks/models/deepseek-v4-pro"
+DEFAULT_FIREWORKS_JUDGE_MODEL = "accounts/fireworks/models/gpt-oss-20b"
 DEFAULT_FIREWORKS_RERANK_MODEL = "accounts/fireworks/models/qwen3-8b"
-DEFAULT_TABLE_SIMILARITY_THRESHOLD = 0.65
+DEFAULT_TABLE_SIMILARITY_THRESHOLD = 0.60
 DEFAULT_RETRIEVAL_RERANK_THRESHOLD = 0.60
 FIREWORKS_BASE_URL = "https://api.fireworks.ai/inference/v1"
 ANTHROPIC_MESSAGES_URL = "https://api.anthropic.com/v1/messages"
@@ -122,32 +128,67 @@ def call_anthropic(prompt: str, api_key: str, model: str, system: str, max_token
     return text
 
 
+def resolve_llm_provider() -> str:
+    """Return ``fireworks`` or ``anthropic`` for chat/answer/judge routing."""
+    explicit = (os.environ.get("LLM_PROVIDER") or "").strip().lower()
+    if explicit in ("fireworks", "anthropic"):
+        return explicit
+    try:
+        from rag_pipeline_config import DEFAULT_LLM_PROVIDER
+
+        default_provider = DEFAULT_LLM_PROVIDER
+    except ImportError:
+        default_provider = "fireworks"
+    if default_provider == "fireworks" and os.environ.get("FIREWORKS_API_KEY"):
+        return "fireworks"
+    if os.environ.get("ANTHROPIC_API_KEY"):
+        return "anthropic"
+    if os.environ.get("FIREWORKS_API_KEY"):
+        return "fireworks"
+    raise RuntimeError("FIREWORKS_API_KEY or ANTHROPIC_API_KEY is required for chat/judge.")
+
+
 def resolve_chat_model() -> tuple[str, str]:
-    anthropic_key = os.environ.get("ANTHROPIC_API_KEY")
-    if anthropic_key:
-        model = os.environ.get("ANTHROPIC_CHAT_MODEL", os.environ.get("ANTHROPIC_SQL_MODEL", DEFAULT_CHAT_MODEL))
-        return "anthropic", model
-    fireworks_key = os.environ.get("FIREWORKS_API_KEY")
-    if fireworks_key:
+    provider = resolve_llm_provider()
+    if provider == "fireworks":
         model = os.environ.get("FW_CHAT_MODEL", DEFAULT_FIREWORKS_CHAT_MODEL)
         return "fireworks", model
-    raise RuntimeError("ANTHROPIC_API_KEY or FIREWORKS_API_KEY is required for chat/rerank.")
+    model = os.environ.get(
+        "ANTHROPIC_CHAT_MODEL",
+        os.environ.get("ANTHROPIC_SQL_MODEL", DEFAULT_CHAT_MODEL),
+    )
+    return "anthropic", model
 
 
 def resolve_answer_model() -> str:
-    if os.environ.get("ANTHROPIC_API_KEY"):
+    if resolve_llm_provider() == "fireworks":
         return os.environ.get(
-            "ANTHROPIC_ANSWER_MODEL",
-            os.environ.get("ANTHROPIC_CHAT_MODEL", DEFAULT_ANTHROPIC_ANSWER_MODEL),
+            "FW_ANSWER_MODEL",
+            os.environ.get("FW_CHAT_MODEL", DEFAULT_FIREWORKS_CHAT_MODEL),
         )
-    _, model = resolve_chat_model()
-    return model
+    return os.environ.get(
+        "ANTHROPIC_ANSWER_MODEL",
+        os.environ.get("ANTHROPIC_CHAT_MODEL", DEFAULT_ANTHROPIC_ANSWER_MODEL),
+    )
+
+
+def resolve_judge_model() -> str:
+    if resolve_llm_provider() == "fireworks":
+        return (
+            os.environ.get("FW_JUDGE_MODEL")
+            or DEFAULT_FIREWORKS_JUDGE_MODEL
+            or os.environ.get("FW_CHAT_MODEL", DEFAULT_FIREWORKS_CHAT_MODEL)
+        )
+    return os.environ.get(
+        "ANTHROPIC_JUDGE_MODEL",
+        os.environ.get("ANTHROPIC_RERANK_MODEL", DEFAULT_ANTHROPIC_RERANK_MODEL),
+    )
 
 
 def resolve_rerank_model() -> str:
     backend = resolve_rerank_backend()
     if backend == "llm":
-        if os.environ.get("ANTHROPIC_API_KEY"):
+        if resolve_llm_provider() == "anthropic":
             return os.environ.get("ANTHROPIC_RERANK_MODEL", DEFAULT_ANTHROPIC_RERANK_MODEL)
         explicit = os.environ.get("FW_RERANK_MODEL")
         if explicit:
@@ -182,17 +223,22 @@ def call_fireworks_chat(prompt: str, api_key: str, model: str, system: str, max_
 
 
 def call_chat(prompt: str, system: str, max_tokens: int = 800, chat_model: str | None = None, json_mode: bool = False) -> str:
-    anthropic_key = os.environ.get("ANTHROPIC_API_KEY")
-    if anthropic_key:
-        if chat_model and not chat_model.startswith("accounts/fireworks/"):
-            model = chat_model
-        else:
-            model = resolve_answer_model()
+    provider = resolve_llm_provider()
+    if chat_model and chat_model.startswith("accounts/fireworks/"):
+        provider = "fireworks"
+    elif chat_model and not chat_model.startswith("accounts/fireworks/"):
+        provider = "anthropic"
+
+    if provider == "anthropic":
+        anthropic_key = os.environ.get("ANTHROPIC_API_KEY")
+        if not anthropic_key:
+            raise RuntimeError("ANTHROPIC_API_KEY is required when LLM_PROVIDER=anthropic.")
+        model = chat_model or resolve_answer_model()
         return call_anthropic(prompt, api_key=anthropic_key, model=model, system=system, max_tokens=max_tokens)
 
     fireworks_key = os.environ.get("FIREWORKS_API_KEY")
     if not fireworks_key:
-        raise RuntimeError("ANTHROPIC_API_KEY or FIREWORKS_API_KEY is required for chat/rerank.")
+        raise RuntimeError("FIREWORKS_API_KEY is required when LLM_PROVIDER=fireworks.")
     model = chat_model or os.environ.get("FW_CHAT_MODEL", DEFAULT_FIREWORKS_CHAT_MODEL)
     return call_fireworks_chat(
         prompt,
@@ -724,20 +770,82 @@ def local_context_around_markers(
     return content
 
 
-def expansion_refs_for_chunk(chunk: dict[str, Any]) -> list[tuple[str, str]]:
-    """Expand only within the same subsection text unit (split siblings), not across subsections."""
-    meta = chunk["metadata"]
-    anchors = meta.get("table_anchors") or []
-    refs: list[tuple[str, str]] = []
-    if anchors:
-        refs.append((chunk["chunk_id"], "selected"))
-        return refs
-    if meta.get("same_text_unit_prev_vector_chunk_id"):
-        refs.append((meta["same_text_unit_prev_vector_chunk_id"], "adjacent_prev"))
-    refs.append((chunk["chunk_id"], "selected"))
-    if meta.get("same_text_unit_next_vector_chunk_id"):
-        refs.append((meta["same_text_unit_next_vector_chunk_id"], "adjacent_next"))
-    return refs
+EXPANSION_ADJACENT_SENTENCES = 2
+
+
+def _split_sentences(text: str) -> list[str]:
+    return [part.strip() for part in re.split(r"(?<=[.!?])\s+", (text or "").strip()) if part.strip()]
+
+
+def _sentence_window(text: str, *, first_n: int = 0, last_n: int = 0) -> str:
+    sentences = _split_sentences(text)
+    if not sentences:
+        return ""
+    if first_n:
+        return " ".join(sentences[:first_n])
+    if last_n:
+        return " ".join(sentences[-last_n:])
+    return text
+
+
+def _expansion_neighbor_allowed(anchor: dict[str, Any], neighbor: dict[str, Any]) -> bool:
+    if anchor["metadata"].get("cross_section_expansion_allowed"):
+        return False
+    return neighbor["metadata"].get("section_ref_id") == anchor["metadata"].get("section_ref_id")
+
+
+def build_sentence_expanded_content(
+    selected: dict[str, Any],
+    by_id: dict[str, dict[str, Any]],
+    *,
+    wanted_table_ids: set[str] | None = None,
+    adjacent_sentences: int = EXPANSION_ADJACENT_SENTENCES,
+) -> str:
+    """Merge same-unit neighbor sentences into the selected chunk (no extra chunk slots)."""
+    meta = selected["metadata"]
+    content = selected["content"]
+    parts: list[str] = []
+
+    prev_id = meta.get("same_text_unit_prev_vector_chunk_id")
+    if prev_id and prev_id in by_id:
+        prev = by_id[prev_id]
+        if _expansion_neighbor_allowed(selected, prev):
+            lead = _sentence_window(prev["content"], last_n=adjacent_sentences)
+            if lead:
+                parts.append(lead)
+
+    if meta.get("table_anchors"):
+        main = local_context_around_markers(content, wanted_table_ids)
+    else:
+        main = content
+    if main:
+        parts.append(main)
+
+    next_id = meta.get("same_text_unit_next_vector_chunk_id")
+    if next_id and next_id in by_id:
+        nxt = by_id[next_id]
+        if _expansion_neighbor_allowed(selected, nxt):
+            trail = _sentence_window(nxt["content"], first_n=adjacent_sentences)
+            if trail:
+                parts.append(trail)
+
+    return "\n\n".join(parts)
+
+
+def context_chunk_sentence_expanded(
+    selected: dict[str, Any],
+    by_id: dict[str, dict[str, Any]],
+    *,
+    wanted_table_ids: set[str] | None = None,
+) -> dict[str, Any]:
+    item = dict(selected)
+    item["context_role"] = "selected"
+    item["context_content"] = build_sentence_expanded_content(
+        selected,
+        by_id,
+        wanted_table_ids=wanted_table_ids,
+    )
+    return item
 
 
 def sentence_trim(text: str, first_n: int = 2, last_n: int = 2) -> str:
@@ -781,38 +889,24 @@ def expand_context(
 ) -> list[dict[str, Any]]:
     by_id = {chunk["chunk_id"]: chunk for chunk in chunks}
     ordered: list[dict[str, Any]] = []
-    positions: dict[str, int] = {}
     seen: set[str] = set()
     for selected_chunk in selected:
-        for ref, role in expansion_refs_for_chunk(selected_chunk):
-            if ref in seen:
-                if role == "selected":
-                    ordered[positions[ref]] = context_chunk_copy(
-                        by_id[ref],
-                        role,
-                        wanted_table_ids if role == "selected" else None,
-                    )
-                continue
-            if ref not in by_id:
-                continue
-            ref_chunk = by_id[ref]
-            # Guardrail: expansion refs should already be same-section, but keep
-            # this explicit because cross-section expansion is intentionally off.
-            if ref != selected_chunk["chunk_id"]:
-                same_section = ref_chunk["metadata"].get("section_ref_id") == selected_chunk["metadata"].get("section_ref_id")
-                if not same_section or selected_chunk["metadata"].get("cross_section_expansion_allowed"):
-                    continue
-            ordered.append(
-                context_chunk_copy(
-                    ref_chunk,
-                    role,
-                    wanted_table_ids if role == "selected" else None,
-                )
+        chunk_id = selected_chunk["chunk_id"]
+        if chunk_id in seen:
+            continue
+        anchor = by_id.get(chunk_id)
+        if not anchor:
+            continue
+        ordered.append(
+            context_chunk_sentence_expanded(
+                anchor,
+                by_id,
+                wanted_table_ids=wanted_table_ids,
             )
-            positions[ref] = len(ordered) - 1
-            seen.add(ref)
-            if len(ordered) >= max_context_chunks:
-                return ordered
+        )
+        seen.add(chunk_id)
+        if len(ordered) >= max_context_chunks:
+            return ordered
     return ordered
 
 
@@ -909,6 +1003,7 @@ def assemble_dual_path_context(
     text_chunks: list[dict[str, Any]],
     table_lookup: dict[str, dict[str, Any]],
     max_context_chunks: int,
+    max_table_contexts: int | None = None,
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     table_anchor_ids = [hit["table_id"] for hit in filtered_table_hits if hit.get("table_id")]
     wanted_tables = set(table_anchor_ids)
@@ -917,23 +1012,20 @@ def assemble_dual_path_context(
     by_id = {chunk["chunk_id"]: chunk for chunk in text_chunks}
 
     for hit in text_anchors:
-        selected = by_id.get(hit["chunk_id"])
+        chunk_id = hit["chunk_id"]
+        if chunk_id in seen_text:
+            continue
+        selected = by_id.get(chunk_id)
         if not selected:
             continue
-        for ref, role in expansion_refs_for_chunk(selected):
-            if ref in seen_text and role != "selected":
-                continue
-            chunk = by_id.get(ref)
-            if not chunk:
-                continue
-            if ref != selected["chunk_id"]:
-                same_section = chunk["metadata"].get("section_ref_id") == selected["metadata"].get("section_ref_id")
-                if not same_section or selected["metadata"].get("cross_section_expansion_allowed"):
-                    continue
-            expanded.append(context_chunk_copy(chunk, role, wanted_tables if role == "selected" else None))
-            seen_text.add(ref)
-            if len(expanded) >= max_context_chunks:
-                break
+        expanded.append(
+            context_chunk_sentence_expanded(
+                selected,
+                by_id,
+                wanted_table_ids=wanted_tables,
+            )
+        )
+        seen_text.add(chunk_id)
         if len(expanded) >= max_context_chunks:
             break
     table_contexts = collect_table_contexts(
@@ -943,6 +1035,8 @@ def assemble_dual_path_context(
         table_vector_hits=filtered_table_hits,
         preserve_order=True,
     )
+    if max_table_contexts is not None:
+        table_contexts = table_contexts[:max_table_contexts]
     return expanded[:max_context_chunks], table_contexts
 
 
@@ -1026,6 +1120,7 @@ Table-specific rules:
 - If a table contains a row label and the requested value/column can be inferred, answer directly.
 - For questions asking "according to the table" or asking a total/subtotal, cite the table id.
 - If only a narrower table-specific total is available, state that total clearly before noting any broader limitation.
+- If the question is ambiguous (year/column/line item unclear) or multiple valid figures appear in context, list each disclosed figure with its label/year rather than guessing one.
 """
     prompt = f"""Question:
 {query}
@@ -1063,8 +1158,9 @@ def run_pipeline(
     embed_model: str,
     assets_path: Path | None = DEFAULT_ASSETS,
     table_db_path: Path | None = DEFAULT_TABLE_DB,
-    table_vector_top_k: int = 5,
+    table_vector_top_k: int = 8,
     table_similarity_threshold: float = DEFAULT_TABLE_SIMILARITY_THRESHOLD,
+    max_table_contexts: int | None = STUDIO_MAX_TABLE_CONTEXTS,
     bm25_top_k: int = 10,
     rerank_model: str | None = None,
     ticker_filter: str | list[str] | None = None,
@@ -1083,11 +1179,7 @@ def run_pipeline(
     fireworks_key = os.environ.get("FIREWORKS_API_KEY")
     if not fireworks_key:
         raise RuntimeError("FIREWORKS_API_KEY is required for query embeddings.")
-    anthropic_key = os.environ.get("ANTHROPIC_API_KEY")
-    if not anthropic_key:
-        chat_provider, _ = resolve_chat_model()
-    else:
-        chat_provider = "anthropic"
+    chat_provider = resolve_llm_provider()
     if chat_model in (DEFAULT_CHAT_MODEL, None, ""):
         chat_model = resolve_answer_model()
     if not rerank_model:
@@ -1156,10 +1248,8 @@ def run_pipeline(
         and initial_confidence.get("should_retry")
     ):
         t0 = time.perf_counter()
-        rewrite_model = (
+        rewrite_model = resolve_rerank_model() if chat_provider == "fireworks" else (
             os.environ.get("ANTHROPIC_RERANK_MODEL", DEFAULT_ANTHROPIC_RERANK_MODEL)
-            if anthropic_key
-            else chat_model
         )
         retry_query = rewrite_retrieval_query(query, chat_model=rewrite_model)
         timings["retrieval_rewrite_sec"] = time.perf_counter() - t0
@@ -1202,16 +1292,15 @@ def run_pipeline(
         chunks,
         table_lookup,
         max_context_chunks=max_context_chunks,
+        max_table_contexts=max_table_contexts,
     )
     timings["context_expansion_sec"] = time.perf_counter() - t0
 
     sufficiency_check: dict[str, Any] | None = None
     if enable_context_sufficiency_check:
         if sufficiency_model is None:
-            sufficiency_model = (
+            sufficiency_model = resolve_judge_model() if chat_provider == "fireworks" else (
                 os.environ.get("ANTHROPIC_RERANK_MODEL", DEFAULT_ANTHROPIC_RERANK_MODEL)
-                if anthropic_key
-                else chat_model
             )
         t0 = time.perf_counter()
         sufficiency_check = context_sufficiency_check(
@@ -1237,11 +1326,14 @@ def run_pipeline(
         "sufficiency_check": sufficiency_check,
         "settings": {
             "pipeline": "dual_path_hybrid_text_rerank_plus_table_threshold",
+            "context_expansion_mode": STUDIO_CONTEXT_EXPANSION_MODE,
+            "expansion_adjacent_sentences": STUDIO_EXPANSION_ADJACENT_SENTENCES,
             "rerank_backend": rerank_backend,
             "vector_top_k": vector_top_k,
             "bm25_top_k": bm25_top_k,
             "table_vector_top_k": table_vector_top_k,
             "table_similarity_threshold": table_similarity_threshold,
+            "max_table_contexts": max_table_contexts,
             "enable_retrieval_fallback": enable_retrieval_fallback,
             "retrieval_rerank_threshold": retrieval_rerank_threshold,
             "retrieval_fallback_max_attempts": retrieval_fallback_max_attempts,

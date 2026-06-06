@@ -28,6 +28,15 @@ from filing_scope import (  # noqa: E402
     resolve_filing_year_filter,
     should_retry_with_newer_filing,
 )
+from rag_pipeline_config import (  # noqa: E402
+    STUDIO_BM25_TOP_K,
+    STUDIO_MAX_CONTEXT_CHUNKS,
+    STUDIO_MAX_TABLE_CONTEXTS,
+    STUDIO_RERANK_TOP_N,
+    STUDIO_TABLE_SIMILARITY_THRESHOLD,
+    STUDIO_TABLE_VECTOR_TOP_K,
+    STUDIO_VECTOR_TOP_K,
+)
 from text_vector_rag_inference import (  # noqa: E402
     DEFAULT_ASSETS,
     DEFAULT_CHAT_MODEL,
@@ -124,12 +133,14 @@ def _run_rag_pipeline(
     chat_model: str,
     table_vector_top_k: int,
     table_similarity_threshold: float,
+    max_table_contexts: int | None,
     ticker_filter: list[str] | None,
     fiscal_year_filter: list[str] | None,
 ) -> dict[str, Any]:
     kwargs = {
         "db_path": db_path or DEFAULT_DB,
         "vector_top_k": vector_top_k,
+        "bm25_top_k": STUDIO_BM25_TOP_K,
         "rerank_top_n": rerank_top_n,
         "max_context_chunks": max_context_chunks,
         "chat_model": chat_model,
@@ -138,6 +149,7 @@ def _run_rag_pipeline(
         "table_db_path": table_db_path,
         "table_vector_top_k": table_vector_top_k,
         "table_similarity_threshold": table_similarity_threshold,
+        "max_table_contexts": max_table_contexts,
         "ticker_filter": ticker_filter,
         "fiscal_year_filter": fiscal_year_filter,
     }
@@ -348,12 +360,13 @@ def run_rag_tool(
     db_path: Path | None = None,
     assets_path: Path | None = None,
     table_db_path: Path | None = None,
-    vector_top_k: int = 10,
-    rerank_top_n: int = 3,
-    max_context_chunks: int = 10,
+    vector_top_k: int = STUDIO_VECTOR_TOP_K,
+    rerank_top_n: int = STUDIO_RERANK_TOP_N,
+    max_context_chunks: int = STUDIO_MAX_CONTEXT_CHUNKS,
     chat_model: str = DEFAULT_CHAT_MODEL,
-    table_vector_top_k: int = 8,
-    table_similarity_threshold: float = 0.60,
+    table_vector_top_k: int = STUDIO_TABLE_VECTOR_TOP_K,
+    table_similarity_threshold: float = STUDIO_TABLE_SIMILARITY_THRESHOLD,
+    max_table_contexts: int | None = STUDIO_MAX_TABLE_CONTEXTS,
 ) -> dict[str, Any]:
     """Answer a filing/PDF question through vector RAG inference."""
     start = time.perf_counter()
@@ -410,6 +423,7 @@ def run_rag_tool(
             chat_model=chat_model,
             table_vector_top_k=table_vector_top_k,
             table_similarity_threshold=table_similarity_threshold,
+            max_table_contexts=max_table_contexts,
             ticker_filter=ticker_filter,
             fiscal_year_filter=fiscal_year_filter,
         )
@@ -439,6 +453,7 @@ def run_rag_tool(
                 chat_model=chat_model,
                 table_vector_top_k=table_vector_top_k,
                 table_similarity_threshold=table_similarity_threshold,
+                max_table_contexts=max_table_contexts,
                 ticker_filter=ticker_filter,
                 fiscal_year_filter=fiscal_year_filter,
             )
@@ -482,6 +497,7 @@ def run_rag_tool(
                     chat_model=chat_model,
                     table_vector_top_k=table_vector_top_k,
                     table_similarity_threshold=table_similarity_threshold,
+                    max_table_contexts=max_table_contexts,
                     ticker_filter=ticker_filter,
                     fiscal_year_filter=[bump_to],
                 )
