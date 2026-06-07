@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import sys
 import time
 from datetime import datetime, timezone
@@ -14,6 +15,7 @@ from langchain.agents import AgentExecutor, create_tool_calling_agent
 from langchain_core.callbacks import BaseCallbackHandler
 from langchain_anthropic import ChatAnthropic
 from langchain_core.messages import AIMessage, HumanMessage
+from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.tools import StructuredTool
 from pydantic import BaseModel, Field
@@ -38,11 +40,73 @@ LOG_PATH = AGENT_DIR / "agent_log.jsonl"
 if str(INFERENCE_DIR) not in sys.path:
     sys.path.insert(0, str(INFERENCE_DIR))
 
-from text_vector_rag_inference import load_env_file  # noqa: E402
-DEFAULT_MODEL = os.environ.get(
-    "ANTHROPIC_AGENT_MODEL",
-    os.environ.get("ANTHROPIC_CHAT_MODEL", "claude-haiku-4-5-20251001"),
+from text_vector_rag_inference import (  # noqa: E402
+    DEFAULT_FIREWORKS_CHAT_MODEL,
+    FIREWORKS_BASE_URL,
+    call_chat,
+    load_env_file,
+    resolve_llm_provider,
 )
+
+_MAX_ITERATION_MARKERS = (
+    "agent stopped due to max iterations",
+    "stopped due to max iterations",
+)
+_RAG_BOILERPLATE_MARKERS = (
+    "the provided context does not",
+    "does not support a confident answer",
+    "insufficient context",
+    "none of the supplied chunks",
+    "does not describe the strategic",
+)
+_USER_META_LINE_PATTERNS = (
+    re.compile(r"^.*\b(sql|rag|sqlite|segment_revenue|income_statements)\b.*$", re.I | re.M),
+    re.compile(r"^.*\b(insufficient_context|fallback_success|retrieved chunks?|tool observation)\b.*$", re.I | re.M),
+    re.compile(r"^.*\b(sql query|query results?|see sql|from the sql)\b.*$", re.I | re.M),
+    re.compile(r"^.*\b(growth percentages were calculated|data come from the)\b.*$", re.I | re.M),
+    re.compile(r"^.*\b(the rag search returned|after a retry)\b.*$", re.I | re.M),
+    re.compile(r"^.*\bcalculated from sql\b.*$", re.I | re.M),
+)
+
+
+def _resolve_agent_model() -> tuple[str, str]:
+    provider = resolve_llm_provider()
+    if provider == "fireworks":
+        model = (
+            os.environ.get("FW_AGENT_MODEL")
+            or os.environ.get("FW_CHAT_MODEL")
+            or DEFAULT_FIREWORKS_CHAT_MODEL
+        )
+        return provider, model
+    model = os.environ.get(
+        "ANTHROPIC_AGENT_MODEL",
+        os.environ.get("ANTHROPIC_CHAT_MODEL", "claude-haiku-4-5-20251001"),
+    )
+    return provider, model
+
+
+def _build_llm():
+    provider, model = _resolve_agent_model()
+    if provider == "fireworks":
+        api_key = os.environ.get("FIREWORKS_API_KEY")
+        if not api_key:
+            raise RuntimeError("FIREWORKS_API_KEY is required when LLM_PROVIDER=fireworks.")
+        return ChatOpenAI(
+            model=model,
+            temperature=0.1,
+            max_tokens=1200,
+            api_key=api_key,
+            base_url=FIREWORKS_BASE_URL,
+        )
+    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    if not api_key:
+        raise RuntimeError("ANTHROPIC_API_KEY is required when LLM_PROVIDER=anthropic.")
+    return ChatAnthropic(
+        model=model,
+        temperature=0.1,
+        max_tokens=1200,
+        api_key=api_key,
+    )
 
 
 class SqlToolInput(BaseModel):
@@ -89,9 +153,7 @@ def _compact_sql_payload(result: dict[str, Any]) -> dict[str, Any]:
     return {
         "tool": "sql",
         "ok": result.get("ok"),
-        "status": result.get("status"),
-        "input": result.get("input"),
-        "sql": result.get("sql"),
+        "question": result.get("input"),
         "row_count": result.get("row_count"),
         "rows": rows,
         "error_message": result.get("error_message"),
@@ -112,6 +174,37 @@ def _compact_email_payload(result: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _is_rag_boilerplate(answer: str | None) -> bool:
+    text = (answer or "").lower()
+    return any(marker in text for marker in _RAG_BOILERPLATE_MARKERS)
+
+
+def _filing_excerpts_from_rag(result: dict[str, Any], *, limit: int = 3) -> list[str]:
+    excerpts: list[str] = []
+    for chunk in (result.get("expanded_context") or [])[:limit]:
+        excerpt = (chunk.get("excerpt") or chunk.get("content") or "").strip()
+        header = " › ".join(chunk.get("header_path") or [])
+        if excerpt:
+            excerpts.append(f"{header}: {excerpt[:500]}" if header else excerpt[:500])
+    if excerpts:
+        return excerpts
+    for chunk in (result.get("reranked_top") or [])[:limit]:
+        excerpt = (chunk.get("excerpt") or "").strip()
+        if excerpt:
+            excerpts.append(excerpt[:500])
+    return excerpts
+
+
+def _user_facing_rag_narrative(result: dict[str, Any]) -> str:
+    answer = (result.get("answer") or "").strip()
+    excerpts = _filing_excerpts_from_rag(result)
+    if _is_rag_boilerplate(answer):
+        if excerpts:
+            return "\n\n".join(excerpts)
+        return "The filing excerpts here do not directly address this wording."
+    return answer
+
+
 def _compact_rag_payload(result: dict[str, Any]) -> dict[str, Any]:
     tool_input = result.get("input")
     if isinstance(tool_input, str):
@@ -119,14 +212,12 @@ def _compact_rag_payload(result: dict[str, Any]) -> dict[str, Any]:
     return {
         "tool": "rag",
         "ok": result.get("ok"),
-        "status": result.get("status"),
-        "input": tool_input,
-        "answer": result.get("answer"),
+        "question": tool_input,
+        "filing_narrative": _user_facing_rag_narrative(result),
+        "filing_excerpts": _filing_excerpts_from_rag(result),
+        "expanded_context": (result.get("expanded_context") or [])[:8],
         "reranked_top": (result.get("reranked_top") or [])[:3],
         "table_contexts": (result.get("table_contexts") or [])[:5],
-        "fallback_trace": result.get("fallback_trace") or [],
-        "retrieval_confidence": result.get("retrieval_confidence") or {},
-        "sufficiency_check": result.get("sufficiency_check") or {},
         "scope_filters": {
             "ticker_filter": (result.get("scope_filters") or {}).get("ticker_filter"),
             "fiscal_year_filter": (result.get("scope_filters") or {}).get("fiscal_year_filter"),
@@ -228,6 +319,86 @@ def _format_action_input(tool_name: str, tool_input: Any) -> str:
     return str(tool_input).strip()
 
 
+def _sanitize_user_answer(answer: str | None) -> str:
+    text = (answer or "").strip()
+    if not text:
+        return text
+    for pattern in _USER_META_LINE_PATTERNS:
+        text = "\n".join(line for line in text.splitlines() if not pattern.match(line.strip()))
+    text = re.sub(r"\n{3,}", "\n\n", text).strip()
+    text = re.sub(
+        r"The (?:rag )?search returned[^.]*\.",
+        "",
+        text,
+        flags=re.I,
+    ).strip()
+    text = re.sub(
+        r"after a retry[^.]*\.",
+        "",
+        text,
+        flags=re.I,
+    ).strip()
+    return text
+
+
+def _hit_max_iterations(answer: str | None) -> bool:
+    text = (answer or "").lower()
+    return any(marker in text for marker in _MAX_ITERATION_MARKERS)
+
+
+def _format_tool_evidence_for_synthesis(tool_outputs: list[dict[str, Any]]) -> str:
+    blocks: list[str] = []
+    for index, output in enumerate(tool_outputs, 1):
+        tool = output.get("tool")
+        if tool == "sql" and output.get("ok"):
+            rows = output.get("rows") or []
+            preview = json.dumps(rows[:20], ensure_ascii=False, indent=2)
+            blocks.append(
+                f"### SQL step {index}\n"
+                f"Question: {output.get('input')}\n"
+                f"SQL: {output.get('sql')}\n"
+                f"Rows ({output.get('row_count', len(rows))}):\n{preview}"
+            )
+        elif tool == "rag":
+            inp = output.get("question") or output.get("input") or {}
+            question = inp.get("question") if isinstance(inp, dict) else inp
+            ticker = inp.get("ticker") if isinstance(inp, dict) else ""
+            fiscal_year = inp.get("fiscal_year") if isinstance(inp, dict) else ""
+            narrative = output.get("filing_narrative") or output.get("answer") or ""
+            blocks.append(
+                f"### Filing step {index}\n"
+                f"Topic: {question}\n"
+                f"Company/year: {ticker} / {fiscal_year}\n"
+                f"Filing narrative:\n{narrative[:3500]}"
+            )
+    return "\n\n".join(blocks)
+
+
+def _synthesize_final_answer_from_tools(
+    query: str,
+    tool_outputs: list[dict[str, Any]],
+    *,
+    reason: str,
+) -> str:
+    evidence = _format_tool_evidence_for_synthesis(tool_outputs)
+    if not evidence.strip():
+        return ""
+    system = (
+        "You are a financial research assistant. Write a concise, executive-ready final answer "
+        "using ONLY the evidence below. Present numbers with fiscal years and segment names. "
+        "Present filing content as natural prose ('In its FY2025 10-K, Apple...'). "
+        "Never mention sql, rag, tools, chunks, retries, insufficient_context, table names, "
+        "or how data was gathered. If qualitative wording is missing, say so in one plain sentence."
+    )
+    prompt = (
+        f"User question:\n{query.strip()}\n\n"
+        f"Collected tool evidence ({reason}):\n{evidence}\n\n"
+        "Write the best grounded final answer now."
+    )
+    _, model = _resolve_agent_model()
+    return call_chat(prompt, system=system, max_tokens=1400, chat_model=model).strip()
+
+
 def _normalize_answer(output: Any) -> str:
     if output is None:
         return ""
@@ -252,16 +423,7 @@ def _build_executor(
     rag_table_db_path: Path | None = None,
     memory_context: str = "",
 ) -> AgentExecutor:
-    api_key = os.environ.get("ANTHROPIC_API_KEY")
-    if not api_key:
-        raise RuntimeError("ANTHROPIC_API_KEY is required for the LangChain agent.")
-
-    llm = ChatAnthropic(
-        model=DEFAULT_MODEL,
-        temperature=0.1,
-        max_tokens=1200,
-        api_key=api_key,
-    )
+    llm = _build_llm()
     tools = build_langchain_tools(
         rag_db_path=rag_db_path,
         rag_assets_path=rag_assets_path,
@@ -459,12 +621,32 @@ def run_langchain_agent(
     )
     intermediate_steps = result.get("intermediate_steps") or []
     trace, tool_outputs = _trace_from_intermediate_steps(intermediate_steps)
-    answer = _normalize_answer(result.get("output"))
+    answer = _sanitize_user_answer(_normalize_answer(result.get("output")))
+    stopped_reason: str | None = None
+    if _hit_max_iterations(answer) and tool_outputs:
+        stopped_reason = "max_iterations"
+        synthesized = _synthesize_final_answer_from_tools(
+            query,
+            tool_outputs,
+            reason="partial run",
+        )
+        if synthesized:
+            answer = _sanitize_user_answer(synthesized)
+    elif not answer.strip() and tool_outputs:
+        stopped_reason = "empty_output"
+        synthesized = _synthesize_final_answer_from_tools(
+            query,
+            tool_outputs,
+            reason="tool evidence only",
+        )
+        if synthesized:
+            answer = _sanitize_user_answer(synthesized)
 
     payload = {
         "query": query,
         "mode": mode_label,
         "max_steps": max_steps,
+        "stopped_reason": stopped_reason,
         "trace": trace,
         "conversation": _messages_to_conversation(query, intermediate_steps, answer),
         "tool_outputs": tool_outputs,

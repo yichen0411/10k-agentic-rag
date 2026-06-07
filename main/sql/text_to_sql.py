@@ -4,6 +4,7 @@ import json
 import os
 import re
 import sqlite3
+import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -209,9 +210,51 @@ def _call_anthropic(system_prompt: str, user_prompt: str) -> str | None:
     return "".join(block.text for block in resp.content if getattr(block, "type", None) == "text")
 
 
+def _call_fireworks(system_prompt: str, user_prompt: str) -> str | None:
+    api_key = os.environ.get("FIREWORKS_API_KEY")
+    if not api_key:
+        return None
+    inference_dir = Path(__file__).resolve().parents[1] / "inference"
+    if str(inference_dir) not in sys.path:
+        sys.path.insert(0, str(inference_dir))
+    from text_vector_rag_inference import (  # noqa: E402
+        DEFAULT_FIREWORKS_CHAT_MODEL,
+        call_fireworks_chat,
+    )
+
+    model = (
+        os.environ.get("FW_SQL_MODEL")
+        or os.environ.get("FW_ROUTER_MODEL")
+        or os.environ.get("FW_CHAT_MODEL")
+        or DEFAULT_FIREWORKS_CHAT_MODEL
+    )
+    return call_fireworks_chat(
+        prompt=user_prompt,
+        api_key=api_key,
+        model=model,
+        system=system_prompt,
+        max_tokens=500,
+    )
+
+
+def _resolve_sql_llm_provider() -> str:
+    explicit = (os.environ.get("LLM_PROVIDER") or "").strip().lower()
+    if explicit in ("fireworks", "anthropic"):
+        return explicit
+    if os.environ.get("FIREWORKS_API_KEY"):
+        return "fireworks"
+    if os.environ.get("ANTHROPIC_API_KEY"):
+        return "anthropic"
+    return "fireworks"
+
+
 def _call_llm(system_prompt: str, user_prompt: str) -> str:
     _load_local_env()
-    text = _call_anthropic(system_prompt, user_prompt)
+    provider = _resolve_sql_llm_provider()
+    if provider == "fireworks":
+        text = _call_fireworks(system_prompt, user_prompt)
+    else:
+        text = _call_anthropic(system_prompt, user_prompt)
     if text is None:
         raise RuntimeError("No LLM API key available for Text-to-SQL.")
     return _strip_response(text)
