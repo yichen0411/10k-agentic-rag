@@ -141,7 +141,7 @@ def compact_tool_output(observation: dict[str, Any] | None) -> dict[str, Any]:
             "latency_sec": observation.get("latency_sec"),
         }
     if tool == "rag":
-        answer = observation.get("answer") or ""
+        answer = observation.get("filing_narrative") or observation.get("answer") or ""
         if isinstance(answer, str) and len(answer) > 2000:
             answer = answer[:2000] + "…"
         context_by_id = {
@@ -180,7 +180,7 @@ def compact_tool_output(observation: dict[str, Any] | None) -> dict[str, Any]:
             seen_source_ids.add(chunk_id)
             if len(sources) >= 5:
                 break
-        tool_input = observation.get("input")
+        tool_input = observation.get("question") or observation.get("input")
         if isinstance(tool_input, str):
             tool_input = {"question": tool_input}
         scope_filters = observation.get("scope_filters") or {}
