@@ -505,11 +505,6 @@ def table_section_path(table: dict[str, Any]) -> str:
     return section_ref_label(table)
 
 
-def vector_search(query: str, chunks: list[dict[str, Any]], top_k: int, embed_model: str, fireworks_key: str) -> list[dict[str, Any]]:
-    query_embedding = embed_texts_fireworks([query], model=embed_model, api_key=fireworks_key)[0]
-    return vector_search_with_embedding(query_embedding, chunks, top_k)
-
-
 def vector_search_with_embedding(query_embedding: list[float], chunks: list[dict[str, Any]], top_k: int) -> list[dict[str, Any]]:
     scored = [(cosine(query_embedding, chunk["embedding"]), chunk) for chunk in chunks]
     scored.sort(key=lambda pair: pair[0], reverse=True)
@@ -527,19 +522,6 @@ def vector_search_with_embedding(query_embedding: list[float], chunks: list[dict
         }
         for idx, (score, chunk) in enumerate(scored[:top_k], 1)
     ]
-
-
-def vector_search_table_summaries(
-    query: str,
-    table_chunks: list[dict[str, Any]],
-    top_k: int,
-    embed_model: str,
-    fireworks_key: str,
-) -> list[dict[str, Any]]:
-    if not table_chunks:
-        return []
-    query_embedding = embed_texts_fireworks([query], model=embed_model, api_key=fireworks_key)[0]
-    return vector_search_table_summaries_with_embedding(query_embedding, table_chunks, top_k)
 
 
 def vector_search_table_summaries_with_embedding(
@@ -572,25 +554,6 @@ def vector_search_table_summaries_with_embedding(
 
 def filter_table_hits_by_threshold(table_hits: list[dict[str, Any]], threshold: float) -> list[dict[str, Any]]:
     return [hit for hit in table_hits if float(hit.get("score") or 0.0) >= threshold]
-
-
-def merge_retrieval_candidates(text_hits: list[dict[str, Any]], table_hits: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    merged: list[dict[str, Any]] = []
-    seen_text: set[str] = set()
-    seen_table: set[str] = set()
-    for hit in text_hits:
-        cid = hit["candidate_id"]
-        if cid in seen_text:
-            continue
-        seen_text.add(cid)
-        merged.append(hit)
-    for hit in table_hits:
-        tid = hit["candidate_id"]
-        if tid in seen_table:
-            continue
-        seen_table.add(tid)
-        merged.append(hit)
-    return merged
 
 
 def _fill_rerank_top_n(reranked: list[dict[str, Any]], text_hits: list[dict[str, Any]], top_n: int) -> list[dict[str, Any]]:
@@ -735,11 +698,6 @@ def rerank_text_chunks(
     )
 
 
-def rerank_top_chunks(query: str, candidates: list[dict[str, Any]], anthropic_key: str, rerank_model: str, top_n: int) -> list[dict[str, Any]]:
-    text_only = [candidate for candidate in candidates if candidate.get("candidate_type", "text") == "text"]
-    return rerank_text_chunks(query, text_only, rerank_model=rerank_model, top_n=top_n)
-
-
 def local_context_around_markers(
     content: str,
     table_ids: set[str] | None = None,
@@ -881,35 +839,6 @@ def context_chunk_copy(chunk: dict[str, Any], role: str, table_ids: set[str] | N
     return item
 
 
-def expand_context(
-    selected: list[dict[str, Any]],
-    chunks: list[dict[str, Any]],
-    max_context_chunks: int,
-    wanted_table_ids: set[str] | None = None,
-) -> list[dict[str, Any]]:
-    by_id = {chunk["chunk_id"]: chunk for chunk in chunks}
-    ordered: list[dict[str, Any]] = []
-    seen: set[str] = set()
-    for selected_chunk in selected:
-        chunk_id = selected_chunk["chunk_id"]
-        if chunk_id in seen:
-            continue
-        anchor = by_id.get(chunk_id)
-        if not anchor:
-            continue
-        ordered.append(
-            context_chunk_sentence_expanded(
-                anchor,
-                by_id,
-                wanted_table_ids=wanted_table_ids,
-            )
-        )
-        seen.add(chunk_id)
-        if len(ordered) >= max_context_chunks:
-            return ordered
-    return ordered
-
-
 def lexical_overlap_score(query: str, text: str) -> int:
     query_terms = {term for term in re.findall(r"[a-zA-Z][a-zA-Z0-9-]+", query.lower()) if len(term) > 2}
     text_lower = text.lower()
@@ -1038,23 +967,6 @@ def assemble_dual_path_context(
     if max_table_contexts is not None:
         table_contexts = table_contexts[:max_table_contexts]
     return expanded[:max_context_chunks], table_contexts
-
-
-def assemble_context(
-    reranked: list[dict[str, Any]],
-    text_chunks: list[dict[str, Any]],
-    table_lookup: dict[str, dict[str, Any]],
-    max_context_chunks: int,
-) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
-    text_anchors = [anchor for anchor in reranked if anchor.get("candidate_type", "text") == "text"]
-    table_hits = [anchor for anchor in reranked if anchor.get("candidate_type") == "table"]
-    return assemble_dual_path_context(
-        text_anchors,
-        table_hits,
-        text_chunks,
-        table_lookup,
-        max_context_chunks=max_context_chunks,
-    )
 
 
 def format_indexed_rows(rows: list[list[str | None]], max_rows: int = 30) -> str:

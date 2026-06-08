@@ -80,11 +80,6 @@ def parse_agent_log(thought: str) -> dict[str, Any]:
     return out
 
 
-def extract_responded_text(thought: str) -> str:
-    """Backward-compatible alias: reasoning only, no raw JSON."""
-    return parse_agent_log(thought)["reasoning"]
-
-
 def _format_money(value: Any) -> str:
     try:
         num = float(value)

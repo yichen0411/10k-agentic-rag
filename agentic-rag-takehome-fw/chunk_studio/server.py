@@ -8,7 +8,7 @@ import json
 import os
 import re
 import shutil
-import sqlite3
+from chunk_studio.rag_index_utils import vector_db_health, workspace_table_db_path
 import sys
 import threading
 import time
@@ -185,11 +185,7 @@ def _metadata(file_id: str) -> dict[str, Any]:
 
 
 def _workspace_table_db_path(workspace: Path) -> Path | None:
-    for rel in ("index/table_vectors.db", "index/table_vectors/vectors.db"):
-        path = workspace / rel
-        if path.is_file():
-            return path
-    return None
+    return workspace_table_db_path(workspace)
 
 
 def _normalize_file_counts(workspace: Path, counts: dict[str, Any] | None) -> dict[str, Any]:
@@ -219,27 +215,7 @@ def _normalize_file_counts(workspace: Path, counts: dict[str, Any] | None) -> di
 
 
 def _vector_db_health(db_path: Path | None) -> dict[str, Any]:
-    if not db_path or not db_path.is_file():
-        return {"exists": False, "row_count": 0, "valid": False, "reason": "missing"}
-    conn = sqlite3.connect(db_path)
-    try:
-        row_count = conn.execute("SELECT COUNT(*) FROM chunks").fetchone()[0]
-        if row_count == 0:
-            return {"exists": True, "row_count": 0, "valid": False, "reason": "empty"}
-        null_ticker = conn.execute("SELECT COUNT(*) FROM chunks WHERE ticker IS NULL OR ticker = ''").fetchone()[0]
-        bad_source = conn.execute("SELECT COUNT(*) FROM chunks WHERE source_file = 'source.pdf'").fetchone()[0]
-        valid = null_ticker == 0 and bad_source == 0
-        reason = None
-        if not valid:
-            reason = "stale_source_file" if bad_source else "missing_ticker_metadata"
-        return {
-            "exists": True,
-            "row_count": row_count,
-            "valid": valid,
-            "reason": reason,
-        }
-    finally:
-        conn.close()
+    return vector_db_health(db_path)
 
 
 def _enrich_file_meta(file_id: str, meta: dict[str, Any]) -> dict[str, Any]:

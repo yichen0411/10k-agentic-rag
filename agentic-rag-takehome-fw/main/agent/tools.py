@@ -5,7 +5,7 @@ import re
 import sys
 import time
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 
 AGENT_DIR = Path(__file__).resolve().parent
@@ -155,8 +155,6 @@ def _run_rag_pipeline(
     }
     if retrieval_query is not None and _supports_retrieval_query():
         kwargs["retrieval_query"] = retrieval_query
-    if _run_pipeline_supports("include_section_neighbors"):
-        kwargs["include_section_neighbors"] = True
     return run_pipeline(question, **kwargs)
 
 
@@ -294,11 +292,6 @@ TOOL_SCHEMA: list[dict[str, Any]] = [
         "returns": "ok, status, to_email, subject, or error_message if send failed.",
     },
 ]
-
-
-TOOL_DESCRIPTIONS = {
-    tool["name"]: tool["description"] for tool in TOOL_SCHEMA
-}
 
 
 def format_tool_catalog() -> str:
@@ -552,22 +545,3 @@ def run_send_email_tool(to_email: str, subject: str, body: str) -> dict[str, Any
     result["input"] = {"to_email": to_email, "subject": subject}
     result["latency_sec"] = round(time.perf_counter() - start, 3)
     return result
-
-
-TOOL_REGISTRY: dict[str, Callable[..., dict[str, Any]]] = {
-    "sql": run_sql_tool,
-    "rag": run_rag_tool,
-    "send_email": run_send_email_tool,
-}
-
-
-def execute_tool(name: str, question: str, **kwargs: Any) -> dict[str, Any]:
-    if name not in TOOL_REGISTRY:
-        raise ValueError(f"Unknown tool: {name}")
-    if name == "send_email":
-        return run_send_email_tool(
-            kwargs.get("to_email", question),
-            kwargs.get("subject", ""),
-            kwargs.get("body", ""),
-        )
-    return TOOL_REGISTRY[name](question, **kwargs)

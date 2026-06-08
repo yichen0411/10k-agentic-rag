@@ -58,22 +58,20 @@ def _conditional_value_lines(field: str, by_ticker: dict[str, tuple[str, ...]]) 
     return lines
 
 
-def build_text_to_sql_schema(db_path: Path = DB_PATH) -> str:
-    enums = enum_maps() if db_path.is_file() else {}
-    segment_lines = _conditional_value_lines("segment_name", enums.get("segment_name", {}))
+def _schema_tables(*, sql_detail: bool, enums: dict[str, dict[str, tuple[str, ...]]]) -> str:
+    tickers = _quote_values(COMPANY_TICKERS)
+    years = _quote_values(str(y) for y in FISCAL_YEARS)
+    period = _quote_values(PERIOD_TYPES)
     region_lines = _conditional_value_lines("region", enums.get("region", {}))
+    segment_lines = _conditional_value_lines("segment_name", enums.get("segment_name", {}))
 
-    return f"""
-Schema:
-
-Table: income_statements
-Columns:
-- id INTEGER
-- company_ticker TEXT ({_quote_values(COMPANY_TICKERS)})
-- fiscal_year INTEGER ({_quote_values(str(y) for y in FISCAL_YEARS)})
+    if sql_detail:
+        income_cols = f"""- id INTEGER
+- company_ticker TEXT ({tickers})
+- fiscal_year INTEGER ({years})
 - period_start TEXT
 - period_end TEXT
-- period_type TEXT ({_quote_values(PERIOD_TYPES)})
+- period_type TEXT ({period})
 - revenue BIGINT
 - cost_of_revenue BIGINT
 - gross_profit BIGINT
@@ -82,15 +80,12 @@ Columns:
 - operating_income BIGINT
 - net_income BIGINT
 - eps_basic REAL
-- eps_diluted REAL
-
-Table: balance_sheets
-Columns:
-- id INTEGER
-- company_ticker TEXT ({_quote_values(COMPANY_TICKERS)})
-- fiscal_year INTEGER ({_quote_values(str(y) for y in FISCAL_YEARS)})
+- eps_diluted REAL"""
+        balance_cols = f"""- id INTEGER
+- company_ticker TEXT ({tickers})
+- fiscal_year INTEGER ({years})
 - period_end TEXT
-- period_type TEXT ({_quote_values(PERIOD_TYPES)})
+- period_type TEXT ({period})
 - total_assets BIGINT
 - total_liabilities BIGINT
 - stockholders_equity BIGINT
@@ -99,36 +94,74 @@ Columns:
 - short_term_debt BIGINT
 - accounts_receivable BIGINT
 - total_current_assets BIGINT
-- total_current_liabilities BIGINT
-
-Table: geographic_revenue
-Columns:
-- id INTEGER
-- company_ticker TEXT ({_quote_values(COMPANY_TICKERS)})
-- fiscal_year INTEGER ({_quote_values(str(y) for y in FISCAL_YEARS)})
+- total_current_liabilities BIGINT"""
+        geo_prefix = f"""- id INTEGER
+- company_ticker TEXT ({tickers})
+- fiscal_year INTEGER ({years})
 - period_end TEXT
-- period_type TEXT ({_quote_values(PERIOD_TYPES)})
-{chr(10).join(region_lines)}
-- revenue BIGINT
-
-Table: segment_revenue
-Columns:
-- id INTEGER
-- company_ticker TEXT ({_quote_values(COMPANY_TICKERS)})
-- fiscal_year INTEGER ({_quote_values(str(y) for y in FISCAL_YEARS)})
-- period_end TEXT
-- period_type TEXT ({_quote_values(PERIOD_TYPES)})
-{chr(10).join(segment_lines)}
-- revenue BIGINT
-
-Table: companies
-Columns:
-- ticker TEXT ({_quote_values(COMPANY_TICKERS)})
+- period_type TEXT ({period})"""
+        seg_prefix = geo_prefix
+        revenue_col = "- revenue BIGINT"
+        companies_cols = f"""- ticker TEXT ({tickers})
 - name TEXT
 - cik TEXT
 - sic TEXT
 - sector TEXT
-- fiscal_year_end INTEGER
+- fiscal_year_end INTEGER"""
+    else:
+        income_cols = f"""- company_ticker TEXT ({tickers})
+- fiscal_year INTEGER ({years})
+- period_type TEXT ({period})
+- revenue, cost_of_revenue, gross_profit
+- research_and_development, total_operating_expenses, operating_income, net_income
+- eps_basic, eps_diluted"""
+        balance_cols = f"""- company_ticker TEXT ({tickers})
+- fiscal_year INTEGER ({years})
+- period_type TEXT ({period})
+- total_assets, total_liabilities, stockholders_equity
+- cash_and_equivalents, total_debt, short_term_debt
+- accounts_receivable, total_current_assets, total_current_liabilities"""
+        geo_prefix = f"""- company_ticker TEXT ({tickers})
+- fiscal_year INTEGER ({years})
+- period_type TEXT ({period})"""
+        seg_prefix = geo_prefix
+        revenue_col = "- revenue"
+        companies_cols = f"- ticker TEXT ({tickers}), name, sector, fiscal_year_end"
+
+    return f"""
+Table: income_statements
+Columns:
+{income_cols}
+
+Table: balance_sheets
+Columns:
+{balance_cols}
+
+Table: geographic_revenue
+Columns:
+{geo_prefix}
+{chr(10).join(region_lines)}
+{revenue_col}
+
+Table: segment_revenue
+Columns:
+{seg_prefix}
+{chr(10).join(segment_lines)}
+{revenue_col}
+
+Table: companies
+Columns:
+{companies_cols}
+""".strip()
+
+
+def build_text_to_sql_schema(db_path: Path = DB_PATH) -> str:
+    enums = enum_maps() if db_path.is_file() else {}
+    tables = _schema_tables(sql_detail=True, enums=enums)
+    return f"""
+Schema:
+
+{tables}
 
 Coverage:
 - Companies: AAPL (Apple), MSFT (Microsoft), GOOGL (Alphabet)
@@ -140,50 +173,12 @@ Coverage:
 
 def build_agent_db_schema(db_path: Path = DB_PATH) -> str:
     enums = enum_maps() if db_path.is_file() else {}
-    segment_lines = _conditional_value_lines("segment_name", enums.get("segment_name", {}))
-    region_lines = _conditional_value_lines("region", enums.get("region", {}))
-
+    tables = _schema_tables(sql_detail=False, enums=enums)
     return f"""
 Database: financials.db
 SQL dialect: SQLite only (read-only).
 
-Table: income_statements
-Columns:
-- company_ticker TEXT ({_quote_values(COMPANY_TICKERS)})
-- fiscal_year INTEGER ({_quote_values(str(y) for y in FISCAL_YEARS)})
-- period_type TEXT ({_quote_values(PERIOD_TYPES)})
-- revenue, cost_of_revenue, gross_profit
-- research_and_development, total_operating_expenses, operating_income, net_income
-- eps_basic, eps_diluted
-
-Table: balance_sheets
-Columns:
-- company_ticker TEXT ({_quote_values(COMPANY_TICKERS)})
-- fiscal_year INTEGER ({_quote_values(str(y) for y in FISCAL_YEARS)})
-- period_type TEXT ({_quote_values(PERIOD_TYPES)})
-- total_assets, total_liabilities, stockholders_equity
-- cash_and_equivalents, total_debt, short_term_debt
-- accounts_receivable, total_current_assets, total_current_liabilities
-
-Table: geographic_revenue
-Columns:
-- company_ticker TEXT ({_quote_values(COMPANY_TICKERS)})
-- fiscal_year INTEGER ({_quote_values(str(y) for y in FISCAL_YEARS)})
-- period_type TEXT ({_quote_values(PERIOD_TYPES)})
-{chr(10).join(region_lines)}
-- revenue
-
-Table: segment_revenue
-Columns:
-- company_ticker TEXT ({_quote_values(COMPANY_TICKERS)})
-- fiscal_year INTEGER ({_quote_values(str(y) for y in FISCAL_YEARS)})
-- period_type TEXT ({_quote_values(PERIOD_TYPES)})
-{chr(10).join(segment_lines)}
-- revenue
-
-Table: companies
-Columns:
-- ticker TEXT ({_quote_values(COMPANY_TICKERS)}), name, sector, fiscal_year_end
+{tables}
 
 Coverage:
 - Companies: Apple (AAPL), Microsoft (MSFT), Alphabet (GOOGL)
