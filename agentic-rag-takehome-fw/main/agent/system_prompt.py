@@ -2,58 +2,19 @@
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path
 from typing import Any
 
 from tools import format_tool_catalog
 
+SQL_DIR = Path(__file__).resolve().parent.parent / "sql"
+if str(SQL_DIR) not in sys.path:
+    sys.path.insert(0, str(SQL_DIR))
+from financials_schema import build_agent_db_schema  # noqa: E402
 
-DB_SCHEMA = """
-Database: financials.db
-SQL dialect: SQLite only (read-only).
 
-Table: income_statements
-Columns:
-- company_ticker TEXT  (AAPL, MSFT, GOOGL)
-- fiscal_year INTEGER  (FY2023, FY2024, FY2025; year the fiscal period ENDS)
-- revenue, cost_of_revenue, gross_profit
-- research_and_development, total_operating_expenses, operating_income, net_income
-- eps_basic, eps_diluted
-
-Table: balance_sheets
-Columns:
-- company_ticker, fiscal_year
-- total_assets, total_liabilities, stockholders_equity
-- cash_and_equivalents, total_debt, short_term_debt
-- accounts_receivable, total_current_assets, total_current_liabilities
-
-Table: geographic_revenue
-Columns:
-- company_ticker, fiscal_year, region TEXT, revenue
-Notes:
-- Revenue only — not operating expenses, selling & marketing, R&D, or other line items by region.
-- Apple regions: Americas, Europe, Greater China, Japan, Rest of Asia Pacific
-- Microsoft / Alphabet: US vs international style breakdowns only
-- For regional operating expenses or segment operating metrics, use rag on 10-K comparative tables.
-
-Table: segment_revenue
-Columns:
-- company_ticker, fiscal_year, segment_name TEXT, revenue
-Notes:
-- Apple: iPhone, Mac, iPad, Services, Wearables Home and Accessories
-- Microsoft: Intelligent Cloud, Productivity and Business Processes, More Personal Computing
-- Alphabet: Google Services, Google Cloud, Other Bets
-- Azure-only or YouTube-ad-only revenue is NOT in this database
-
-Table: companies
-Columns:
-- ticker, name, sector, fiscal_year_end
-
-Coverage:
-- Companies: Apple (AAPL), Microsoft (MSFT), Alphabet (GOOGL)
-- Years: FY2023, FY2024, FY2025
-- All monetary values are USD
-- Salesforce is NOT covered by this SQLite database. Do not use sql for Salesforce/CRM questions.
-""".strip()
+DB_SCHEMA = build_agent_db_schema()
 
 
 FILING_COVERAGE = """
@@ -171,9 +132,8 @@ Rules:
   and into the rag question topic wording.
 - RAG decomposition: before calling rag, rewrite the rag question into one standalone, single-intention
   question. For comparisons, call rag once per ticker/year/intention and synthesize after retrieval.
-  Independent rag calls may be issued in parallel when the agent runtime supports multiple tool calls;
-  otherwise make them sequentially. Never put two tickers, two years, or two independent asks into one
-  rag question.
+  Independent rag calls may be issued in parallel in the same agent step; the runtime executes
+  them concurrently. Never put two tickers, two years, or two independent asks into one rag question.
 - If a rag observation says context is insufficient for an abstract wording, you may retry rag at most once
   with a more concrete filing question (growth drivers, net sales, segment description). After that retry,
   synthesize from sql + any partial rag text and stop — do not loop on rag.
@@ -185,6 +145,8 @@ Rules:
   meta-explanation that a better search should be run when you can run that search yourself.
 - Do NOT write SQL yourself.
 - When you have enough evidence, respond to the user with a concise grounded final answer.
+- If tool observations already in the conversation answer the user's question, stop and write that
+  final answer. Do not call sql or rag again just to verify, enrich, or pull longer filing quotes.
 - When evidence is partial, answer the supported part. Only mention uncertainty briefly if it changes
   the answer; do not add a separate "what's missing" section by default.
 - If the question is outside these companies or data sources, explain the limitation.

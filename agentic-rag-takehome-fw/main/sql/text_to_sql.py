@@ -44,109 +44,14 @@ FORBIDDEN_KEYWORDS = {
     "VACUUM",
 }
 
-TEXT_TO_SQL_SYSTEM_PROMPT = """
-You are a Text-to-SQL generator for a financial research system.
+from financials_schema import build_text_to_sql_schema
 
-Convert the user's natural language question into one SQLite SELECT query.
-
-Database: financials.db
-SQL dialect: SQLite only.
-
-Schema:
-
-Table: income_statements
-Columns:
-- id INTEGER
-- company_ticker TEXT
-- fiscal_year INTEGER
-- period_start TEXT
-- period_end TEXT
-- period_type TEXT
-- revenue BIGINT
-- cost_of_revenue BIGINT
-- gross_profit BIGINT
-- research_and_development BIGINT
-- total_operating_expenses BIGINT
-- operating_income BIGINT
-- net_income BIGINT
-- eps_basic REAL
-- eps_diluted REAL
-
-Notes:
-- fiscal_year is the year the fiscal period ENDS, not starts.
-- Apple (AAPL) fiscal year ends in September.
-- Microsoft (MSFT) fiscal year ends in June.
-- Alphabet (GOOGL) fiscal year ends in December.
-- All monetary values are in USD.
-
-Table: balance_sheets
-Columns:
-- id INTEGER
-- company_ticker TEXT
-- fiscal_year INTEGER
-- period_end TEXT
-- period_type TEXT
-- total_assets BIGINT
-- total_liabilities BIGINT
-- stockholders_equity BIGINT
-- cash_and_equivalents BIGINT
-- total_debt BIGINT
-- short_term_debt BIGINT
-- accounts_receivable BIGINT
-- total_current_assets BIGINT
-- total_current_liabilities BIGINT
-
-Table: geographic_revenue
-Columns:
-- id INTEGER
-- company_ticker TEXT
-- fiscal_year INTEGER
-- period_end TEXT
-- period_type TEXT
-- region TEXT
-- revenue BIGINT
-
-Notes:
-- Apple regions: Americas, Europe, Greater China, Japan, Rest of Asia Pacific.
-- Microsoft and Alphabet: US and international breakdown only.
-
-Table: segment_revenue
-Columns:
-- id INTEGER
-- company_ticker TEXT
-- fiscal_year INTEGER
-- period_end TEXT
-- period_type TEXT
-- segment_name TEXT
-- revenue BIGINT
-
-Notes:
-- Apple segments: iPhone, Mac, iPad, Services, Wearables Home and Accessories.
-- Microsoft segments: Intelligent Cloud, Productivity and Business Processes, More Personal Computing.
-- Alphabet segments: Google Services, Google Cloud, Other Bets.
-- Azure revenue is not separately available in this database. If a question asks specifically for Azure revenue, return CANNOT_ANSWER.
-- YouTube advertising revenue is not separately available in this database. If a question asks specifically for YouTube advertising revenue, return CANNOT_ANSWER.
-
-Table: companies
-Columns:
-- ticker TEXT
-- name TEXT
-- cik TEXT
-- sic TEXT
-- sector TEXT
-- fiscal_year_end INTEGER
-
-Notes:
-- AAPL = Apple Inc.
-- MSFT = Microsoft Corporation.
-- GOOGL = Alphabet Inc.
-- Data coverage: FY2023, FY2024, FY2025 for all three companies.
-
+TEXT_TO_SQL_RULES = """
 Rules:
 - Only generate SELECT statements.
 - The database is strictly read-only. Never generate SQL that modifies schema,
   data, transactions, attached databases, or SQLite settings.
-- Always use company_ticker for filtering: AAPL for Apple, MSFT for Microsoft, GOOGL for Alphabet.
+- Always filter company_ticker with values listed in the schema.
 - Return only the raw SQL query. No explanation, no markdown, no backticks, no comments.
 - Use SQLite syntax only. Do not use non-SQLite features such as QUALIFY,
   DATE_TRUNC, ILIKE, ARRAY_AGG, or proprietary SQL dialect functions.
@@ -155,10 +60,15 @@ Rules:
   multi-step analysis, return the raw company/year values ordered by
   company_ticker and fiscal_year so Python can compute the final comparison.
 - For queries returning row-level data, add LIMIT 1000.
-- For queries using GROUP BY or aggregate functions (SUM, AVG, MAX, MIN, COUNT), 
+- For queries using GROUP BY or aggregate functions (SUM, AVG, MAX, MIN, COUNT),
   do not add LIMIT unless the question asks for top N results.
 - You may calculate simple ratios and percentages directly in SQLite.
   Use ROUND(..., 4) for decimal precision.
+- SQLite integer division: revenue and other money columns are BIGINT. Always cast or
+  multiply by 100.0 (or 1.0) before dividing, e.g. ROUND(100.0 * numerator / NULLIF(denominator, 0), 2).
+  Never write (bigint_col / bigint_col) * 100 — that truncates to 0.
+- For percentages and ROA/ROE, express as percent points in SQL (multiply by 100.0) unless
+  the question explicitly asks for a decimal ratio.
 - For return on assets (ROA), join income_statements.net_income with
   balance_sheets.total_assets on company_ticker and fiscal_year.
 - For return on equity (ROE), join income_statements.net_income with
@@ -166,9 +76,25 @@ Rules:
 - For growth rates, CAGR, consistency, or year-over-year comparisons, fetch
   the relevant years and values; Python will calculate the final metric.
 - Avoid division by zero: use NULLIF(denominator, 0) in division operations.
+- Azure-only and YouTube-ad-only revenue are not in segment_revenue; return CANNOT_ANSWER for those asks.
 - If the question requires data not in the schema，return exactly: CANNOT_ANSWER
-
 """.strip()
+
+
+def build_text_to_sql_system_prompt() -> str:
+    return "\n\n".join(
+        [
+            "You are a Text-to-SQL generator for a financial research system.",
+            "Convert the user's natural language question into one SQLite SELECT query.",
+            "Database: financials.db",
+            "SQL dialect: SQLite only.",
+            build_text_to_sql_schema(),
+            TEXT_TO_SQL_RULES,
+        ]
+    )
+
+
+TEXT_TO_SQL_SYSTEM_PROMPT = build_text_to_sql_system_prompt()
 
 def _load_local_env() -> None:
     env_path = PROJECT_ROOT / ".env"
@@ -402,6 +328,7 @@ def answer_sql_question(question: str) -> dict[str, Any]:
     start = time.perf_counter()
     generated_sql: str | None = None
     final: dict[str, Any]
+    max_attempts = 3
 
     try:
         generated_sql = _generate_sql(question)
@@ -409,15 +336,32 @@ def answer_sql_question(question: str) -> dict[str, Any]:
             final = _make_result("cannot_answer", sql=None, result=None)
             return final
 
-        validation_error = _validate_sql(generated_sql)
-        if validation_error:
-            final = _make_result("error", sql=generated_sql, result=None, error_message=validation_error)
-            return final
-
         current_sql = generated_sql
         correction_used = False
         last_error_message: str | None = None
-        for correction_attempt in range(3):
+
+        for attempt in range(max_attempts):
+            validation_error = _validate_sql(current_sql)
+            if validation_error:
+                last_error_message = validation_error
+                if attempt >= max_attempts - 1:
+                    final = _make_result(
+                        "error",
+                        sql=current_sql,
+                        result=None,
+                        correction_used=correction_used,
+                        error_message=validation_error,
+                    )
+                    return final
+                corrected_sql = _correct_sql(question, current_sql, validation_error)
+                correction_used = True
+                if corrected_sql.upper() == "CANNOT_ANSWER":
+                    final = _fallback_result()
+                    final["error_message"] = validation_error
+                    return final
+                current_sql = corrected_sql
+                continue
+
             try:
                 result, row_count = _execute_sql(current_sql)
                 if row_count == 0:
@@ -449,7 +393,7 @@ def answer_sql_question(question: str) -> dict[str, Any]:
                 return final
             except Exception as exc:
                 last_error_message = str(exc)
-                if correction_attempt >= 2:
+                if attempt >= max_attempts - 1:
                     final = _fallback_result()
                     final["sql"] = current_sql
                     final["correction_used"] = correction_used
@@ -462,23 +406,12 @@ def answer_sql_question(question: str) -> dict[str, Any]:
                     final = _fallback_result()
                     final["error_message"] = last_error_message
                     return final
-
-                correction_validation_error = _validate_sql(corrected_sql)
-                if correction_validation_error:
-                    final = _fallback_result()
-                    final["sql"] = corrected_sql
-                    final["correction_used"] = True
-                    final["error_message"] = correction_validation_error
-                    return final
                 current_sql = corrected_sql
 
-        if row_count == 0:
-            final = _make_result("empty_result", sql=generated_sql, result=[], row_count=0)
-            return final
-        if row_count > 1000:
-            final = _make_result("error", sql=generated_sql, result=None, row_count=row_count, error_message="Result has more than 1000 rows.")
-            return final
-        final = _make_result("success", sql=generated_sql, result=result, row_count=row_count)
+        final = _fallback_result()
+        final["sql"] = current_sql
+        final["correction_used"] = correction_used
+        final["error_message"] = last_error_message
         return final
 
     except Exception as exc:

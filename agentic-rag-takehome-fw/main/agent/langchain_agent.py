@@ -7,11 +7,18 @@ import os
 import re
 import sys
 import time
+from collections.abc import Iterator
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Callable, Optional
+from typing import Any, Callable, Optional, Union
 
 from langchain.agents import AgentExecutor, create_tool_calling_agent
+from langchain.agents.agent import ExceptionTool
+from langchain_core.agents import AgentAction, AgentFinish, AgentStep
+from langchain_core.callbacks import CallbackManagerForChainRun
+from langchain_core.exceptions import OutputParserException
+from langchain_core.tools import BaseTool
 from langchain_core.callbacks import BaseCallbackHandler
 from langchain_anthropic import ChatAnthropic
 from langchain_core.messages import AIMessage, HumanMessage
@@ -154,8 +161,11 @@ def _compact_sql_payload(result: dict[str, Any]) -> dict[str, Any]:
         "tool": "sql",
         "ok": result.get("ok"),
         "question": result.get("input"),
+        "status": result.get("status"),
+        "sql": result.get("sql"),
         "row_count": result.get("row_count"),
         "rows": rows,
+        "correction_used": result.get("correction_used"),
         "error_message": result.get("error_message"),
         "latency_sec": result.get("latency_sec"),
     }
@@ -415,6 +425,146 @@ def _normalize_answer(output: Any) -> str:
     return str(output).strip()
 
 
+def _parallel_tool_workers() -> int:
+    raw = os.environ.get("AGENT_PARALLEL_TOOL_WORKERS", "4").strip()
+    try:
+        return max(1, int(raw))
+    except ValueError:
+        return 4
+
+
+def _parallel_tools_enabled() -> bool:
+    return os.environ.get("AGENT_PARALLEL_TOOLS", "true").strip().lower() not in {
+        "0",
+        "false",
+        "no",
+        "off",
+    }
+
+
+class ParallelAgentExecutor(AgentExecutor):
+    """Run independent tool calls from the same LLM step concurrently."""
+
+    def invoke(self, input: dict[str, Any], config: Any = None, **kwargs: Any) -> dict[str, Any]:
+        self._step_metas: list[dict[str, Any]] = []
+        self._agent_turn = 0
+        self._current_batch_meta: dict[str, Any] = {}
+        return super().invoke(input, config, **kwargs)
+
+    def _perform_agent_action(
+        self,
+        name_to_tool_map: dict[str, BaseTool],
+        color_mapping: dict[str, str],
+        agent_action: AgentAction,
+        run_manager: Optional[CallbackManagerForChainRun] = None,
+    ) -> AgentStep:
+        step = super()._perform_agent_action(
+            name_to_tool_map,
+            color_mapping,
+            agent_action,
+            run_manager,
+        )
+        meta = dict(getattr(self, "_current_batch_meta", {}) or {})
+        self._step_metas.append(meta)
+        return step
+
+    def _iter_next_step(
+        self,
+        name_to_tool_map: dict[str, BaseTool],
+        color_mapping: dict[str, str],
+        inputs: dict[str, str],
+        intermediate_steps: list[tuple[AgentAction, str]],
+        run_manager: Optional[CallbackManagerForChainRun] = None,
+    ) -> Iterator[Union[AgentFinish, AgentAction, AgentStep]]:
+        try:
+            intermediate_steps = self._prepare_intermediate_steps(intermediate_steps)
+            output = self._action_agent.plan(
+                intermediate_steps,
+                callbacks=run_manager.get_child() if run_manager else None,
+                **inputs,
+            )
+        except OutputParserException as e:
+            if isinstance(self.handle_parsing_errors, bool):
+                raise_error = not self.handle_parsing_errors
+            else:
+                raise_error = False
+            if raise_error:
+                msg = (
+                    "An output parsing error occurred. "
+                    "In order to pass this error back to the agent and have it try "
+                    "again, pass `handle_parsing_errors=True` to the AgentExecutor. "
+                    f"This is the error: {e!s}"
+                )
+                raise ValueError(msg) from e
+            text = str(e)
+            if isinstance(self.handle_parsing_errors, bool):
+                if e.send_to_llm:
+                    observation = str(e.observation)
+                    text = str(e.llm_output)
+                else:
+                    observation = "Invalid or incomplete response"
+            elif isinstance(self.handle_parsing_errors, str):
+                observation = self.handle_parsing_errors
+            elif callable(self.handle_parsing_errors):
+                observation = self.handle_parsing_errors(e)
+            else:
+                msg = "Got unexpected type of `handle_parsing_errors`"
+                raise ValueError(msg) from e
+            output = AgentAction("_Exception", observation, text)
+            if run_manager:
+                run_manager.on_agent_action(output, color="green")
+            tool_run_kwargs = self._action_agent.tool_run_logging_kwargs()
+            observation = ExceptionTool().run(
+                output.tool_input,
+                verbose=self.verbose,
+                color=None,
+                callbacks=run_manager.get_child() if run_manager else None,
+                **tool_run_kwargs,
+            )
+            yield AgentStep(action=output, observation=observation)
+            return
+
+        if isinstance(output, AgentFinish):
+            yield output
+            return
+
+        actions: list[AgentAction]
+        actions = [output] if isinstance(output, AgentAction) else output
+        self._agent_turn += 1
+        self._current_batch_meta = {
+            "parallel_batch": self._agent_turn,
+            "parallel_size": len(actions),
+            "parallel": len(actions) > 1,
+        }
+        for agent_action in actions:
+            yield agent_action
+
+        if len(actions) <= 1 or not _parallel_tools_enabled():
+            for agent_action in actions:
+                yield self._perform_agent_action(
+                    name_to_tool_map,
+                    color_mapping,
+                    agent_action,
+                    run_manager,
+                )
+            return
+
+        max_workers = min(len(actions), _parallel_tool_workers())
+        with ThreadPoolExecutor(max_workers=max_workers) as pool:
+            futures = [
+                pool.submit(
+                    self._perform_agent_action,
+                    name_to_tool_map,
+                    color_mapping,
+                    agent_action,
+                    run_manager,
+                )
+                for agent_action in actions
+            ]
+            for future in futures:
+                yield future.result()
+
+
 def _build_executor(
     max_steps: int,
     *,
@@ -422,7 +572,7 @@ def _build_executor(
     rag_assets_path: Path | None = None,
     rag_table_db_path: Path | None = None,
     memory_context: str = "",
-) -> AgentExecutor:
+) -> ParallelAgentExecutor:
     llm = _build_llm()
     tools = build_langchain_tools(
         rag_db_path=rag_db_path,
@@ -448,7 +598,7 @@ def _build_executor(
         ]
     )
     agent = create_tool_calling_agent(llm, tools, prompt)
-    return AgentExecutor(
+    return ParallelAgentExecutor(
         agent=agent,
         tools=tools,
         verbose=False,
@@ -461,9 +611,12 @@ def _build_executor(
 
 def _trace_from_intermediate_steps(
     intermediate_steps: list[tuple[Any, str]],
+    *,
+    step_metas: list[dict[str, Any]] | None = None,
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     trace: list[dict[str, Any]] = []
     tool_outputs: list[dict[str, Any]] = []
+    metas = step_metas or []
 
     for index, (action, observation) in enumerate(intermediate_steps, 1):
         tool_name = getattr(action, "tool", None) or "unknown"
@@ -476,15 +629,16 @@ def _trace_from_intermediate_steps(
 
         parsed_obs["step_index"] = index
         tool_outputs.append(parsed_obs)
-        trace.append(
-            {
-                "step": index,
-                "thought": getattr(action, "log", "") or "",
-                "action": tool_name,
-                "action_input": raw_input if isinstance(raw_input, dict) else _format_action_input(tool_name, raw_input),
-                "observation": parsed_obs,
-            }
-        )
+        row: dict[str, Any] = {
+            "step": index,
+            "thought": getattr(action, "log", "") or "",
+            "action": tool_name,
+            "action_input": raw_input if isinstance(raw_input, dict) else _format_action_input(tool_name, raw_input),
+            "observation": parsed_obs,
+        }
+        if index - 1 < len(metas):
+            row.update(metas[index - 1])
+        trace.append(row)
     return trace, tool_outputs
 
 
@@ -525,19 +679,45 @@ def _log_run(payload: dict[str, Any]) -> None:
         f.write(json.dumps(record, ensure_ascii=False) + "\n")
 
 
+def _tool_input_key(tool_name: str, tool_input: Any) -> str:
+    if isinstance(tool_input, dict):
+        payload = json.dumps(tool_input, sort_keys=True, ensure_ascii=False)
+    else:
+        payload = str(tool_input)
+    return f"{tool_name}:{payload}"
+
+
 class _StreamingTraceHandler(BaseCallbackHandler):
     """Emit UI events as each tool finishes (and when a tool is chosen)."""
 
     def __init__(self, on_event: Callable[[dict[str, Any]], None]) -> None:
         self._on_event = on_event
         self._step_index = 0
-        self._pending_action: Any = None
+        self._pending: dict[str, tuple[int, Any]] = {}
+        self._inflight = 0
+        self._batch_counter = 0
+        self._batch_sizes: dict[int, int] = {}
+
+    def _batch_meta(self, batch_id: int) -> dict[str, Any]:
+        size = self._batch_sizes.get(batch_id, 1)
+        return {
+            "parallel_batch": batch_id,
+            "parallel_size": size,
+            "parallel": size > 1,
+        }
 
     def on_agent_action(self, action: Any, **kwargs: Any) -> None:
-        self._pending_action = action
+        if self._inflight == 0:
+            self._batch_counter += 1
+        self._inflight += 1
+        batch_id = self._batch_counter
+        self._batch_sizes[batch_id] = self._batch_sizes.get(batch_id, 0) + 1
         self._step_index += 1
         tool_name = getattr(action, "tool", None) or "unknown"
         raw_input = getattr(action, "tool_input", "")
+        pending_key = getattr(action, "tool_call_id", None) or _tool_input_key(tool_name, raw_input)
+        self._pending[pending_key] = (self._step_index, action, batch_id)
+        batch_meta = self._batch_meta(batch_id)
         partial = format_trace_item(
             {
                 "step": self._step_index,
@@ -546,6 +726,7 @@ class _StreamingTraceHandler(BaseCallbackHandler):
                 "action_input": raw_input,
                 "observation": None,
                 "pending": True,
+                **batch_meta,
             }
         )
         if partial:
@@ -553,25 +734,40 @@ class _StreamingTraceHandler(BaseCallbackHandler):
             self._on_event({"type": "step_start", "step": partial})
 
     def on_tool_end(self, output: str, **kwargs: Any) -> None:
-        action = self._pending_action
-        tool_name = getattr(action, "tool", None) or "unknown" if action else "unknown"
-        raw_input = getattr(action, "tool_input", "") if action else ""
+        tool_name = kwargs.get("name") or "unknown"
+        tool_input = kwargs.get("inputs")
+        pending_key = _tool_input_key(tool_name, tool_input)
+        popped = self._pending.pop(pending_key, None)
+        step_index, action, batch_id = popped if popped else (None, None, None)
+        if action is None:
+            for key, (idx, candidate, candidate_batch) in list(self._pending.items()):
+                if getattr(candidate, "tool", None) == tool_name:
+                    step_index, action, batch_id = self._pending.pop(key)
+                    break
+        if self._inflight > 0:
+            self._inflight -= 1
+        raw_input = getattr(action, "tool_input", tool_input) if action else tool_input
         try:
             parsed_obs = json.loads(output)
         except json.JSONDecodeError:
             parsed_obs = {"raw": output}
+        batch_meta = self._batch_meta(batch_id) if batch_id is not None else {
+            "parallel_batch": self._batch_counter,
+            "parallel_size": 1,
+            "parallel": False,
+        }
         trace_row = {
-            "step": self._step_index,
+            "step": step_index or self._step_index,
             "thought": getattr(action, "log", "") or "" if action else "",
             "action": tool_name,
             "action_input": raw_input,
             "observation": parsed_obs,
+            **batch_meta,
         }
         formatted = format_trace_item(trace_row)
         if formatted:
             formatted["pending"] = False
             self._on_event({"type": "step", "step": formatted})
-        self._pending_action = None
 
 
 def run_langchain_agent(
@@ -620,7 +816,10 @@ def run_langchain_agent(
         config=config,
     )
     intermediate_steps = result.get("intermediate_steps") or []
-    trace, tool_outputs = _trace_from_intermediate_steps(intermediate_steps)
+    trace, tool_outputs = _trace_from_intermediate_steps(
+        intermediate_steps,
+        step_metas=getattr(executor, "_step_metas", None),
+    )
     answer = _sanitize_user_answer(_normalize_answer(result.get("output")))
     stopped_reason: str | None = None
     if _hit_max_iterations(answer) and tool_outputs:

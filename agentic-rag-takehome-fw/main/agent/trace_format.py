@@ -126,6 +126,7 @@ def compact_tool_output(observation: dict[str, Any] | None) -> dict[str, Any]:
             "sql": observation.get("sql"),
             "row_count": observation.get("row_count"),
             "rows": display_rows,
+            "correction_used": observation.get("correction_used"),
             "error_message": observation.get("error_message"),
             "latency_sec": observation.get("latency_sec"),
         }
@@ -281,6 +282,9 @@ def format_trace_item(item: dict[str, Any]) -> dict[str, Any] | None:
         "output": compact_tool_output(item.get("observation")),
         "thought_before": "",
         "pending": item.get("pending", False),
+        "parallel_batch": item.get("parallel_batch"),
+        "parallel_size": item.get("parallel_size"),
+        "parallel": item.get("parallel", False),
     }
 
 

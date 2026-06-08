@@ -906,6 +906,31 @@
       font-weight: 800;
       line-height: 1;
     }
+    .flow-parallel-group {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 4px;
+      border: 1px dashed #c4b5fd;
+      border-radius: 12px;
+      padding: 6px 8px;
+      background: #faf5ff;
+      min-width: 7rem;
+    }
+    .flow-parallel-group.pending {
+      box-shadow: 0 0 0 2px rgba(109, 40, 217, 0.12);
+      animation: pulseFlow 1.2s ease infinite;
+    }
+    .flow-parallel-chips {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 4px;
+    }
+    .flow-parallel-chips .flow-chip {
+      justify-content: center;
+      width: 100%;
+    }
     @keyframes pulseFlow {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.55; }
@@ -1966,6 +1991,14 @@
       const idx = state.steps.findIndex((s) => s.step === n);
       if (idx >= 0) state.steps[idx] = step;
       else state.steps.push(step);
+      if (step.parallel_batch != null && step.parallel_size > 1) {
+        state.steps.forEach((s) => {
+          if (s.parallel_batch === step.parallel_batch) {
+            s.parallel_size = step.parallel_size;
+            s.parallel = true;
+          }
+        });
+      }
       state.steps.sort((a, b) => a.step - b.step);
       renderTraceSteps();
       if (state.running && state.lastQuery) {
@@ -2125,6 +2158,39 @@
       }
     }
 
+    function flowParallelChipLabel(s) {
+      const tool = s.tool || 'tool';
+      return `${tool}${s.pending ? '…' : ''}`;
+    }
+
+    function flowStepLabel(s) {
+      const tool = s.tool || 'tool';
+      const ticker = s.input_params?.ticker;
+      const suffix = ticker ? ` · ${ticker}` : '';
+      return `${s.step}. ${tool}${suffix}${s.pending ? '…' : ''}`;
+    }
+
+    function buildFlowGroups(steps) {
+      const groups = [];
+      let i = 0;
+      while (i < steps.length) {
+        const s = steps[i];
+        const batch = s.parallel_batch;
+        if (s.parallel && (s.parallel_size || 0) > 1) {
+          const members = [];
+          while (i < steps.length && steps[i].parallel_batch === batch) {
+            members.push(steps[i]);
+            i += 1;
+          }
+          groups.push({ kind: 'parallel', steps: members });
+        } else {
+          groups.push({ kind: 'single', steps: [s] });
+          i += 1;
+        }
+      }
+      return groups;
+    }
+
     function renderFlowTimeline() {
       const wrap = $('traceFlow');
       const inner = $('traceFlowInner');
@@ -2137,15 +2203,27 @@
       const parts = [];
       const q = (state.lastQuery || '').trim();
       parts.push(`<span class="flow-chip user">Question</span>`);
-      if (q) parts.push(`<span class="flow-arrow">→</span>`);
-      steps.forEach((s, i) => {
-        const cls = `flow-chip ${esc(s.tool || 'tool')} ${s.pending ? 'pending' : 'done'}`;
-        const label = `${s.step}. ${s.tool || 'tool'}${s.pending ? '…' : ''}`;
-        parts.push(`<span class="${cls}">${esc(label)}</span>`);
-        if (i < steps.length - 1 || state.running || state.doneAnswer) {
-          parts.push('<span class="flow-arrow">→</span>');
+      const groups = buildFlowGroups(steps);
+      groups.forEach((group) => {
+        parts.push('<span class="flow-arrow">→</span>');
+        if (group.kind === 'parallel') {
+          const pending = group.steps.some((s) => s.pending);
+          parts.push(`<span class="flow-parallel-group${pending ? ' pending' : ''}">`);
+          parts.push('<span class="flow-parallel-chips">');
+          group.steps.forEach((s) => {
+            const cls = `flow-chip ${esc(s.tool || 'tool')} ${s.pending ? 'pending' : 'done'}`;
+            parts.push(`<span class="${cls}">${esc(flowParallelChipLabel(s))}</span>`);
+          });
+          parts.push('</span></span>');
+        } else {
+          const s = group.steps[0];
+          const cls = `flow-chip ${esc(s.tool || 'tool')} ${s.pending ? 'pending' : 'done'}`;
+          parts.push(`<span class="${cls}">${esc(flowStepLabel(s))}</span>`);
         }
       });
+      if (groups.length || state.running || state.doneAnswer) {
+        parts.push('<span class="flow-arrow">→</span>');
+      }
       if (state.doneAnswer && !state.running) {
         parts.push('<span class="flow-chip answer">Final answer</span>');
       } else if (state.running && steps.length && !steps.some((s) => s.pending)) {
@@ -2159,7 +2237,8 @@
         return '<div class="block prose" style="color:var(--muted);font-style:italic">Running tool…</div>';
       }
       if (out.tool === 'sql') {
-        let html = `<div class="meta-line">${esc(out.status || '—')} · ${esc(out.row_count ?? 0)} rows · ${esc(out.latency_sec)}s</div>`;
+        const corrected = out.correction_used ? ' · SQL corrected' : '';
+        let html = `<div class="meta-line">${esc(out.status || '—')} · ${esc(out.row_count ?? 0)} rows · ${esc(out.latency_sec)}s${corrected}</div>`;
         if (out.sql) {
           html += `<div class="io-label" style="margin-top:6px">SQL executed</div><pre class="sql-block">${esc(out.sql)}</pre>`;
         }
@@ -2300,8 +2379,17 @@
       }
       if (ev.type === 'step_start' || ev.type === 'step') {
         upsertStep(ev.step);
-        const n = state.steps.length;
-        $('statusLine').textContent = `Step ${ev.step?.step ?? n} · ${ev.step?.tool ?? 'tool'}${ev.step?.pending ? '…' : ''}`;
+        const parallel = (state.steps || []).filter(
+          (s) => s.parallel && s.parallel_batch === ev.step?.parallel_batch,
+        );
+        if (parallel.length > 1) {
+          const nums = parallel.map((s) => s.step).sort((a, b) => a - b);
+          const tools = [...new Set(parallel.map((s) => s.tool || 'tool'))].join(' · ');
+          $('statusLine').textContent = `Steps ${nums[0]}-${nums[nums.length - 1]} · ${tools} ∥${ev.step?.pending ? '…' : ''}`;
+        } else {
+          const n = state.steps.length;
+          $('statusLine').textContent = `Step ${ev.step?.step ?? n} · ${ev.step?.tool ?? 'tool'}${ev.step?.pending ? '…' : ''}`;
+        }
         return;
       }
       if (ev.type === 'done') {
