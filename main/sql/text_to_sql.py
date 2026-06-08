@@ -317,7 +317,7 @@ def _correct_sql(question: str, failed_sql: str, error_message: str) -> str:
     user_prompt = (
         f"Original question:\n{question}\n\n"
         f"Failed SQL:\n{failed_sql}\n\n"
-        f"Execution error:\n{error_message}\n\n"
+        f"Error:\n{error_message}\n\n"
         "Fix the SQLite query based on the error and the schema in the system prompt. "
         "Return only the corrected SQL. If it cannot be answered from the schema, return CANNOT_ANSWER."
     )
@@ -365,14 +365,36 @@ def answer_sql_question(question: str) -> dict[str, Any]:
             try:
                 result, row_count = _execute_sql(current_sql)
                 if row_count == 0:
-                    final = _make_result(
-                        "empty_result",
-                        sql=current_sql,
-                        result=[],
-                        row_count=0,
-                        correction_used=correction_used,
+                    empty_message = (
+                        "Query executed successfully but returned 0 rows. "
+                        "Check filters against schema enums (company_ticker, fiscal_year, "
+                        "period_type, region, segment_name) and remove incorrect WHERE clauses."
                     )
-                    return final
+                    last_error_message = empty_message
+                    if attempt >= max_attempts - 1:
+                        final = _make_result(
+                            "empty_result",
+                            sql=current_sql,
+                            result=[],
+                            row_count=0,
+                            correction_used=correction_used,
+                            error_message=empty_message,
+                        )
+                        return final
+                    corrected_sql = _correct_sql(question, current_sql, empty_message)
+                    correction_used = True
+                    if corrected_sql.upper() == "CANNOT_ANSWER":
+                        final = _make_result(
+                            "empty_result",
+                            sql=current_sql,
+                            result=[],
+                            row_count=0,
+                            correction_used=correction_used,
+                            error_message=empty_message,
+                        )
+                        return final
+                    current_sql = corrected_sql
+                    continue
                 if row_count > 1000:
                     final = _make_result(
                         "error",
