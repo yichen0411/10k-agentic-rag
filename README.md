@@ -2,6 +2,8 @@
 
 Local stack for **Chunk Studio** (PDF chunking UI) and a **LangChain agent** (SQL + 10-K RAG + optional email) over Apple, Microsoft, and Alphabet filings.
 
+**Presentation:** [agenticAIproj_YichenXin (Google Slides)](https://docs.google.com/presentation/d/1_u_X7b3l71P_daE-Ul9L0eLM7uDlmqXPEhqx1TV0flQ/view)
+
 ## Architecture
 
 ```mermaid
