@@ -822,11 +822,6 @@ def agent_ui() -> HTMLResponse:
     return _html_response("agent.html")
 
 
-@app.get("/health")
-def health() -> dict[str, str]:
-    return {"status": "ok"}
-
-
 @app.get("/api/files")
 def list_files() -> dict[str, Any]:
     WORKSPACE_DIR.mkdir(parents=True, exist_ok=True)

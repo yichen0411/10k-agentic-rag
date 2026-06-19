@@ -5,67 +5,67 @@ Local stack for **Chunk Studio** (PDF chunking UI) and a **LangChain agent** (SQ
 ## Architecture
 
 ```mermaid
-flowchart TD
-  subgraph Offline["Offline indexing"]
-    PDF[10-K PDF] --> SEC[TOC-guided sectioning]
-    SEC --> CHK[Text chunks + table assets]
-    CHK --> TV[(Text vector DB)]
-    CHK --> VLM[Optional VLM table parse]
-    VLM --> SV[(Table summary vector DB)]
+graph TD
+  subgraph offline [Offline indexing]
+    pdf[10-K PDF] --> sec[TOC-guided sectioning]
+    sec --> chk[Text chunks and table assets]
+    chk --> tv[Text vector DB]
+    chk --> vlm[Optional VLM table parse]
+    vlm --> sv[Table summary vector DB]
   end
 
-  subgraph Runtime["Runtime"]
-    U[User question] --> A[LangChain tool-calling agent]
-    A --> SQL[SQL tool]
-    A --> RAG[RAG tool]
-    A --> EM[send_email optional]
-    SQL --> DB[(financials.db)]
-    RAG --> TV
-    RAG --> SV
-    RAG --> AST[assets.json markdown tables]
-    SQL --> OBS[Tool observations]
-    RAG --> OBS
-    OBS --> A
-    A --> ANS[Grounded answer]
+  subgraph runtime [Runtime]
+    user[User question] --> agent[LangChain tool-calling agent]
+    agent --> sql[SQL tool]
+    agent --> rag[RAG tool]
+    agent --> email[send_email optional]
+    sql --> db[financials.db]
+    rag --> tv
+    rag --> sv
+    rag --> ast[assets.json markdown tables]
+    sql --> obs[Tool observations]
+    rag --> obs
+    obs --> agent
+    agent --> ans[Grounded answer]
   end
 ```
 
 ### Offline chunking pipeline
 
 ```mermaid
-flowchart TD
-  A[10-K PDF] --> B[Read text + layout]
-  B --> C[Parse visible TOC]
-  C --> D[Menu-guided Item matching]
-  D --> E[Detect subsections]
-  D --> F[Extract tables / images]
-  E --> G[Build text RAG chunks]
-  F --> G
-  G --> H[Metadata: header_path, table_refs, neighbors]
-  H --> I[Text vector index]
-  F --> J[VLM table parse]
-  J --> K[Table summary index]
+graph TD
+  a[10-K PDF] --> b[Read text and layout]
+  b --> c[Parse visible TOC]
+  c --> d[Menu-guided Item matching]
+  d --> e[Detect subsections]
+  d --> f[Extract tables and images]
+  e --> g[Build text RAG chunks]
+  f --> g
+  g --> h[Metadata header_path table_refs neighbors]
+  h --> i[Text vector index]
+  f --> j[VLM table parse]
+  j --> k[Table summary index]
 ```
 
 ### Dual-path RAG inference
 
 ```mermaid
-flowchart TD
-  Q[Question + ticker + fiscal year] --> F[Metadata filter]
-  F --> E[Embed query once]
-  E --> VT[Text vector search]
-  E --> BM[BM25 text search]
-  E --> TS[Table summary vector search]
-  VT --> M[Merge text hits]
-  BM --> M
-  M --> R[Cross-encoder rerank]
-  R --> X[Context expansion]
-  TS --> TH[Similarity threshold]
-  TH --> TC[Table hits]
-  X --> CTX[Assemble context]
-  TC --> CTX
-  CTX --> LLM[Answer model]
-  LLM --> OUT[Answer + citations]
+graph TD
+  q[Question ticker fiscal year] --> f[Metadata filter]
+  f --> e[Embed query once]
+  e --> vt[Text vector search]
+  e --> bm[BM25 text search]
+  e --> ts[Table summary vector search]
+  vt --> m[Merge text hits]
+  bm --> m
+  m --> r[Cross-encoder rerank]
+  r --> x[Context expansion]
+  ts --> th[Similarity threshold]
+  th --> tc[Table hits]
+  x --> ctx[Assemble context]
+  tc --> ctx
+  ctx --> llm[Answer model]
+  llm --> out[Answer and citations]
 ```
 
 ## Layout
